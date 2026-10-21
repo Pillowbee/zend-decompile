@@ -52,3 +52,20 @@ jobs:
           assert all(row['status'] == 'candidate_generated' and 'output' in row for row in r['files'] if row['status'] == 'candidate_generated')
           print(f"FULL_CANDIDATES={r['generated']} UNSUPPORTED={r['unsupported']} NOT_ENCODED={r['not_encoded']}")
           PY
+      - name: Diagnose unsupported function groups without running PHP
+        env:
+          PYTHONPATH: src
+        run: |
+          python - <<'PY'
+          import tempfile
+          from pathlib import Path
+          from zend_decompiler.assets import DICTIONARY, OPCODE_MAP
+          from zend_decompiler.research import research
+          for filename in ('links_fun(1).php', 'fun_all.php'):
+              with tempfile.TemporaryDirectory() as temporary:
+                  report = research(Path('sample_inputs') / filename, DICTIONARY, OPCODE_MAP, Path(temporary))
+              print(f"GROUP_PROGRESS {filename} {report['complete_groups']}/{len(report['groups'])}")
+              for group in report['groups']:
+                  if not group['generated']:
+                      print(f"UNSUPPORTED_GROUP {filename} {group['name']}: {group.get('failure', '?')[:250]}")
+          PY
