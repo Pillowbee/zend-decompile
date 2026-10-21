@@ -10,3 +10,10 @@ dist/
 # Generated analysis output should live outside the source tree.
 /batch_output/
 /local_reports/
+
+# Generated decoder outputs must stay outside tracked source directories.
+/generated/
+/examples/batch_*/
+/output/
+/outputs/
+/research/_generated/
