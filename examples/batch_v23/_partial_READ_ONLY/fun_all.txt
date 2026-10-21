@@ -1,0 +1,402 @@
+/* UNRECOVERED */
+INCOMPLETE SOURCE — NON-EXECUTABLE TEXT DOCUMENT ONLY.
+File: fun_all.php
+Recovered 12 of 23 code groups; semantics NOT verified.
+
+=== <main> | 82 instructions | CANDIDATE FRAGMENT ===
+if (($link_n == 0)) {
+    $link_n = '';
+}
+if (('' != $link_n)) {
+    $sql = 'SELECT name_link, file_link, dir_link FROM
+ pages_links WHERE id_link = \'' . $link_n . '\'';
+    $qwe = mysql_query($sql, $connect_mysql);
+    $rs1 = mysql_fetch_row($qwe);
+    $name_section = $rs1[0];
+    $file_section = $rs1[1];
+    $dir_section = $rs1[2];
+}
+if (($dir_section == '')) {
+    $dir_section = 'include';
+}
+if ((($page == '') || ($page == '0'))) {
+    $page = 1;
+    $page_forum = 0;
+    $page_wares = 0;
+    $page_wares_admin = 0;
+    $page_news = 0;
+    $page_user = 0;
+    $page_order = 0;
+    $page_mess = 0;
+    $page_link = 0;
+} else {
+    $page_forum = (($page - 1) * $lines_forum);
+    $page_wares = (($page - 1) * $lines_wares);
+    $page_wares_admin = (($page - 1) * $lines_wares_admin);
+    $page_news = (($page - 1) * $lines_news);
+    $page_user = (($page - 1) * $lines_user);
+    $page_order = (($page - 1) * $lines_order);
+    $page_mess = (($page - 1) * $lines_mess);
+    $page_link = (($page - 1) * $lines_link);
+}
+if (($HTTP_GET_VARS['partner'] != '')) {
+    setcookie('partner', $HTTP_GET_VARS['partner'], 0, '/');
+}
+return 1;
+
+This candidate group has NOT been behaviorally verified.
+
+=== out_link | 76 instructions | UNRECOVERED ===
+/* UNRECOVERED */
+Reason: Structured: out_link block B016 opcode #16: Unresolved temporary (2, 0, 0); state: out_link block B016 opcode #16: Unresolved temporary (2, 0, 0)
+
+=== currency_type | 18 instructions | CANDIDATE FRAGMENT ===
+[PHP OPEN TAG OMITTED]
+/* EXPERIMENTAL function fragment, not complete fun_all.php. */
+function currency_type($currency, $CurTypeID, $text_key) {
+    if ((($CurTypeID[$text_key] == 0) || ($CurTypeID[$text_key] == ''))) {
+        $currency_type = '-?-';
+    } else {
+        $currency_type = $currency[$CurTypeID[$text_key]]['cur_type'];
+    }
+    return $currency_type;
+    
+}
+
+This candidate group has NOT been behaviorally verified.
+
+=== out_price | 120 instructions | UNRECOVERED ===
+/* UNRECOVERED */
+Reason: Unknown opcodes: [65]
+
+=== uc_rus | 49 instructions | UNRECOVERED ===
+/* UNRECOVERED */
+Reason: Unknown opcodes: [17]
+
+=== path_groups | 133 instructions | UNRECOVERED ===
+/* UNRECOVERED */
+Reason: Structured: path_groups block B000 opcode #25: SEND without call; state: path_groups block B000 opcode #25: SEND without call
+
+=== page_links_out | 333 instructions | UNRECOVERED ===
+/* UNRECOVERED */
+Reason: Structured: page_links_out block B135 opcode #137: Unsupported opcode #137 4; state: page_links_out block B135 opcode #137: Unsupported opcode #137 4
+
+=== url_prefix | 23 instructions | CANDIDATE FRAGMENT ===
+[PHP OPEN TAG OMITTED]
+/* EXPERIMENTAL function fragment, not complete fun_all.php. */
+function url_prefix() {
+    global $connect_mysql;
+    global $old_search;
+    global $id_auth_page;
+    $numargs = func_num_args();
+    if (($old_search == 'y')) {
+        if (($numargs != 0)) {
+            return '';
+        } else {
+            return '/';
+        }
+    } else {
+        if (($id_auth_page == 1)) {
+            return '../';
+        } else {
+            return '';
+        }
+    }
+    
+}
+
+This candidate group has NOT been behaviorally verified.
+
+=== sort_default | 32 instructions | CANDIDATE FRAGMENT ===
+[PHP OPEN TAG OMITTED]
+/* EXPERIMENTAL function fragment, not complete fun_all.php. */
+function sort_default($id_sort) {
+    global $connect_mysql;
+    $sql = 'SELECT name_col_def, direction_sort FROM sort_default WHERE id_sort = \'' . $id_sort . '\'';
+    $sth = mysql_query($sql, $connect_mysql);
+    $hash_ref = mysql_fetch_row($sth);
+    $name_col_def = $hash_ref[0];
+    $direction_sort = $hash_ref[1];
+    $string_order = (($name_col_def . ' ') . $direction_sort);
+    if (($name_col_def == '')) {
+        $string_order = '\'\'';
+    }
+    return $string_order;
+    
+}
+
+This candidate group has NOT been behaviorally verified.
+
+=== out_field | 46 instructions | UNRECOVERED ===
+/* UNRECOVERED */
+Reason: Structured: out_field block B017 opcode #23: Complex FETCH_W unsupported; state: out_field block B017 opcode #23: Complex FETCH_W unsupported
+
+=== output_button | 56 instructions | CANDIDATE FRAGMENT ===
+[PHP OPEN TAG OMITTED]
+/* EXPERIMENTAL function fragment, not complete fun_all.php. */
+function output_button($payment_id) {
+    global $connect_mysql;
+    global $id_orders;
+    global $id_auth_page;
+    global $supplier_url;
+    $stm5 = 'SELECT see_bill, name_button FROM payments WHERE payment_id = ' . $payment_id;
+    $sth5 = mysql_query($stm5);
+    $hash_ref5 = mysql_fetch_row($sth5);
+    $see_bill = $hash_ref5[0];
+    $name_button = $hash_ref5[1];
+    if (($see_bill == 1)) {
+        if (($id_auth_page == 1)) {
+            $original = 1;
+        } else {
+            $original = 0;
+        }
+        echo '  ';
+        echo '<s';
+        echo 'cript language="JavaScript">
+  function newWin()
+  {
+  setCookie(\'id_orders\',';
+        print $id_orders;
+        echo ',"",\'/\');
+  Win = window.open("http://';
+        print $supplier_url;
+        echo '/cover.php?name=bill&original=';
+        print $original;
+        echo '&payment_id=';
+        print $payment_id;
+        echo '","Win",\'toolbar=0,location=0,directories=0,status=0,menubar=1,scrollbars=1,resizable=1,width=680,height=480\');
+  }
+  </script>
+  <input type="button" value="';
+        print $name_button;
+        echo '" onClick="newWin()"><br>
+
+';
+    } else {
+        print '&nbsp;';
+    }
+    return NULL;
+    
+}
+
+This candidate group has NOT been behaviorally verified.
+
+=== mail_hide | 56 instructions | UNRECOVERED ===
+/* UNRECOVERED */
+Reason: Structured: mail_hide block B016 opcode #17: Unsupported opcode #17 140; state: mail_hide block B016 opcode #17: Unsupported opcode #17 140
+
+=== partner_view | 28 instructions | CANDIDATE FRAGMENT ===
+[PHP OPEN TAG OMITTED]
+/* EXPERIMENTAL function fragment, not complete fun_all.php. */
+function partner_view($name_set) {
+    global $connect_mysql;
+    $sql = 'SELECT value_set FROM setup WHERE name_set = \'' . $name_set . '\'';
+    $sth = mysql_query($sql, $connect_mysql);
+    $row = mysql_fetch_assoc($sth);
+    if (($row['value_set'] != '0')) {
+        return $row['value_set'];
+    } else {
+        return NULL;
+    }
+    
+}
+
+This candidate group has NOT been behaviorally verified.
+
+=== partner_payment | 57 instructions | CANDIDATE FRAGMENT ===
+[PHP OPEN TAG OMITTED]
+/* EXPERIMENTAL function fragment, not complete fun_all.php. */
+function partner_payment($id_partner, $status_payment, $programm) {
+    $_zend_decompiler_pc_v19 = 'B000';
+    while (1) {
+        switch ($_zend_decompiler_pc_v19) {
+            case 'B000':
+                global $connect_mysql;
+                global $count_sign_partner;
+                if (($programm == 'buying')) {
+                    $_zend_decompiler_pc_v19 = 'B009';
+                } else {
+                    $_zend_decompiler_pc_v19 = 'B015';
+                }
+                break;
+            case 'B009':
+                $sql = 'SELECT sum(sum_all/100*pr_partner)
+ FROM partner_percent pp
+ LEFT JOIN `orders` o ON pp.id_orders = o.id_orders
+ WHERE id_partner =  \'' . $id_partner . '\' AND status_id = \'4\'';
+                $_zend_decompiler_pc_v19 = 'B024';
+                break;
+            case 'B015':
+                if (($programm == 'inputs')) {
+                    $_zend_decompiler_pc_v19 = 'B017';
+                } else {
+                    $_zend_decompiler_pc_v19 = 'B023';
+                }
+                break;
+            case 'B017':
+                $sql = 'SELECT round(sum(count_host*bn_partner), 4) FROM partner_bonus WHERE id_partner = \'' . $id_partner . '\' ';
+                $_zend_decompiler_pc_v19 = 'B024';
+                break;
+            case 'B023':
+                return NULL;
+            case 'B024':
+                if (($status_payment == 'оплачено')) {
+                    $_zend_decompiler_pc_v19 = 'B026';
+                } else {
+                    $_zend_decompiler_pc_v19 = 'B029';
+                }
+                break;
+            case 'B026':
+                $sql_1 = ($sql . 'AND `date_payment` != \'0000-00-00 00:00:00\' GROUP BY id_partner');
+                $_zend_decompiler_pc_v19 = 'B033';
+                break;
+            case 'B029':
+                if (($status_payment == 'долг')) {
+                    $_zend_decompiler_pc_v19 = 'B031';
+                } else {
+                    $_zend_decompiler_pc_v19 = 'B033';
+                }
+                break;
+            case 'B031':
+                $sql_1 = ($sql . 'AND `date_payment` = \'0000-00-00 00:00:00\' GROUP BY id_partner');
+                $_zend_decompiler_pc_v19 = 'B033';
+                break;
+            case 'B033':
+                $sth = mysql_query($sql_1);
+                $hash_ref = mysql_fetch_row($sth);
+                if (($hash_ref[0] == '')) {
+                    $_zend_decompiler_pc_v19 = 'B046';
+                } else {
+                    $_zend_decompiler_pc_v19 = 'B048';
+                }
+                break;
+            case 'B046':
+                $hash_ref[0] = 0;
+                $_zend_decompiler_pc_v19 = 'B048';
+                break;
+            case 'B048':
+                return round($hash_ref[0], $count_sign_partner);
+            default:
+                trigger_error('Invalid recovered control-flow state', E_USER_ERROR);
+                return NULL;
+        }
+    }
+}
+
+This candidate group has NOT been behaviorally verified.
+
+=== partner_current_rate | 45 instructions | CANDIDATE FRAGMENT ===
+[PHP OPEN TAG OMITTED]
+/* EXPERIMENTAL function fragment, not complete fun_all.php. */
+function partner_current_rate($programm, $field) {
+    global $connect_mysql;
+    global $pr_partner;
+    global $bn_partner;
+    global $count_sign_partner;
+    global $currency_save;
+    global $CurTypeID_save;
+    if (($programm == 'buying')) {
+        if (($field == 'name')) {
+            $string = 'Текущий процент по этой партнерской программе:';
+        } else {
+            if (($field == 'value')) {
+                $string = (('&nbsp;' . $pr_partner) . ' %');
+            }
+        }
+    } else {
+        if (($programm == 'inputs')) {
+            if (($field == 'name')) {
+                $string = 'Текущий бонус по этой партнерской программе:';
+            } else {
+                if (($field == 'value')) {
+                    $string = round($bn_partner, $count_sign_partner);
+                }
+            }
+        }
+    }
+    return $string;
+    
+}
+
+This candidate group has NOT been behaviorally verified.
+
+=== out_replace_teg | 96 instructions | UNRECOVERED ===
+/* UNRECOVERED */
+Reason: Structured: out_replace_teg block B000 opcode #71: Unsupported opcode #71 140; state: out_replace_teg block B000 opcode #71: Unsupported opcode #71 140
+
+=== out_replace_files | 37 instructions | UNRECOVERED ===
+/* UNRECOVERED */
+Reason: Structured: out_replace_files block B020 opcode #31: SEND without call; state: out_replace_files block B020 opcode #31: SEND without call
+
+=== rand_keys | 63 instructions | CANDIDATE FRAGMENT ===
+[PHP OPEN TAG OMITTED]
+/* EXPERIMENTAL function fragment, not complete fun_all.php. */
+function rand_keys() {
+    $array_1 = array('1', 'q', '2', 'w', '3', 'e', '4', 'r', '5', 't', '6', 'y', '7', 'u', '8', 'i', '9', 'o', '0', 'p', 'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'z', 'x', 'c', 'v', 'b', 'n', 'm');
+    $n = 10;
+    $string_rand = '';
+    $array_key = array_rand($array_1, $n);
+    $a = 0;
+    while ($a < $n) {
+        $string_rand .= $array_1[$array_key[$a]];
+        ++$a;
+    }
+    return md5(($string_rand . time()));
+    
+}
+
+This candidate group has NOT been behaviorally verified.
+
+=== out_alt | 11 instructions | CANDIDATE FRAGMENT ===
+[PHP OPEN TAG OMITTED]
+/* EXPERIMENTAL function fragment, not complete fun_all.php. */
+function out_alt() {
+    global $connect_mysql;
+    global $out_name_title;
+    $out_name_title = ltrim($out_name_title);
+    return $out_name_title;
+    
+}
+
+This candidate group has NOT been behaviorally verified.
+
+=== news_name_out | 24 instructions | CANDIDATE FRAGMENT ===
+[PHP OPEN TAG OMITTED]
+/* EXPERIMENTAL function fragment, not complete fun_all.php. */
+function news_name_out($id_section) {
+    global $connect_mysql;
+    $sql = 'SELECT name_section FROM news_section WHERE id_section = \'' . $id_section . '\' AND visibility = 1';
+    $sth = mysql_query($sql, $connect_mysql);
+    $hash_ref = mysql_fetch_row($sth);
+    $name_section = $hash_ref[0];
+    return $name_section;
+    
+}
+
+This candidate group has NOT been behaviorally verified.
+
+=== mysql_query_time | 33 instructions | CANDIDATE FRAGMENT ===
+[PHP OPEN TAG OMITTED]
+/* EXPERIMENTAL function fragment, not complete fun_all.php. */
+function mysql_query_time() {
+    $numargs = func_num_args();
+    $sql = func_get_arg(0);
+    $connect_mysql = func_get_arg(1);
+    $time = microtime(true);
+    $sth = mysql_query($sql, $connect_mysql);
+    echo (('Time:' . (microtime(true) - $time)) . 's
+');
+    return $sth;
+    
+}
+
+This candidate group has NOT been behaviorally verified.
+
+=== minmax_price | 79 instructions | UNRECOVERED ===
+/* UNRECOVERED */
+Reason: Structured: minmax_price block B039 opcode #43: SEND without call; state: minmax_price block B039 opcode #43: SEND without call
+
+=== user_discount | 134 instructions | UNRECOVERED ===
+/* UNRECOVERED */
+Reason: Structured: user_discount block B068 opcode #76: Unsupported opcode #76 4; state: user_discount block B068 opcode #76: Unsupported opcode #76 4
+

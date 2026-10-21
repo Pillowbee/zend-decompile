@@ -1,0 +1,190 @@
+{
+  "version": "v19",
+  "source": "fun_all.php",
+  "sha256": "2e3a30bee58e1f2169b168441819f0f342904ba9958a8cd7ed6648ef9eb0dc72",
+  "total_serialized_instructions": 1631,
+  "groups": [
+    {
+      "name": "<main>",
+      "serialized_instructions": 82,
+      "unknown_opcodes": [],
+      "generated": true,
+      "strategy": "structured_php"
+    },
+    {
+      "name": "out_link",
+      "serialized_instructions": 76,
+      "unknown_opcodes": [],
+      "generated": false,
+      "strategy": null,
+      "failure": "Structured: out_link block B016: Unresolved temporary (2, 0, 0); state: Unresolved temporary (2, 0, 0)"
+    },
+    {
+      "name": "currency_type",
+      "serialized_instructions": 18,
+      "unknown_opcodes": [],
+      "generated": true,
+      "strategy": "structured_php"
+    },
+    {
+      "name": "out_price",
+      "serialized_instructions": 120,
+      "unknown_opcodes": [
+        65
+      ],
+      "generated": false,
+      "strategy": null,
+      "failure": "Unknown opcodes: [65]"
+    },
+    {
+      "name": "uc_rus",
+      "serialized_instructions": 49,
+      "unknown_opcodes": [
+        17
+      ],
+      "generated": false,
+      "strategy": null,
+      "failure": "Unknown opcodes: [17]"
+    },
+    {
+      "name": "path_groups",
+      "serialized_instructions": 133,
+      "unknown_opcodes": [],
+      "generated": false,
+      "strategy": null,
+      "failure": "Structured: path_groups block B000: SEND without call; state: SEND without call"
+    },
+    {
+      "name": "page_links_out",
+      "serialized_instructions": 333,
+      "unknown_opcodes": [],
+      "generated": false,
+      "strategy": null,
+      "failure": "Structured: page_links_out block B135: Unsupported opcode #137 4; state: Unsupported opcode #137 4"
+    },
+    {
+      "name": "url_prefix",
+      "serialized_instructions": 23,
+      "unknown_opcodes": [],
+      "generated": true,
+      "strategy": "structured_php"
+    },
+    {
+      "name": "sort_default",
+      "serialized_instructions": 32,
+      "unknown_opcodes": [],
+      "generated": true,
+      "strategy": "structured_php"
+    },
+    {
+      "name": "out_field",
+      "serialized_instructions": 46,
+      "unknown_opcodes": [],
+      "generated": false,
+      "strategy": null,
+      "failure": "Structured: out_field block B017: Complex FETCH_W unsupported; state: Complex FETCH_W unsupported"
+    },
+    {
+      "name": "output_button",
+      "serialized_instructions": 56,
+      "unknown_opcodes": [],
+      "generated": true,
+      "strategy": "structured_php"
+    },
+    {
+      "name": "mail_hide",
+      "serialized_instructions": 56,
+      "unknown_opcodes": [],
+      "generated": false,
+      "strategy": null,
+      "failure": "Structured: mail_hide block B016: Unsupported opcode #17 140; state: Unsupported opcode #17 140"
+    },
+    {
+      "name": "partner_view",
+      "serialized_instructions": 28,
+      "unknown_opcodes": [],
+      "generated": true,
+      "strategy": "structured_php"
+    },
+    {
+      "name": "partner_payment",
+      "serialized_instructions": 57,
+      "unknown_opcodes": [],
+      "generated": true,
+      "strategy": "explicit_php52_state_machine",
+      "structured_failure": "Block emitted twice or irreducible CFG: B024"
+    },
+    {
+      "name": "partner_current_rate",
+      "serialized_instructions": 45,
+      "unknown_opcodes": [],
+      "generated": true,
+      "strategy": "structured_php"
+    },
+    {
+      "name": "out_replace_teg",
+      "serialized_instructions": 96,
+      "unknown_opcodes": [],
+      "generated": false,
+      "strategy": null,
+      "failure": "Structured: out_replace_teg block B000: Unsupported opcode #71 140; state: Unsupported opcode #71 140"
+    },
+    {
+      "name": "out_replace_files",
+      "serialized_instructions": 37,
+      "unknown_opcodes": [],
+      "generated": false,
+      "strategy": null,
+      "failure": "Structured: out_replace_files block B020: SEND without call; state: SEND without call"
+    },
+    {
+      "name": "rand_keys",
+      "serialized_instructions": 63,
+      "unknown_opcodes": [],
+      "generated": true,
+      "strategy": "structured_php"
+    },
+    {
+      "name": "out_alt",
+      "serialized_instructions": 11,
+      "unknown_opcodes": [],
+      "generated": true,
+      "strategy": "structured_php"
+    },
+    {
+      "name": "news_name_out",
+      "serialized_instructions": 24,
+      "unknown_opcodes": [],
+      "generated": true,
+      "strategy": "structured_php"
+    },
+    {
+      "name": "mysql_query_time",
+      "serialized_instructions": 33,
+      "unknown_opcodes": [],
+      "generated": true,
+      "strategy": "structured_php"
+    },
+    {
+      "name": "minmax_price",
+      "serialized_instructions": 79,
+      "unknown_opcodes": [],
+      "generated": false,
+      "strategy": null,
+      "failure": "Structured: minmax_price block B039: SEND without call; state: SEND without call"
+    },
+    {
+      "name": "user_discount",
+      "serialized_instructions": 134,
+      "unknown_opcodes": [],
+      "generated": false,
+      "strategy": null,
+      "failure": "Structured: user_discount block B068: Unsupported opcode #76 4; state: Unsupported opcode #76 4"
+    }
+  ],
+  "complete_source_generated": false,
+  "behavioral_equivalence_proven": false,
+  "production_ready": false,
+  "complete_groups": 12,
+  "generated_instructions": 472
+}

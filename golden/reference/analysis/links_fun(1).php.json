@@ -1,0 +1,57 @@
+{
+  "version": "v19",
+  "source": "links_fun(1).php",
+  "sha256": "acebeca1aa9bcc86c9c0d6d42e1ee03609466146074ad6cb8edcfed039678f56",
+  "total_serialized_instructions": 445,
+  "groups": [
+    {
+      "name": "<main>",
+      "serialized_instructions": 16,
+      "unknown_opcodes": [],
+      "generated": false,
+      "strategy": null,
+      "failure": "Structured: <main> block B012: SEND without call; state: SEND without call"
+    },
+    {
+      "name": "path_ln_groups",
+      "serialized_instructions": 105,
+      "unknown_opcodes": [],
+      "generated": true,
+      "strategy": "structured_php"
+    },
+    {
+      "name": "count_ln",
+      "serialized_instructions": 43,
+      "unknown_opcodes": [],
+      "generated": true,
+      "strategy": "structured_php"
+    },
+    {
+      "name": "count_ln_out",
+      "serialized_instructions": 23,
+      "unknown_opcodes": [],
+      "generated": false,
+      "strategy": null,
+      "failure": "Structured: count_ln_out block B000: SEND without call; state: SEND without call"
+    },
+    {
+      "name": "link_is_present",
+      "serialized_instructions": 35,
+      "unknown_opcodes": [],
+      "generated": true,
+      "strategy": "structured_php"
+    },
+    {
+      "name": "send_mail",
+      "serialized_instructions": 223,
+      "unknown_opcodes": [],
+      "generated": true,
+      "strategy": "structured_php"
+    }
+  ],
+  "complete_source_generated": false,
+  "behavioral_equivalence_proven": false,
+  "production_ready": false,
+  "complete_groups": 4,
+  "generated_instructions": 406
+}
