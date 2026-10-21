@@ -1,0 +1,161 @@
+{
+  "confidence_counts": {
+    "confirmed": 0,
+    "inferred": 443,
+    "unknown": 2
+  },
+  "confidence_policy": "No key-level independent reference verification shipped. Mapped keys are inferred; opcode 140 remains semantically unknown.",
+  "dictionary_sha256": "e20528db8cd90b6e11deeafd572cb176fdeb905f932104687bae58aedd028cf2",
+  "evidence_sha256": "eae9bc0a14197235a8a28344915f1689de61031e86641398136ae1aba223af92",
+  "failure": {
+    "block_start_index_hint": 12,
+    "block_window": {
+      "approximate_block_start": true,
+      "expected": "Instruction sequence locally decodable with resolved temporaries and calls",
+      "found": "Cannot restore <main>: structured: <main> block B012: SEND without call; state fallback: SEND without call",
+      "group": "<main>",
+      "index": 12,
+      "window": [
+        {
+          "confidence": "inferred",
+          "index": 10,
+          "key": "2:36",
+          "line": 229,
+          "mapped_opcode": 17,
+          "name": "IS_EQUAL",
+          "raw_encoded_opcode": 36
+        },
+        {
+          "confidence": "inferred",
+          "index": 11,
+          "key": "3:185",
+          "line": 230,
+          "mapped_opcode": 43,
+          "name": "JMPZ",
+          "raw_encoded_opcode": 185
+        },
+        {
+          "confidence": "inferred",
+          "index": 12,
+          "key": "4:108",
+          "line": 231,
+          "mapped_opcode": 66,
+          "name": "SEND_VAR",
+          "raw_encoded_opcode": 108
+        },
+        {
+          "confidence": "inferred",
+          "index": 13,
+          "key": "5:214",
+          "line": 231,
+          "mapped_opcode": 66,
+          "name": "SEND_VAR",
+          "raw_encoded_opcode": 214
+        },
+        {
+          "confidence": "inferred",
+          "index": 14,
+          "key": "6:226",
+          "line": 231,
+          "mapped_opcode": 140,
+          "name": null,
+          "raw_encoded_opcode": 226
+        }
+      ]
+    },
+    "index_precision": "start of failing CFG basic block; exact failing opcode not independently identified",
+    "message": "Cannot restore <main>: structured: <main> block B012: SEND without call; state fallback: SEND without call",
+    "type": "Unsupported"
+  },
+  "group_diagnostics": [
+    {
+      "instructions": 16,
+      "mapped": 16,
+      "name": "<main>",
+      "recognition_fraction": 1.0,
+      "unknown_indices": []
+    },
+    {
+      "instructions": 105,
+      "mapped": 105,
+      "name": "path_ln_groups",
+      "recognition_fraction": 1.0,
+      "unknown_indices": []
+    },
+    {
+      "instructions": 43,
+      "mapped": 43,
+      "name": "count_ln",
+      "recognition_fraction": 1.0,
+      "unknown_indices": []
+    },
+    {
+      "instructions": 23,
+      "mapped": 23,
+      "name": "count_ln_out",
+      "recognition_fraction": 1.0,
+      "unknown_indices": []
+    },
+    {
+      "instructions": 35,
+      "mapped": 35,
+      "name": "link_is_present",
+      "recognition_fraction": 1.0,
+      "unknown_indices": []
+    },
+    {
+      "instructions": 223,
+      "mapped": 223,
+      "name": "send_mail",
+      "recognition_fraction": 1.0,
+      "unknown_indices": []
+    }
+  ],
+  "input_sha256": "acebeca1aa9bcc86c9c0d6d42e1ee03609466146074ad6cb8edcfed039678f56",
+  "mapped_instructions": 445,
+  "mapping_sha256": "a70dbf7d66e5ee2277bc5411426ae75d66f4c60b72530d70d94c789a31051b0b",
+  "opcode_140_caution": "In PHP 5.2 opcode 140 may denote DECLARE_INHERITED_CLASS; meaning in serialized stream is not confirmed; no reassignment is attempted.",
+  "opcode_mapping_confidence_fraction": 0.0,
+  "opcode_name_counts": {
+    "ADD_STRING": 47,
+    "ADD_VAR": 36,
+    "ASSIGN": 48,
+    "ASSIGN_CONCAT": 5,
+    "ASSIGN_REF": 15,
+    "BEGIN_SILENCE": 1,
+    "CONCAT": 27,
+    "DO_FCALL_BY_NAME": 30,
+    "ECHO": 5,
+    "END_SILENCE": 1,
+    "FETCH_DIM_R": 18,
+    "FETCH_DIM_W": 2,
+    "FETCH_FUNC_ARG": 39,
+    "FETCH_W": 15,
+    "FREE": 1,
+    "INIT_FCALL_BY_NAME": 30,
+    "INIT_STRING": 20,
+    "IS_EQUAL": 5,
+    "IS_NOT_EQUAL": 5,
+    "JMP": 8,
+    "JMPZ": 14,
+    "OP_140": 2,
+    "PRE_INC": 2,
+    "PRINT": 1,
+    "RECV": 7,
+    "RETURN": 9,
+    "SEND_VAL": 10,
+    "SEND_VAR": 42
+  },
+  "production_ready": false,
+  "recognition_fraction": 1.0,
+  "round_trip": {
+    "reason": "No validated PHP 5.2 opcode disassembler/VLD available; syntax-only compiler is insufficient.",
+    "status": "not_run"
+  },
+  "semantic_equivalence_proven": false,
+  "serialized_instructions": 445,
+  "status": "unsupported",
+  "syntax_checked": false,
+  "tool_version": "21.0.0-experimental",
+  "unknown_windows": []
+}

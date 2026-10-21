@@ -1,0 +1,407 @@
+{
+  "confidence_counts": {
+    "confirmed": 0,
+    "inferred": 1613,
+    "unknown": 18
+  },
+  "confidence_policy": "No key-level independent reference verification shipped. Mapped keys are inferred; opcode 140 remains semantically unknown.",
+  "dictionary_sha256": "e20528db8cd90b6e11deeafd572cb176fdeb905f932104687bae58aedd028cf2",
+  "evidence_sha256": "eae9bc0a14197235a8a28344915f1689de61031e86641398136ae1aba223af92",
+  "failure": {
+    "block_start_index_hint": 16,
+    "block_window": {
+      "approximate_block_start": true,
+      "expected": "Instruction sequence locally decodable with resolved temporaries and calls",
+      "found": "Cannot restore out_link: structured: out_link block B016: Unresolved temporary (2, 0, 0); state fallback: Unresolved temporary (2, 0, 0)",
+      "group": "out_link",
+      "index": 16,
+      "window": [
+        {
+          "confidence": "inferred",
+          "index": 14,
+          "key": "6:96",
+          "line": 67,
+          "mapped_opcode": 18,
+          "name": "IS_NOT_EQUAL",
+          "raw_encoded_opcode": 96
+        },
+        {
+          "confidence": "inferred",
+          "index": 15,
+          "key": "7:107",
+          "line": 67,
+          "mapped_opcode": 52,
+          "name": "BOOL",
+          "raw_encoded_opcode": 107
+        },
+        {
+          "confidence": "inferred",
+          "index": 16,
+          "key": "0:161",
+          "line": 68,
+          "mapped_opcode": 43,
+          "name": "JMPZ",
+          "raw_encoded_opcode": 161
+        },
+        {
+          "confidence": "inferred",
+          "index": 17,
+          "key": "1:90",
+          "line": 69,
+          "mapped_opcode": 41,
+          "name": "PRINT",
+          "raw_encoded_opcode": 90
+        },
+        {
+          "confidence": "inferred",
+          "index": 18,
+          "key": "2:236",
+          "line": 69,
+          "mapped_opcode": 70,
+          "name": "FREE",
+          "raw_encoded_opcode": 236
+        }
+      ]
+    },
+    "index_precision": "start of failing CFG basic block; exact failing opcode not independently identified",
+    "message": "Cannot restore out_link: structured: out_link block B016: Unresolved temporary (2, 0, 0); state fallback: Unresolved temporary (2, 0, 0)",
+    "type": "Unsupported"
+  },
+  "group_diagnostics": [
+    {
+      "instructions": 82,
+      "mapped": 82,
+      "name": "<main>",
+      "recognition_fraction": 1.0,
+      "unknown_indices": []
+    },
+    {
+      "instructions": 76,
+      "mapped": 76,
+      "name": "out_link",
+      "recognition_fraction": 1.0,
+      "unknown_indices": []
+    },
+    {
+      "instructions": 18,
+      "mapped": 18,
+      "name": "currency_type",
+      "recognition_fraction": 1.0,
+      "unknown_indices": []
+    },
+    {
+      "instructions": 120,
+      "mapped": 119,
+      "name": "out_price",
+      "recognition_fraction": 0.9916666666666667,
+      "unknown_indices": [
+        65
+      ]
+    },
+    {
+      "instructions": 49,
+      "mapped": 48,
+      "name": "uc_rus",
+      "recognition_fraction": 0.9795918367346939,
+      "unknown_indices": [
+        17
+      ]
+    },
+    {
+      "instructions": 133,
+      "mapped": 133,
+      "name": "path_groups",
+      "recognition_fraction": 1.0,
+      "unknown_indices": []
+    },
+    {
+      "instructions": 333,
+      "mapped": 333,
+      "name": "page_links_out",
+      "recognition_fraction": 1.0,
+      "unknown_indices": []
+    },
+    {
+      "instructions": 23,
+      "mapped": 23,
+      "name": "url_prefix",
+      "recognition_fraction": 1.0,
+      "unknown_indices": []
+    },
+    {
+      "instructions": 32,
+      "mapped": 32,
+      "name": "sort_default",
+      "recognition_fraction": 1.0,
+      "unknown_indices": []
+    },
+    {
+      "instructions": 46,
+      "mapped": 46,
+      "name": "out_field",
+      "recognition_fraction": 1.0,
+      "unknown_indices": []
+    },
+    {
+      "instructions": 56,
+      "mapped": 56,
+      "name": "output_button",
+      "recognition_fraction": 1.0,
+      "unknown_indices": []
+    },
+    {
+      "instructions": 56,
+      "mapped": 56,
+      "name": "mail_hide",
+      "recognition_fraction": 1.0,
+      "unknown_indices": []
+    },
+    {
+      "instructions": 28,
+      "mapped": 28,
+      "name": "partner_view",
+      "recognition_fraction": 1.0,
+      "unknown_indices": []
+    },
+    {
+      "instructions": 57,
+      "mapped": 57,
+      "name": "partner_payment",
+      "recognition_fraction": 1.0,
+      "unknown_indices": []
+    },
+    {
+      "instructions": 45,
+      "mapped": 45,
+      "name": "partner_current_rate",
+      "recognition_fraction": 1.0,
+      "unknown_indices": []
+    },
+    {
+      "instructions": 96,
+      "mapped": 96,
+      "name": "out_replace_teg",
+      "recognition_fraction": 1.0,
+      "unknown_indices": []
+    },
+    {
+      "instructions": 37,
+      "mapped": 37,
+      "name": "out_replace_files",
+      "recognition_fraction": 1.0,
+      "unknown_indices": []
+    },
+    {
+      "instructions": 63,
+      "mapped": 63,
+      "name": "rand_keys",
+      "recognition_fraction": 1.0,
+      "unknown_indices": []
+    },
+    {
+      "instructions": 11,
+      "mapped": 11,
+      "name": "out_alt",
+      "recognition_fraction": 1.0,
+      "unknown_indices": []
+    },
+    {
+      "instructions": 24,
+      "mapped": 24,
+      "name": "news_name_out",
+      "recognition_fraction": 1.0,
+      "unknown_indices": []
+    },
+    {
+      "instructions": 33,
+      "mapped": 33,
+      "name": "mysql_query_time",
+      "recognition_fraction": 1.0,
+      "unknown_indices": []
+    },
+    {
+      "instructions": 79,
+      "mapped": 79,
+      "name": "minmax_price",
+      "recognition_fraction": 1.0,
+      "unknown_indices": []
+    },
+    {
+      "instructions": 134,
+      "mapped": 134,
+      "name": "user_discount",
+      "recognition_fraction": 1.0,
+      "unknown_indices": []
+    }
+  ],
+  "input_sha256": "2e3a30bee58e1f2169b168441819f0f342904ba9958a8cd7ed6648ef9eb0dc72",
+  "mapped_instructions": 1629,
+  "mapping_sha256": "a70dbf7d66e5ee2277bc5411426ae75d66f4c60b72530d70d94c789a31051b0b",
+  "opcode_140_caution": "In PHP 5.2 opcode 140 may denote DECLARE_INHERITED_CLASS; meaning in serialized stream is not confirmed; no reassignment is attempted.",
+  "opcode_mapping_confidence_fraction": 0.0,
+  "opcode_name_counts": {
+    "ADD": 3,
+    "ADD_ARRAY_ELEMENT": 35,
+    "ADD_STRING": 55,
+    "ADD_VAR": 46,
+    "ASSIGN": 201,
+    "ASSIGN_CONCAT": 8,
+    "ASSIGN_REF": 58,
+    "BOOL": 12,
+    "CONCAT": 34,
+    "DO_FCALL_BY_NAME": 104,
+    "ECHO": 46,
+    "FETCH_CONSTANT": 3,
+    "FETCH_DIM_FUNC_ARG": 6,
+    "FETCH_DIM_R": 68,
+    "FETCH_DIM_W": 19,
+    "FETCH_FUNC_ARG": 105,
+    "FETCH_R": 3,
+    "FETCH_W": 59,
+    "FE_FETCH": 2,
+    "FE_RESET": 2,
+    "FREE": 34,
+    "INIT_ARRAY": 3,
+    "INIT_FCALL_BY_NAME": 104,
+    "INIT_STRING": 32,
+    "IS_EQUAL": 48,
+    "IS_NOT_EQUAL": 26,
+    "IS_SMALLER": 7,
+    "IS_SMALLER_OR_EQUAL": 4,
+    "JMP": 51,
+    "JMPNZ_EX": 4,
+    "JMPZ": 72,
+    "JMPZNZ": 4,
+    "JMPZ_EX": 8,
+    "MUL": 13,
+    "OP_140": 16,
+    "OP_4": 3,
+    "PRE_INC": 6,
+    "PRINT": 32,
+    "RECV": 29,
+    "RETURN": 46,
+    "SEND_VAL": 71,
+    "SEND_VAR": 126,
+    "SUB": 19,
+    "SWITCH_FREE": 2
+  },
+  "production_ready": false,
+  "recognition_fraction": 0.9987737584304108,
+  "round_trip": {
+    "reason": "No validated PHP 5.2 opcode disassembler/VLD available; syntax-only compiler is insufficient.",
+    "status": "not_run"
+  },
+  "semantic_equivalence_proven": false,
+  "serialized_instructions": 1631,
+  "status": "unsupported",
+  "syntax_checked": false,
+  "tool_version": "21.0.0-experimental",
+  "unknown_windows": [
+    {
+      "expected": "uniquely mapped opcode",
+      "found": "unmapped empirical key",
+      "group": "out_price",
+      "index": 65,
+      "window": [
+        {
+          "confidence": "inferred",
+          "index": 63,
+          "key": "7:98",
+          "line": 154,
+          "mapped_opcode": 77,
+          "name": "FE_RESET",
+          "raw_encoded_opcode": 98
+        },
+        {
+          "confidence": "inferred",
+          "index": 64,
+          "key": "0:24",
+          "line": 154,
+          "mapped_opcode": 78,
+          "name": "FE_FETCH",
+          "raw_encoded_opcode": 24
+        },
+        {
+          "confidence": "unknown",
+          "index": 65,
+          "key": "1:199",
+          "line": 154,
+          "mapped_opcode": null,
+          "name": null,
+          "raw_encoded_opcode": 199
+        },
+        {
+          "confidence": "inferred",
+          "index": 66,
+          "key": "2:42",
+          "line": 154,
+          "mapped_opcode": 38,
+          "name": "ASSIGN",
+          "raw_encoded_opcode": 42
+        },
+        {
+          "confidence": "inferred",
+          "index": 67,
+          "key": "3:9",
+          "line": 154,
+          "mapped_opcode": 70,
+          "name": "FREE",
+          "raw_encoded_opcode": 9
+        }
+      ]
+    },
+    {
+      "expected": "uniquely mapped opcode",
+      "found": "unmapped empirical key",
+      "group": "uc_rus",
+      "index": 17,
+      "window": [
+        {
+          "confidence": "inferred",
+          "index": 15,
+          "key": "7:98",
+          "line": 191,
+          "mapped_opcode": 77,
+          "name": "FE_RESET",
+          "raw_encoded_opcode": 98
+        },
+        {
+          "confidence": "inferred",
+          "index": 16,
+          "key": "0:24",
+          "line": 191,
+          "mapped_opcode": 78,
+          "name": "FE_FETCH",
+          "raw_encoded_opcode": 24
+        },
+        {
+          "confidence": "unknown",
+          "index": 17,
+          "key": "1:199",
+          "line": 191,
+          "mapped_opcode": null,
+          "name": null,
+          "raw_encoded_opcode": 199
+        },
+        {
+          "confidence": "inferred",
+          "index": 18,
+          "key": "2:42",
+          "line": 191,
+          "mapped_opcode": 38,
+          "name": "ASSIGN",
+          "raw_encoded_opcode": 42
+        },
+        {
+          "confidence": "inferred",
+          "index": 19,
+          "key": "3:9",
+          "line": 191,
+          "mapped_opcode": 70,
+          "name": "FREE",
+          "raw_encoded_opcode": 9
+        }
+      ]
+    }
+  ]
+}

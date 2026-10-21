@@ -1,0 +1,14 @@
+{
+  "dictionary_sha256": "e20528db8cd90b6e11deeafd572cb176fdeb905f932104687bae58aedd028cf2",
+  "input_sha256": "4ec12441d7cf0b2645052f8d6def7de1a21a12d17082e213696444a14dcc8110",
+  "mapping_sha256": "a70dbf7d66e5ee2277bc5411426ae75d66f4c60b72530d70d94c789a31051b0b",
+  "production_ready": false,
+  "round_trip": {
+    "reason": "No validated PHP 5.2 opcode disassembler/VLD available; syntax-only compiler is insufficient.",
+    "status": "not_run"
+  },
+  "semantic_equivalence_proven": false,
+  "status": "not_encoded",
+  "syntax_checked": false,
+  "tool_version": "22.0.0-experimental"
+}
