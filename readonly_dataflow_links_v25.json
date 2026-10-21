@@ -1,0 +1,3731 @@
+{
+  "file": "links_fun(1).php",
+  "kind": "READ_ONLY_SYNTACTIC_REACHING_DEFINITIONS",
+  "semantic_equivalence_proven": false,
+  "php_generated": false,
+  "groups": [
+    {
+      "group": "<main>",
+      "status": "analyzed_syntactically",
+      "note": "NO PHP expression substitution. Alias/side effects and opcode semantics are NOT proven.",
+      "instructions": 16,
+      "blocks": 3,
+      "reachable_blocks": 3,
+      "iteration_count": 2,
+      "summary": {
+        "temporary_operand_uses": 5,
+        "cross_block_unique_syntactic_producers": 0,
+        "by_status": {
+          "one_reaching_definition_syntactic_only": 5
+        }
+      },
+      "temporary_uses": [
+        {
+          "block": "B000",
+          "instruction_index": 2,
+          "operand": "op1",
+          "slot": [
+            4,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            1
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B000",
+          "instruction_index": 4,
+          "operand": "op1",
+          "slot": [
+            4,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            3
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B000",
+          "instruction_index": 6,
+          "operand": "op1",
+          "slot": [
+            4,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            5
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B000",
+          "instruction_index": 8,
+          "operand": "op1",
+          "slot": [
+            4,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            7
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B000",
+          "instruction_index": 11,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            10
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        }
+      ]
+    },
+    {
+      "group": "path_ln_groups",
+      "status": "analyzed_syntactically",
+      "note": "NO PHP expression substitution. Alias/side effects and opcode semantics are NOT proven.",
+      "instructions": 105,
+      "blocks": 10,
+      "reachable_blocks": 10,
+      "iteration_count": 3,
+      "summary": {
+        "temporary_operand_uses": 51,
+        "cross_block_unique_syntactic_producers": 0,
+        "by_status": {
+          "one_reaching_definition_syntactic_only": 51
+        }
+      },
+      "temporary_uses": [
+        {
+          "block": "B000",
+          "instruction_index": 2,
+          "operand": "op2",
+          "slot": [
+            4,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            1
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B000",
+          "instruction_index": 4,
+          "operand": "op2",
+          "slot": [
+            4,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            3
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B000",
+          "instruction_index": 6,
+          "operand": "op2",
+          "slot": [
+            4,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            5
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B000",
+          "instruction_index": 8,
+          "operand": "op2",
+          "slot": [
+            4,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            7
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B000",
+          "instruction_index": 10,
+          "operand": "op2",
+          "slot": [
+            4,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            9
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B000",
+          "instruction_index": 14,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            13
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B000",
+          "instruction_index": 15,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            14
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B000",
+          "instruction_index": 16,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            15
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B020",
+          "instruction_index": 21,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            20
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B022",
+          "instruction_index": 23,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            22
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B022",
+          "instruction_index": 24,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            23
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B022",
+          "instruction_index": 25,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            24
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B022",
+          "instruction_index": 26,
+          "operand": "op2",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            25
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B022",
+          "instruction_index": 29,
+          "operand": "op1",
+          "slot": [
+            4,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            28
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B022",
+          "instruction_index": 31,
+          "operand": "op1",
+          "slot": [
+            4,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            30
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B022",
+          "instruction_index": 33,
+          "operand": "op2",
+          "slot": [
+            4,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            32
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B022",
+          "instruction_index": 36,
+          "operand": "op1",
+          "slot": [
+            4,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            35
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B022",
+          "instruction_index": 38,
+          "operand": "op2",
+          "slot": [
+            4,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            37
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B022",
+          "instruction_index": 40,
+          "operand": "op2",
+          "slot": [
+            4,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            39
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B022",
+          "instruction_index": 42,
+          "operand": "op2",
+          "slot": [
+            4,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            41
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B022",
+          "instruction_index": 44,
+          "operand": "op2",
+          "slot": [
+            4,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            43
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B022",
+          "instruction_index": 46,
+          "operand": "op1",
+          "slot": [
+            2,
+            1,
+            0
+          ],
+          "reaching_definition_indices": [
+            45
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B022",
+          "instruction_index": 48,
+          "operand": "op1",
+          "slot": [
+            4,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            47
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B022",
+          "instruction_index": 48,
+          "operand": "op2",
+          "slot": [
+            2,
+            1,
+            0
+          ],
+          "reaching_definition_indices": [
+            46
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B022",
+          "instruction_index": 50,
+          "operand": "op1",
+          "slot": [
+            2,
+            1,
+            0
+          ],
+          "reaching_definition_indices": [
+            49
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B022",
+          "instruction_index": 52,
+          "operand": "op1",
+          "slot": [
+            4,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            51
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B022",
+          "instruction_index": 52,
+          "operand": "op2",
+          "slot": [
+            2,
+            1,
+            0
+          ],
+          "reaching_definition_indices": [
+            50
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B055",
+          "instruction_index": 56,
+          "operand": "op1",
+          "slot": [
+            4,
+            1,
+            0
+          ],
+          "reaching_definition_indices": [
+            55
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B055",
+          "instruction_index": 57,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            56
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B058",
+          "instruction_index": 61,
+          "operand": "op1",
+          "slot": [
+            4,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            60
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B058",
+          "instruction_index": 63,
+          "operand": "op2",
+          "slot": [
+            4,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            62
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B058",
+          "instruction_index": 66,
+          "operand": "op1",
+          "slot": [
+            4,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            65
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B058",
+          "instruction_index": 68,
+          "operand": "op2",
+          "slot": [
+            4,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            67
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B069",
+          "instruction_index": 70,
+          "operand": "op1",
+          "slot": [
+            4,
+            1,
+            0
+          ],
+          "reaching_definition_indices": [
+            69
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B069",
+          "instruction_index": 71,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            70
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B072",
+          "instruction_index": 73,
+          "operand": "op2",
+          "slot": [
+            4,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            72
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B072",
+          "instruction_index": 75,
+          "operand": "op2",
+          "slot": [
+            4,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            74
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B072",
+          "instruction_index": 77,
+          "operand": "op2",
+          "slot": [
+            4,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            76
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B072",
+          "instruction_index": 79,
+          "operand": "op2",
+          "slot": [
+            4,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            78
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B072",
+          "instruction_index": 81,
+          "operand": "op2",
+          "slot": [
+            4,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            80
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B072",
+          "instruction_index": 83,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            82
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B085",
+          "instruction_index": 88,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            87
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B085",
+          "instruction_index": 89,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            88
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B085",
+          "instruction_index": 90,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            89
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B085",
+          "instruction_index": 92,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            90
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B085",
+          "instruction_index": 92,
+          "operand": "op2",
+          "slot": [
+            4,
+            1,
+            0
+          ],
+          "reaching_definition_indices": [
+            91
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B085",
+          "instruction_index": 93,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            92
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B085",
+          "instruction_index": 98,
+          "operand": "op1",
+          "slot": [
+            2,
+            1,
+            0
+          ],
+          "reaching_definition_indices": [
+            96
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B085",
+          "instruction_index": 98,
+          "operand": "op2",
+          "slot": [
+            4,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            97
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B085",
+          "instruction_index": 99,
+          "operand": "op1",
+          "slot": [
+            2,
+            1,
+            0
+          ],
+          "reaching_definition_indices": [
+            98
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B085",
+          "instruction_index": 100,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            99
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        }
+      ]
+    },
+    {
+      "group": "count_ln",
+      "status": "analyzed_syntactically",
+      "note": "NO PHP expression substitution. Alias/side effects and opcode semantics are NOT proven.",
+      "instructions": 43,
+      "blocks": 7,
+      "reachable_blocks": 6,
+      "iteration_count": 3,
+      "summary": {
+        "temporary_operand_uses": 19,
+        "cross_block_unique_syntactic_producers": 0,
+        "by_status": {
+          "one_reaching_definition_syntactic_only": 19
+        }
+      },
+      "temporary_uses": [
+        {
+          "block": "B000",
+          "instruction_index": 3,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            2
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B005",
+          "instruction_index": 6,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            5
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B005",
+          "instruction_index": 7,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            6
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B005",
+          "instruction_index": 8,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            7
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B005",
+          "instruction_index": 9,
+          "operand": "op2",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            8
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B005",
+          "instruction_index": 12,
+          "operand": "op1",
+          "slot": [
+            4,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            11
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B005",
+          "instruction_index": 14,
+          "operand": "op2",
+          "slot": [
+            4,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            13
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B015",
+          "instruction_index": 17,
+          "operand": "op1",
+          "slot": [
+            4,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            16
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B015",
+          "instruction_index": 19,
+          "operand": "op2",
+          "slot": [
+            4,
+            1,
+            0
+          ],
+          "reaching_definition_indices": [
+            18
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B015",
+          "instruction_index": 20,
+          "operand": "op1",
+          "slot": [
+            4,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            19
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B021",
+          "instruction_index": 22,
+          "operand": "op2",
+          "slot": [
+            4,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            21
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B021",
+          "instruction_index": 26,
+          "operand": "op1",
+          "slot": [
+            4,
+            1,
+            0
+          ],
+          "reaching_definition_indices": [
+            25
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B021",
+          "instruction_index": 28,
+          "operand": "op1",
+          "slot": [
+            4,
+            1,
+            0
+          ],
+          "reaching_definition_indices": [
+            27
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B021",
+          "instruction_index": 30,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            23
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B021",
+          "instruction_index": 30,
+          "operand": "op2",
+          "slot": [
+            4,
+            2,
+            0
+          ],
+          "reaching_definition_indices": [
+            29
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B021",
+          "instruction_index": 31,
+          "operand": "op1",
+          "slot": [
+            2,
+            1,
+            0
+          ],
+          "reaching_definition_indices": [
+            30
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B021",
+          "instruction_index": 32,
+          "operand": "op2",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            31
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B034",
+          "instruction_index": 38,
+          "operand": "op1",
+          "slot": [
+            4,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            37
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B034",
+          "instruction_index": 40,
+          "operand": "op2",
+          "slot": [
+            4,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            39
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        }
+      ]
+    },
+    {
+      "group": "count_ln_out",
+      "status": "analyzed_syntactically",
+      "note": "NO PHP expression substitution. Alias/side effects and opcode semantics are NOT proven.",
+      "instructions": 23,
+      "blocks": 2,
+      "reachable_blocks": 1,
+      "iteration_count": 2,
+      "summary": {
+        "temporary_operand_uses": 10,
+        "cross_block_unique_syntactic_producers": 0,
+        "by_status": {
+          "one_reaching_definition_syntactic_only": 10
+        }
+      },
+      "temporary_uses": [
+        {
+          "block": "B000",
+          "instruction_index": 4,
+          "operand": "op1",
+          "slot": [
+            4,
+            1,
+            0
+          ],
+          "reaching_definition_indices": [
+            3
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B000",
+          "instruction_index": 5,
+          "operand": "op2",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            4
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B000",
+          "instruction_index": 7,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            6
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B000",
+          "instruction_index": 8,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            7
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B000",
+          "instruction_index": 9,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            8
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B000",
+          "instruction_index": 10,
+          "operand": "op2",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            9
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B000",
+          "instruction_index": 13,
+          "operand": "op1",
+          "slot": [
+            4,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            12
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B000",
+          "instruction_index": 15,
+          "operand": "op2",
+          "slot": [
+            4,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            14
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B000",
+          "instruction_index": 18,
+          "operand": "op1",
+          "slot": [
+            4,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            17
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B000",
+          "instruction_index": 20,
+          "operand": "op2",
+          "slot": [
+            4,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            19
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        }
+      ]
+    },
+    {
+      "group": "link_is_present",
+      "status": "analyzed_syntactically",
+      "note": "NO PHP expression substitution. Alias/side effects and opcode semantics are NOT proven.",
+      "instructions": 35,
+      "blocks": 7,
+      "reachable_blocks": 6,
+      "iteration_count": 2,
+      "summary": {
+        "temporary_operand_uses": 12,
+        "cross_block_unique_syntactic_producers": 0,
+        "by_status": {
+          "one_reaching_definition_syntactic_only": 12
+        }
+      },
+      "temporary_uses": [
+        {
+          "block": "B000",
+          "instruction_index": 2,
+          "operand": "op2",
+          "slot": [
+            4,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            1
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B000",
+          "instruction_index": 4,
+          "operand": "op2",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            3
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B000",
+          "instruction_index": 8,
+          "operand": "op1",
+          "slot": [
+            4,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            7
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B000",
+          "instruction_index": 10,
+          "operand": "op1",
+          "slot": [
+            2,
+            1,
+            0
+          ],
+          "reaching_definition_indices": [
+            5
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B000",
+          "instruction_index": 11,
+          "operand": "op2",
+          "slot": [
+            4,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            9
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B000",
+          "instruction_index": 14,
+          "operand": "op1",
+          "slot": [
+            4,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            13
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B000",
+          "instruction_index": 16,
+          "operand": "op1",
+          "slot": [
+            4,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            15
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B017",
+          "instruction_index": 20,
+          "operand": "op1",
+          "slot": [
+            4,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            19
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B017",
+          "instruction_index": 22,
+          "operand": "op2",
+          "slot": [
+            4,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            21
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B023",
+          "instruction_index": 25,
+          "operand": "op1",
+          "slot": [
+            4,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            24
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B023",
+          "instruction_index": 27,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            26
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B023",
+          "instruction_index": 29,
+          "operand": "op1",
+          "slot": [
+            4,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            28
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        }
+      ]
+    },
+    {
+      "group": "send_mail",
+      "status": "analyzed_syntactically",
+      "note": "NO PHP expression substitution. Alias/side effects and opcode semantics are NOT proven.",
+      "instructions": 223,
+      "blocks": 15,
+      "reachable_blocks": 15,
+      "iteration_count": 2,
+      "summary": {
+        "temporary_operand_uses": 144,
+        "cross_block_unique_syntactic_producers": 0,
+        "by_status": {
+          "one_reaching_definition_syntactic_only": 144
+        }
+      },
+      "temporary_uses": [
+        {
+          "block": "B000",
+          "instruction_index": 3,
+          "operand": "op2",
+          "slot": [
+            4,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            2
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B000",
+          "instruction_index": 5,
+          "operand": "op2",
+          "slot": [
+            4,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            4
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B000",
+          "instruction_index": 7,
+          "operand": "op2",
+          "slot": [
+            4,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            6
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B000",
+          "instruction_index": 9,
+          "operand": "op2",
+          "slot": [
+            4,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            8
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B000",
+          "instruction_index": 11,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            10
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B000",
+          "instruction_index": 12,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            11
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B000",
+          "instruction_index": 13,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            12
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B000",
+          "instruction_index": 14,
+          "operand": "op2",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            13
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B000",
+          "instruction_index": 17,
+          "operand": "op1",
+          "slot": [
+            4,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            16
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B000",
+          "instruction_index": 19,
+          "operand": "op2",
+          "slot": [
+            4,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            18
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B000",
+          "instruction_index": 22,
+          "operand": "op1",
+          "slot": [
+            4,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            21
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B000",
+          "instruction_index": 24,
+          "operand": "op2",
+          "slot": [
+            4,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            23
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B000",
+          "instruction_index": 26,
+          "operand": "op2",
+          "slot": [
+            4,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            25
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B000",
+          "instruction_index": 27,
+          "operand": "op1",
+          "slot": [
+            2,
+            1,
+            0
+          ],
+          "reaching_definition_indices": [
+            26
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B000",
+          "instruction_index": 29,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            27
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B000",
+          "instruction_index": 29,
+          "operand": "op2",
+          "slot": [
+            4,
+            2,
+            0
+          ],
+          "reaching_definition_indices": [
+            28
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B000",
+          "instruction_index": 30,
+          "operand": "op1",
+          "slot": [
+            2,
+            1,
+            0
+          ],
+          "reaching_definition_indices": [
+            29
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B000",
+          "instruction_index": 32,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            30
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B000",
+          "instruction_index": 32,
+          "operand": "op2",
+          "slot": [
+            4,
+            2,
+            0
+          ],
+          "reaching_definition_indices": [
+            31
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B000",
+          "instruction_index": 33,
+          "operand": "op1",
+          "slot": [
+            2,
+            1,
+            0
+          ],
+          "reaching_definition_indices": [
+            32
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B000",
+          "instruction_index": 35,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            33
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B000",
+          "instruction_index": 35,
+          "operand": "op2",
+          "slot": [
+            4,
+            2,
+            0
+          ],
+          "reaching_definition_indices": [
+            34
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B000",
+          "instruction_index": 36,
+          "operand": "op1",
+          "slot": [
+            2,
+            1,
+            0
+          ],
+          "reaching_definition_indices": [
+            35
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B000",
+          "instruction_index": 38,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            36
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B000",
+          "instruction_index": 38,
+          "operand": "op2",
+          "slot": [
+            4,
+            2,
+            0
+          ],
+          "reaching_definition_indices": [
+            37
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B000",
+          "instruction_index": 40,
+          "operand": "op1",
+          "slot": [
+            2,
+            2,
+            0
+          ],
+          "reaching_definition_indices": [
+            39
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B000",
+          "instruction_index": 41,
+          "operand": "op1",
+          "slot": [
+            2,
+            2,
+            0
+          ],
+          "reaching_definition_indices": [
+            40
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B000",
+          "instruction_index": 42,
+          "operand": "op1",
+          "slot": [
+            2,
+            2,
+            0
+          ],
+          "reaching_definition_indices": [
+            41
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B000",
+          "instruction_index": 43,
+          "operand": "op1",
+          "slot": [
+            2,
+            1,
+            0
+          ],
+          "reaching_definition_indices": [
+            38
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B000",
+          "instruction_index": 43,
+          "operand": "op2",
+          "slot": [
+            2,
+            2,
+            0
+          ],
+          "reaching_definition_indices": [
+            42
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B000",
+          "instruction_index": 45,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            43
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B000",
+          "instruction_index": 45,
+          "operand": "op2",
+          "slot": [
+            4,
+            2,
+            0
+          ],
+          "reaching_definition_indices": [
+            44
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B000",
+          "instruction_index": 46,
+          "operand": "op1",
+          "slot": [
+            2,
+            1,
+            0
+          ],
+          "reaching_definition_indices": [
+            45
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B000",
+          "instruction_index": 48,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            46
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B000",
+          "instruction_index": 48,
+          "operand": "op2",
+          "slot": [
+            4,
+            2,
+            0
+          ],
+          "reaching_definition_indices": [
+            47
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B000",
+          "instruction_index": 49,
+          "operand": "op1",
+          "slot": [
+            2,
+            1,
+            0
+          ],
+          "reaching_definition_indices": [
+            48
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B000",
+          "instruction_index": 50,
+          "operand": "op2",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            49
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B000",
+          "instruction_index": 52,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            51
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B053",
+          "instruction_index": 56,
+          "operand": "op1",
+          "slot": [
+            4,
+            1,
+            0
+          ],
+          "reaching_definition_indices": [
+            55
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B053",
+          "instruction_index": 57,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            56
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B053",
+          "instruction_index": 59,
+          "operand": "op1",
+          "slot": [
+            4,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            58
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B060",
+          "instruction_index": 61,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            60
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B060",
+          "instruction_index": 62,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            61
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B060",
+          "instruction_index": 63,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            62
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B060",
+          "instruction_index": 65,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            63
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B060",
+          "instruction_index": 65,
+          "operand": "op2",
+          "slot": [
+            4,
+            2,
+            0
+          ],
+          "reaching_definition_indices": [
+            64
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B060",
+          "instruction_index": 66,
+          "operand": "op1",
+          "slot": [
+            2,
+            1,
+            0
+          ],
+          "reaching_definition_indices": [
+            65
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B060",
+          "instruction_index": 67,
+          "operand": "op2",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            66
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B069",
+          "instruction_index": 70,
+          "operand": "op1",
+          "slot": [
+            2,
+            1,
+            0
+          ],
+          "reaching_definition_indices": [
+            69
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B069",
+          "instruction_index": 71,
+          "operand": "op1",
+          "slot": [
+            2,
+            1,
+            0
+          ],
+          "reaching_definition_indices": [
+            70
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B069",
+          "instruction_index": 72,
+          "operand": "op1",
+          "slot": [
+            2,
+            1,
+            0
+          ],
+          "reaching_definition_indices": [
+            71
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B069",
+          "instruction_index": 74,
+          "operand": "op1",
+          "slot": [
+            2,
+            1,
+            0
+          ],
+          "reaching_definition_indices": [
+            72
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B069",
+          "instruction_index": 74,
+          "operand": "op2",
+          "slot": [
+            4,
+            2,
+            0
+          ],
+          "reaching_definition_indices": [
+            73
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B069",
+          "instruction_index": 75,
+          "operand": "op2",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            74
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B076",
+          "instruction_index": 77,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            76
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B078",
+          "instruction_index": 80,
+          "operand": "op1",
+          "slot": [
+            4,
+            1,
+            0
+          ],
+          "reaching_definition_indices": [
+            79
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B078",
+          "instruction_index": 81,
+          "operand": "op2",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            80
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B078",
+          "instruction_index": 84,
+          "operand": "op1",
+          "slot": [
+            4,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            83
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B078",
+          "instruction_index": 87,
+          "operand": "op2",
+          "slot": [
+            4,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            86
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B078",
+          "instruction_index": 90,
+          "operand": "op1",
+          "slot": [
+            4,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            89
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B078",
+          "instruction_index": 92,
+          "operand": "op1",
+          "slot": [
+            4,
+            1,
+            0
+          ],
+          "reaching_definition_indices": [
+            91
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B078",
+          "instruction_index": 93,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            92
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B096",
+          "instruction_index": 98,
+          "operand": "op1",
+          "slot": [
+            4,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            97
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B096",
+          "instruction_index": 100,
+          "operand": "op2",
+          "slot": [
+            4,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            99
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B101",
+          "instruction_index": 103,
+          "operand": "op1",
+          "slot": [
+            4,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            102
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B101",
+          "instruction_index": 105,
+          "operand": "op1",
+          "slot": [
+            4,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            104
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B101",
+          "instruction_index": 107,
+          "operand": "op2",
+          "slot": [
+            4,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            106
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B101",
+          "instruction_index": 110,
+          "operand": "op1",
+          "slot": [
+            4,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            109
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B101",
+          "instruction_index": 113,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            112
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B101",
+          "instruction_index": 114,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            113
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B101",
+          "instruction_index": 115,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            114
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B101",
+          "instruction_index": 116,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            115
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B101",
+          "instruction_index": 117,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            116
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B101",
+          "instruction_index": 118,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            117
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B101",
+          "instruction_index": 119,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            118
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B101",
+          "instruction_index": 120,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            119
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B101",
+          "instruction_index": 121,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            120
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B101",
+          "instruction_index": 122,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            121
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B101",
+          "instruction_index": 123,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            122
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B101",
+          "instruction_index": 124,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            123
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B101",
+          "instruction_index": 125,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            124
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B101",
+          "instruction_index": 126,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            125
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B101",
+          "instruction_index": 127,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            126
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B101",
+          "instruction_index": 128,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            127
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B101",
+          "instruction_index": 129,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            128
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B101",
+          "instruction_index": 130,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            129
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B101",
+          "instruction_index": 131,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            130
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B101",
+          "instruction_index": 132,
+          "operand": "op2",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            131
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B134",
+          "instruction_index": 135,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            134
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B134",
+          "instruction_index": 136,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            135
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B134",
+          "instruction_index": 137,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            136
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B134",
+          "instruction_index": 138,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            137
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B134",
+          "instruction_index": 139,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            138
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B134",
+          "instruction_index": 140,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            139
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B134",
+          "instruction_index": 141,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            140
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B134",
+          "instruction_index": 142,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            141
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B134",
+          "instruction_index": 143,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            142
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B134",
+          "instruction_index": 144,
+          "operand": "op2",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            143
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B145",
+          "instruction_index": 146,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            145
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B145",
+          "instruction_index": 147,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            146
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B145",
+          "instruction_index": 148,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            147
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B145",
+          "instruction_index": 149,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            148
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B145",
+          "instruction_index": 150,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            149
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B145",
+          "instruction_index": 151,
+          "operand": "op2",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            150
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B145",
+          "instruction_index": 155,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            154
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B145",
+          "instruction_index": 156,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            155
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B145",
+          "instruction_index": 157,
+          "operand": "op2",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            156
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B145",
+          "instruction_index": 160,
+          "operand": "op1",
+          "slot": [
+            4,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            159
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B145",
+          "instruction_index": 162,
+          "operand": "op1",
+          "slot": [
+            4,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            161
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B145",
+          "instruction_index": 164,
+          "operand": "op1",
+          "slot": [
+            4,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            163
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B145",
+          "instruction_index": 166,
+          "operand": "op1",
+          "slot": [
+            4,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            165
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B145",
+          "instruction_index": 171,
+          "operand": "op1",
+          "slot": [
+            4,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            170
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B145",
+          "instruction_index": 173,
+          "operand": "op1",
+          "slot": [
+            4,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            172
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B145",
+          "instruction_index": 175,
+          "operand": "op1",
+          "slot": [
+            4,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            174
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B177",
+          "instruction_index": 178,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            177
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B182",
+          "instruction_index": 183,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            182
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B182",
+          "instruction_index": 184,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            183
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B182",
+          "instruction_index": 185,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            184
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B182",
+          "instruction_index": 186,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            185
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B182",
+          "instruction_index": 187,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            186
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B182",
+          "instruction_index": 188,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            187
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B182",
+          "instruction_index": 189,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            188
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B182",
+          "instruction_index": 191,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            189
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B182",
+          "instruction_index": 191,
+          "operand": "op2",
+          "slot": [
+            4,
+            2,
+            0
+          ],
+          "reaching_definition_indices": [
+            190
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B182",
+          "instruction_index": 193,
+          "operand": "op1",
+          "slot": [
+            2,
+            2,
+            0
+          ],
+          "reaching_definition_indices": [
+            192
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B182",
+          "instruction_index": 194,
+          "operand": "op1",
+          "slot": [
+            2,
+            2,
+            0
+          ],
+          "reaching_definition_indices": [
+            193
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B182",
+          "instruction_index": 195,
+          "operand": "op1",
+          "slot": [
+            2,
+            2,
+            0
+          ],
+          "reaching_definition_indices": [
+            194
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B182",
+          "instruction_index": 196,
+          "operand": "op1",
+          "slot": [
+            2,
+            1,
+            0
+          ],
+          "reaching_definition_indices": [
+            191
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B182",
+          "instruction_index": 196,
+          "operand": "op2",
+          "slot": [
+            2,
+            2,
+            0
+          ],
+          "reaching_definition_indices": [
+            195
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B182",
+          "instruction_index": 197,
+          "operand": "op2",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            196
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B182",
+          "instruction_index": 199,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            198
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B182",
+          "instruction_index": 200,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            199
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B182",
+          "instruction_index": 201,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            200
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B182",
+          "instruction_index": 202,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            201
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B182",
+          "instruction_index": 203,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            202
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B182",
+          "instruction_index": 204,
+          "operand": "op2",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            203
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B182",
+          "instruction_index": 208,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            207
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B182",
+          "instruction_index": 209,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            208
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B182",
+          "instruction_index": 210,
+          "operand": "op1",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            209
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B182",
+          "instruction_index": 211,
+          "operand": "op2",
+          "slot": [
+            2,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            210
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B182",
+          "instruction_index": 214,
+          "operand": "op1",
+          "slot": [
+            4,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            213
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B182",
+          "instruction_index": 216,
+          "operand": "op1",
+          "slot": [
+            4,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            215
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B182",
+          "instruction_index": 218,
+          "operand": "op1",
+          "slot": [
+            4,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            217
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        },
+        {
+          "block": "B182",
+          "instruction_index": 220,
+          "operand": "op1",
+          "slot": [
+            4,
+            0,
+            0
+          ],
+          "reaching_definition_indices": [
+            219
+          ],
+          "status": "one_reaching_definition_syntactic_only",
+          "cross_block": false
+        }
+      ]
+    }
+  ]
+}
