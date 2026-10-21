@@ -1,0 +1,184 @@
+{
+  "format": "php52-native-oparray-probe-v1",
+  "groups": [
+    {
+      "name": "choose",
+      "opcodes": [
+        {
+          "index": 0,
+          "opcode": 63,
+          "line": 2,
+          "extended": 0
+        },
+        {
+          "index": 1,
+          "opcode": 19,
+          "line": 3,
+          "extended": 0
+        },
+        {
+          "index": 2,
+          "opcode": 43,
+          "line": 3,
+          "extended": 0
+        },
+        {
+          "index": 3,
+          "opcode": 62,
+          "line": 3,
+          "extended": 0
+        },
+        {
+          "index": 4,
+          "opcode": 42,
+          "line": 3,
+          "extended": 0
+        },
+        {
+          "index": 5,
+          "opcode": 48,
+          "line": 4,
+          "extended": 0
+        },
+        {
+          "index": 6,
+          "opcode": 43,
+          "line": 4,
+          "extended": 0
+        },
+        {
+          "index": 7,
+          "opcode": 62,
+          "line": 4,
+          "extended": 0
+        },
+        {
+          "index": 8,
+          "opcode": 42,
+          "line": 4,
+          "extended": 0
+        },
+        {
+          "index": 9,
+          "opcode": 42,
+          "line": 4,
+          "extended": 0
+        },
+        {
+          "index": 10,
+          "opcode": 62,
+          "line": 4,
+          "extended": 0
+        },
+        {
+          "index": 11,
+          "opcode": 42,
+          "line": 4,
+          "extended": 0
+        },
+        {
+          "index": 12,
+          "opcode": 42,
+          "line": 4,
+          "extended": 0
+        },
+        {
+          "index": 13,
+          "opcode": 62,
+          "line": 5,
+          "extended": 0
+        },
+        {
+          "index": 14,
+          "opcode": 149,
+          "line": 5,
+          "extended": 0
+        }
+      ],
+      "compiled_vars": [
+        {
+          "index": 0,
+          "name_hex": "78"
+        }
+      ]
+    },
+    {
+      "name": "<main>",
+      "opcodes": [
+        {
+          "index": 0,
+          "opcode": 0,
+          "line": 2,
+          "extended": 141
+        },
+        {
+          "index": 1,
+          "opcode": 38,
+          "line": 6,
+          "extended": 0
+        },
+        {
+          "index": 2,
+          "opcode": 19,
+          "line": 6,
+          "extended": 0
+        },
+        {
+          "index": 3,
+          "opcode": 45,
+          "line": 6,
+          "extended": 7
+        },
+        {
+          "index": 4,
+          "opcode": 36,
+          "line": 6,
+          "extended": 0
+        },
+        {
+          "index": 5,
+          "opcode": 70,
+          "line": 6,
+          "extended": 0
+        },
+        {
+          "index": 6,
+          "opcode": 42,
+          "line": 6,
+          "extended": 0
+        },
+        {
+          "index": 7,
+          "opcode": 40,
+          "line": 6,
+          "extended": 0
+        },
+        {
+          "index": 8,
+          "opcode": 42,
+          "line": 6,
+          "extended": 0
+        },
+        {
+          "index": 9,
+          "opcode": 62,
+          "line": 7,
+          "extended": 0
+        },
+        {
+          "index": 10,
+          "opcode": 149,
+          "line": 7,
+          "extended": 0
+        }
+      ],
+      "compiled_vars": [
+        {
+          "index": 0,
+          "name_hex": "69"
+        }
+      ]
+    }
+  ],
+  "total_instructions": 26
+}

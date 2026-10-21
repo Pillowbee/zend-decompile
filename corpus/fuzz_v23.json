@@ -1,0 +1,10 @@
+{
+  "seed": 20261021,
+  "mutations": 180,
+  "total_cases": 185,
+  "parsed": 19,
+  "rejected": 166,
+  "isolation_failures": 0,
+  "unexpected": 0,
+  "crashes": []
+}

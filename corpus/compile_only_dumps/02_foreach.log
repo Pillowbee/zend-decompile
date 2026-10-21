@@ -1,0 +1,21 @@
+[probe] startup=0x101d2150 size=208
+[probe] activate
+[probe] function_name=<main>
+[probe] op_array=0x102b5500 last=12 opcodes=0x102b5720 filename=0x102b5668
+[probe] filename: corpus/own_sources/02_foreach.php
+[probe] compiled_vars=0x102b7598 last_var=2
+[probe] compiled_var idx=0 len=1 hex=61
+[probe] compiled_var idx=1 len=1 hex=76
+[probe] #00 opcode=71 handler=0x0 line=2 extended=0 result{node_type=2,val=0x0,len=0,ztype=0} op1{node_type=1,val=0x1,len=1,ztype=1} op2{node_type=8,val=0x0,len=0,ztype=0} mapmatches=
+[probe] #01 opcode=72 handler=0x0 line=2 extended=0 result{node_type=2,val=0x0,len=0,ztype=0} op1{node_type=1,val=0x2,len=1,ztype=1} op2{node_type=8,val=0x0,len=0,ztype=0} mapmatches=
+[probe] #02 opcode=38 handler=0x0 line=2 extended=0 result{node_type=4,val=0x100000028,len=0,ztype=0} op1{node_type=16,val=0x1000000000,len=1,ztype=6} op2{node_type=2,val=0x0,len=0,ztype=0} mapmatches=
+[probe] #03 opcode=77 handler=0x0 line=3 extended=0 result{node_type=4,val=0x50,len=0,ztype=0} op1{node_type=16,val=0x1000000000,len=1,ztype=6} op2{node_type=8,val=0x9,len=0,ztype=0} mapmatches=
+[probe] #04 opcode=78 handler=0x0 line=3 extended=0 result{node_type=4,val=0x78,len=0,ztype=0} op1{node_type=4,val=0x50,len=0,ztype=0} op2{node_type=8,val=0x9,len=0,ztype=0} mapmatches=
+[probe] #05 opcode=137 handler=0x0 line=3 extended=0 result{node_type=8,val=0x0,len=0,ztype=0} op1{node_type=8,val=0x0,len=0,ztype=0} op2{node_type=8,val=0x0,len=0,ztype=0} mapmatches=
+[probe] #06 opcode=38 handler=0x0 line=3 extended=0 result{node_type=4,val=0x1000000a0,len=0,ztype=0} op1{node_type=16,val=0x1000000001,len=1,ztype=6} op2{node_type=4,val=0x78,len=0,ztype=0} mapmatches=
+[probe] #07 opcode=40 handler=0x0 line=3 extended=0 result{node_type=8,val=0x0,len=0,ztype=0} op1{node_type=16,val=0x1000000001,len=1,ztype=6} op2{node_type=8,val=0x0,len=0,ztype=0} mapmatches=
+[probe] #08 opcode=42 handler=0x0 line=3 extended=0 result{node_type=8,val=0x0,len=0,ztype=0} op1{node_type=8,val=0x4,len=0,ztype=0} op2{node_type=8,val=0x0,len=0,ztype=0} mapmatches=
+[probe] #09 opcode=49 handler=0x0 line=3 extended=1 result{node_type=8,val=0x0,len=0,ztype=0} op1{node_type=4,val=0x50,len=0,ztype=0} op2{node_type=8,val=0x0,len=0,ztype=0} mapmatches=
+[probe] #10 opcode=62 handler=0x0 line=4 extended=0 result{node_type=8,val=0x0,len=0,ztype=0} op1{node_type=1,val=0x1,len=2391883328,ztype=1} op2{node_type=8,val=0x0,len=0,ztype=0} mapmatches=
+[probe] #11 opcode=149 handler=0x0 line=4 extended=0 result{node_type=8,val=0x0,len=0,ztype=0} op1{node_type=8,val=0x0,len=0,ztype=0} op2{node_type=8,val=0x0,len=0,ztype=0} mapmatches=
+No syntax errors detected in corpus/own_sources/02_foreach.php

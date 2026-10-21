@@ -1,0 +1,492 @@
+--- a/README.md
++++ b/README.md
+@@ -1,3 +1,33 @@
++# Zend Decompiler v27 — строгий offline CFG/dataflow
++
++**Изменения относительно v26:** native `EXIT=79` теперь завершает CFG;
++неподдерживаемые native control-flow ID `50/51/77/78/107/108` блокируются,
++а не трактуются как fallthrough. Для неоднозначных TMP добавлены структурные
++пути CFG, ограниченные по памяти; реализован literal-free triage и 300
++синтетических cross-check графов с независимой моделью состояний.
++
++**Новых кодов Zend Encoder не подтверждено и не подставлено.** Генерация PHP для
++`fun_all.php` и `links_fun(1).php` остаётся запрещённой. Семантическая
++эквивалентность PHP-кандидатов не доказана.
++
++```bash
++python -m unittest discover -s tests -q
++python zend_cli.py dataflow sample_inputs/fun_all.php -o /tmp/dataflow_v27.json
++python zend_triage_v27.py sample_inputs/fun_all.php 'sample_inputs/links_fun(1).php' -o /tmp/triage_v27.json
++python zend_cli.py batch sample_inputs -o /tmp/batch_v27 --isolate-parser
++```
++
++`batch` ожидаемо возвращает код 2, поскольку два входа не поддерживаются,
++один файл не распознан как один encoded stream. Не запускать предоставленный
++код PHP, не использовать кандидаты в production.
++
++Результаты и обоснования: [`REPORT_V27.md`](REPORT_V27.md), машинный
++срез [`validation_v27.json`](validation_v27.json), отчёт
++[`TRIAGE_V27.json`](TRIAGE_V27.json). Для первоначального независимого аудита
++v25 и исправлений v26: [`REPORT_INDEPENDENT_AUDIT_V26.md`](REPORT_INDEPENDENT_AUDIT_V26.md).
++
++---
++
+ # Zend Decompiler v26 — независимый аудит и исправления ядра dataflow
+ 
+ Аудит v25 выполнен **до** разработки v26; подробные факты, ограничения и воспроизводимые
+--- a/pyproject.toml
++++ b/pyproject.toml
+@@ -4,7 +4,7 @@
+ 
+ [project]
+ name = "zend-decompiler-experimental"
+-version = "26.0.0"
++version = "27.0.0"
+ description = "Fail-closed, empirical Zend Encoder PHP 5.2 candidate recovery research"
+ requires-python = ">=3.10"
+ dependencies = ["networkx>=2.8"]
+@@ -13,7 +13,7 @@
+ zend-decompiler = "zend_cli:main"
+ 
+ [tool.setuptools]
+-py-modules = ["zend_restore_core", "zend_engine", "zend_batch", "zend_partial", "zend_cli", "zend_restore_v20", "zend_restore_v19", "zend_serial_parser", "zend_calibrate_v9", "zend_prefix_restore_v17", "zend_prefix_restore_v11", "zend_crossblock_v17", "zend_crossblock_v12", "zend_cfg_v11", "zend_state_v19", "zend_structure_v17", "zend_block_previews_v12", "zend_research_v19", "zend_compiler_oracle", "zend_parser_isolated", "zend_fuzz_v23", "zend_alignment_audit", "zend_readonly_dataflow"]
++py-modules = ["zend_restore_core", "zend_engine", "zend_batch", "zend_partial", "zend_cli", "zend_restore_v20", "zend_restore_v19", "zend_serial_parser", "zend_calibrate_v9", "zend_prefix_restore_v17", "zend_prefix_restore_v11", "zend_crossblock_v17", "zend_crossblock_v12", "zend_cfg_v11", "zend_state_v19", "zend_structure_v17", "zend_block_previews_v12", "zend_research_v19", "zend_compiler_oracle", "zend_parser_isolated", "zend_fuzz_v23", "zend_alignment_audit", "zend_readonly_dataflow", "zend_triage_v27"]
+ 
+ [tool.setuptools.data-files]
+ "share/zend-decompiler" = ["opcode_map_observed_v20.json", "opcode_evidence_v21.json", "opcode_map_observed_v20.json.meta.json", "opcode_hypotheses_v23.json", "zend_verified_dictionary.bin"]
+--- a/zend_cfg_v11.py
++++ b/zend_cfg_v11.py
+@@ -20,9 +20,14 @@
+ JMPZ_EX=46
+ JMPNZ_EX=47
+ RETURN=62
++EXIT=79
+ HANDLE_EXCEPTION=149
+ BRANCHES={JMP,JMPZ,JMPNZ,JMPZNZ,JMPZ_EX,JMPNZ_EX}
+-TERMINALS={RETURN,HANDLE_EXCEPTION}
++TERMINALS={RETURN,EXIT,HANDLE_EXCEPTION}
++# Native PHP 5.2 handlers show non-fallthrough control flow for these
++# instructions, but the Encoder operand/target semantics are unverified.
++# Never silently interpret them as straight-line instructions.
++UNMODELED_CONTROL_FLOW={50,51,77,78,107,108}
+ 
+ 
+ def code_string(raw_hex: str, encoding: str = 'cp1251') -> str:
+@@ -78,6 +83,10 @@
+     if not ops:return {'name':name,'instruction_count':0,'basic_blocks':[],'edges':[],
+                        'unknown_opcode_indices':[],'back_edges':[],'natural_loops':[]}
+     assert all(op['index']==i for i,op in enumerate(ops))
++    unsafe=[(op['index'],op['decoded_opcode']) for op in ops
++            if op['decoded_opcode'] in UNMODELED_CONTROL_FLOW]
++    if unsafe:
++        raise FormatError(f'Unmodeled control-flow opcodes in {name}: {unsafe[:16]}')
+     leaders={0};jump_count=0
+     unknown=[x['index'] for x in ops if x['decoded_opcode'] is None]
+     for op in ops:
+--- a/zend_readonly_dataflow.py
++++ b/zend_readonly_dataflow.py
+@@ -8,14 +8,15 @@
+ from __future__ import annotations
+ 
+ import argparse
+-from collections import Counter, defaultdict
++from collections import Counter, defaultdict, deque
+ from dataclasses import dataclass
+ from pathlib import Path
+ import json
+ import hashlib
+ 
+ from zend_calibrate_v9 import choose_opcode
+-from zend_cfg_v11 import cfg_for_group
++from zend_cfg_v11 import cfg_for_group, UNMODELED_CONTROL_FLOW
++from zend_serial_parser import FormatError
+ from zend_serial_parser import decompress_encoded, parse_binary
+ 
+ 
+@@ -39,12 +40,71 @@
+         return (self.type_id,*self.slot) if self.type_id in (2,4) and self.slot else None
+ 
+ 
++
++def _structural_witnesses(ops: list[dict], cfg: dict, use_index: int,
++                          slot: tuple[int,int,int], wanted: list[int],
++                          *, state_budget: int = 20000) -> dict:
++    """Find reproducible *CFG paths*, not runtime-feasible execution traces.
++
++    State is (instruction PC, last syntactic definition for one operand slot).
++    BFS with visited-state dedup terminates on loops. A path's branch decisions
++    may be infeasible because conditions and opcode semantics are NOT proven.
++    """
++    successors={}
++    instruction_owner={}
++    for b in cfg['basic_blocks']:
++        for i in b['instruction_indices']:
++            instruction_owner[i]=b['id']
++            if i<b['last']:
++                successors[i]=[i+1]
++            else:
++                successors[i]=[e['target_instruction'] for e in b['successors']
++                               if e['block']!='EXIT']
++    if not ops or len(wanted)>32:
++        return {'status':'budget_exceeded','witnesses':[]}
++    root=(0,-1)
++    parents={root:None}
++    queue=deque([root])
++    targets=set(wanted)
++    found={}
++    while queue and len(parents)<state_budget and len(found)<len(targets):
++        state=queue.popleft()
++        ix,last=state
++        if ix==use_index and last in targets and last not in found:
++            indices=[]
++            trace=state
++            while trace is not None:
++                indices.append(trace[0]);trace=parents[trace]
++            indices.reverse()
++            found[last]={'definition_index':last,'instruction_path':indices,
++                         'block_path':[instruction_owner[k] for k in indices]}
++        new_last=ix if Operand.from_node(ops[ix]['result']).definition_key()==slot else last
++        for nxt in successors.get(ix,[]):
++            successor=(nxt,new_last)
++            if successor not in parents:
++                parents[successor]=state
++                queue.append(successor)
++    return {'status':'complete' if len(found)==len(targets) else
++                     ('budget_exceeded' if queue else 'witness_not_found'),
++            'witnesses':[found[k] for k in sorted(found)],
++            'note':'Structural CFG paths only: condition feasibility and runtime semantics unproven.'}
++
+ def read_definitions(group: dict, *, title: str='<main>') -> dict:
+     ops=group['opcodes']
+     if any(op.get('decoded_opcode') is None for op in ops):
+         return {'group':title,'status':'unsupported','reason':'unknown opcode prevents reliable control flow',
+                 'unknown_indices':[op['index'] for op in ops if op.get('decoded_opcode') is None]}
+-    cfg=cfg_for_group(title,group)
++    unmodeled=[{'index':op['index'], 'native_opcode':op['decoded_opcode']}
++               for op in ops if op.get('decoded_opcode') in UNMODELED_CONTROL_FLOW]
++    if unmodeled:
++        return {'group':title,'status':'unsupported',
++                'reason':'unmodeled non-fallthrough/conditional control flow',
++                'unmodeled_control_flow':unmodeled}
++    try:
++        cfg=cfg_for_group(title,group)
++    except (FormatError, AssertionError) as exc:
++        return {'group':title,'status':'unsupported',
++                'reason':'CFG validation failed: '+str(exc)}
+     blocks=cfg['basic_blocks']
+     by_id={b['id']:b for b in blocks}
+     reachable=[b['id'] for b in blocks if b['reachable']]
+@@ -118,10 +178,14 @@
+                 elif -1 in defs:resolution='possibly_undefined'
+                 elif len(defs)>1:resolution='multiple_reaching_definitions'
+                 else:resolution='one_reaching_definition_syntactic_only'
+-                reads.append({'block':b['id'],'instruction_index':i,'operand':position,
+-                              'slot':list(key),'reaching_definition_indices':defs,
+-                              'status':resolution,
+-                              'cross_block':len(defs)==1 and defs[0]>=0 and owner.get(defs[0])!=b['id']})
++                row={'block':b['id'],'instruction_index':i,'operand':position,
++                     'slot':list(key),'reaching_definition_indices':defs,
++                     'status':resolution,
++                     'cross_block':len(defs)==1 and defs[0]>=0 and owner.get(defs[0])!=b['id']}
++                if len(defs)>1:
++                    row['structural_path_witnesses']=_structural_witnesses(
++                        ops,cfg,i,key,defs)
++                reads.append(row)
+             result=Operand.from_node(op['result']).definition_key()
+             if result is not None:state[result]=frozenset({i})
+     count=Counter(r['status'] for r in reads)
+--- a/zend_triage_v27.py
++++ b/zend_triage_v27.py
+@@ -0,0 +1,96 @@
++#!/usr/bin/env python3
++"""Read-only, literal-free triage for unresolved Zend Encoder recordings.
++
++No Zend Optimizer loading, PHP execution, PHP output, or opcode promotion.
++Opcode names in this output are historical *hypotheses*, not confirmations.
++"""
++from __future__ import annotations
++
++import argparse
++from collections import Counter
++import hashlib
++import json
++from pathlib import Path
++
++from zend_readonly_dataflow import analyze_file, _validated_evidence
++from zend_calibrate_v9 import choose_opcode
++from zend_serial_parser import decompress_encoded, parse_binary
++
++
++def _summarize_opcode(op:dict, mapping:dict, evidence:dict) -> dict:
++    key=f'{op["index"]%8}:{op["encoded_opcode"]}'
++    row=evidence.get(key)
++    return {'index':op['index'], 'line':op['line'], 'encoded_key':key,
++            'native_opcode_hypothesis':choose_opcode(op,mapping),
++            'evidence_status':row.get('status') if row else 'absent',
++            'operand_types':{x:op[x]['type'] for x in ('result','op1','op2')}}
++
++
++def triage_one(source:Path, dictionary:Path, mapping_file:Path,
++               mapping:dict, evidence:dict) -> dict:
++    diagnostic=analyze_file(source,dictionary,mapping_file)
++    streams=decompress_encoded(source,dictionary.read_bytes())
++    if len(streams)!=1:
++        raise ValueError('Expected exactly one encoded stream')
++    parsed=parse_binary(streams[0][1])
++    groups=[parsed['main'],*parsed['functions']]
++    issues=[];key_counter=Counter();coverage=Counter()
++    for report,group in zip(diagnostic['groups'],groups,strict=True):
++        coverage[report['status']]+=1
++        ops=group['opcodes']
++        for item in report.get('uncertain_opcodes',[]):
++            idx=item['index'];key=item['key'];key_counter[key]+=1
++            neighborhood=[_summarize_opcode(ops[j],mapping,evidence)
++                          for j in range(max(0,idx-2),min(len(ops),idx+3))]
++            issues.append({'kind':'unknown_or_disputed_mapping','group':report['group'],
++                           'index':idx,'key':key,'reason':'mapping not independently confirmed',
++                           'hypothesis':item['mapped_opcode'],
++                           'evidence_status':item['confidence'],
++                           'literal_free_opcode_neighborhood':neighborhood})
++        for item in report.get('unmodeled_control_flow',[]):
++            issues.append({'kind':'unmodeled_control_flow','group':report['group'],
++                           'index':item['index'], 'hypothesis':item['native_opcode']})
++        for read in report.get('temporary_uses',[]):
++            if read['status'] not in ('multiple_reaching_definitions','possibly_undefined'):
++                continue
++            issues.append({'kind':'ambiguous_syntactic_definition',
++                           'group':report['group'], 'index':read['instruction_index'],
++                           'operand':read['operand'], 'slot':read['slot'],
++                           'status':read['status'],
++                           'reaching_definition_indices':read['reaching_definition_indices'],
++                           'structural_paths':read.get('structural_path_witnesses')})
++    return {'file':source.name,'sha256':hashlib.sha256(source.read_bytes()).hexdigest(),
++            'groups':len(groups),'coverage':dict(sorted(coverage.items())),
++            'unresolved_encoded_key_counts':dict(sorted(key_counter.items())),
++            'issues':issues}
++
++
++def triage(sources:list[Path], dictionary:Path, mapping_file:Path) -> dict:
++    evidence=_validated_evidence(mapping_file)
++    mapping=json.loads(mapping_file.read_text(encoding='utf-8'))
++    return {'kind':'OFFLINE_LITERAL_FREE_OPCODE_AND_CFG_TRIAGE_V27',
++            'no_php_executed':True,'no_php_generated':True,
++            'semantic_equivalence_proven':False,
++            'mapping_sha256':hashlib.sha256(mapping_file.read_bytes()).hexdigest(),
++            'dictionary_sha256':hashlib.sha256(dictionary.read_bytes()).hexdigest(),
++            'limitations':['Opcode hypotheses inferred from archived alignment, not independently verified.',
++                           'Structural CFG paths do not prove executable path feasibility.',
++                           'Unmodeled native control flow and disputed mappings are not guessed.'],
++            'files':[triage_one(s,dictionary,mapping_file,mapping,evidence) for s in sources]}
++
++
++def main() -> None:
++    parser=argparse.ArgumentParser(description=__doc__)
++    parser.add_argument('sources',nargs='+',type=Path)
++    parser.add_argument('--dictionary',type=Path,
++                        default=Path(__file__).with_name('zend_verified_dictionary.bin'))
++    parser.add_argument('--map',type=Path,
++                        default=Path(__file__).with_name('opcode_map_observed_v20.json'))
++    parser.add_argument('-o','--output',type=Path,required=True)
++    args=parser.parse_args()
++    report=triage(args.sources,args.dictionary,args.map)
++    args.output.write_text(json.dumps(report,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
++    print(json.dumps([{'file':r['file'],'coverage':r['coverage'],
++                       'issues':len(r['issues'])} for r in report['files']],ensure_ascii=False))
++
++if __name__=='__main__':main()
+--- a/tests/test_v27_control_flow_witnesses.py
++++ b/tests/test_v27_control_flow_witnesses.py
+@@ -0,0 +1,157 @@
++"""Synthetic fail-closed CFG and finite path witness regressions.
++No provided PHP or binary gets executed by this test module.
++"""
++from pathlib import Path
++import sys
++import unittest
++
++ROOT=Path(__file__).resolve().parents[1]
++sys.path.insert(0,str(ROOT))
++from zend_readonly_dataflow import read_definitions, analyze_file
++from zend_cfg_v11 import cfg_for_group, UNMODELED_CONTROL_FLOW
++from zend_serial_parser import FormatError
++
++
++def unused(n=0, marker=0):
++    return {'type':8, 'word0':n, 'word1':marker}
++
++
++def tmp(n=0):
++    return {'type':2, 'word0':n, 'word1':0}
++
++
++def const(n=1):
++    return {'type':1, 'constant':{'kind':'integer', 'value':n}}
++
++
++def ins(i, code, *, op1=None, op2=None, result=None):
++    return {'index':i, 'decoded_opcode':code,
++            'op1':op1 if op1 is not None else unused(),
++            'op2':op2 if op2 is not None else unused(),
++            'result':result if result is not None else unused(),
++            'line':i+1, 'extended_value':0}
++
++
++class SoundCFGTests(unittest.TestCase):
++    def test_exit_has_no_fallthrough_reaching_definition(self):
++        ops=[ins(0,79,op1=const()),ins(1,52,result=tmp(),op1=const()),
++             ins(2,40,op1=tmp()),ins(3,62,op1=const())]
++        cfg=cfg_for_group('exit', {'opcodes':ops})
++        self.assertEqual(cfg['reachable_blocks'],1)
++        self.assertEqual(cfg['basic_blocks'][1]['reachable'],False)
++        self.assertEqual(cfg['basic_blocks'][0]['successors'],[])
++        report=read_definitions({'opcodes':ops})
++        self.assertEqual(report['status'],'analyzed_syntactically')
++        self.assertEqual(report['temporary_uses'],[])
++
++    def test_unmodeled_native_control_flow_is_not_fallthrough(self):
++        for native_id in sorted(UNMODELED_CONTROL_FLOW):
++            with self.subTest(native_id=native_id):
++                ops=[ins(0,native_id),ins(1,40,op1=tmp())]
++                with self.assertRaisesRegex(FormatError,'Unmodeled control-flow'):
++                    cfg_for_group('synthetic',{'opcodes':ops})
++                report=read_definitions({'opcodes':ops})
++                self.assertEqual(report['status'],'unsupported')
++                self.assertEqual(report['unmodeled_control_flow'],
++                                 [{'index':0,'native_opcode':native_id}])
++
++    def test_unknown_jump_target_fails_closed_without_traceback(self):
++        ops=[ins(0,42,op1=unused(999,1)),ins(1,40,op1=tmp())]
++        report=read_definitions({'opcodes':ops})
++        self.assertEqual(report['status'],'unsupported')
++        self.assertIn('Out-of-range jump target',report['reason'])
++
++
++class WitnessTests(unittest.TestCase):
++    def test_branch_without_producer_preserves_undefined(self):
++        ops=[ins(0,43,op1=const(),op2=unused(3,1)),
++             ins(1,52,op1=const(),result=tmp()),
++             ins(2,42,op1=unused(4,1)),
++             ins(3,0),ins(4,40,op1=tmp()),ins(5,62,op1=const())]
++        report=read_definitions({'opcodes':ops})
++        row=report['temporary_uses'][0]
++        self.assertEqual(row['reaching_definition_indices'],[-1,1])
++        self.assertEqual(row['status'],'possibly_undefined')
++        w=row['structural_path_witnesses']
++        self.assertEqual(w['status'],'complete')
++        self.assertEqual({x['definition_index']:x['instruction_path'] for x in w['witnesses']},
++                         {-1:[0,3,4], 1:[0,1,2,4]})
++
++    def test_loop_entry_path_exhibits_backedge(self):
++        ops=[ins(0,40,op1=tmp()),ins(1,52,op1=const(),result=tmp()),
++             ins(2,43,op1=const(),op2=unused(0,1)),ins(3,62,op1=const())]
++        report=read_definitions({'opcodes':ops})
++        row=report['temporary_uses'][0]
++        self.assertEqual(row['reaching_definition_indices'],[-1,1])
++        w=row['structural_path_witnesses']
++        self.assertEqual(w['status'],'complete')
++        self.assertEqual({x['definition_index']:x['instruction_path'] for x in w['witnesses']},
++                         {-1:[0],1:[0,1,2,0]})
++
++    def test_out_link_ambiguity_has_two_independent_cfg_witnesses(self):
++        data=analyze_file(ROOT/'sample_inputs'/'fun_all.php',
++                          ROOT/'zend_verified_dictionary.bin',
++                          ROOT/'opcode_map_observed_v20.json')
++        group=next(g for g in data['groups'] if g['group']=='out_link')
++        row=next(r for r in group['temporary_uses']
++                 if r['instruction_index']==16 and r['operand']=='op1')
++        self.assertEqual(row['reaching_definition_indices'],[13,15])
++        evidence=row['structural_path_witnesses']
++        self.assertEqual(evidence['status'],'complete')
++        self.assertEqual([w['definition_index'] for w in evidence['witnesses']],[13,15])
++        self.assertTrue(all(w['instruction_path'][-1]==16 for w in evidence['witnesses']))
++        self.assertTrue(all(w['definition_index'] in w['instruction_path'] for w in evidence['witnesses']))
++
++
++class BoundedModelCheckTests(unittest.TestCase):
++    def test_reaching_definitions_against_independent_instruction_graph(self):
++        """300 generated *synthetic* 5-opcode programs, no PHP interpreter.
++
++        The oracle is a direct state-space explorer, independent from the
++        basic-block solver and its dominator/transfer implementation.
++        """
++        from collections import defaultdict, deque
++        import random
++        rng=random.Random(20271021)
++        for case in range(300):
++            count=5
++            ops=[]
++            for pc in range(count):
++                opcode=rng.choice([0,40,52,42,43,62,79])
++                if opcode==42:
++                    op=ins(pc,opcode,op1=unused(rng.randrange(count+1),1))
++                elif opcode==43:
++                    op=ins(pc,opcode,op1=const(),op2=unused(rng.randrange(count+1),1))
++                elif opcode==40:
++                    op=ins(pc,opcode,op1=tmp())
++                elif opcode==52:
++                    op=ins(pc,opcode,op1=const(),result=tmp())
++                else:
++                    op=ins(pc,opcode)
++                ops.append(op)
++            oracle=defaultdict(set)
++            todo=deque([(0,-1)])
++            visited=set()
++            while todo:
++                pc,last=todo.popleft()
++                if pc==count or (pc,last) in visited:continue
++                visited.add((pc,last))
++                op=ops[pc]
++                if op['decoded_opcode']==40:oracle[pc].add(last)
++                if op['decoded_opcode']==52:last=pc
++                code=op['decoded_opcode']
++                if code in (62,79):dest=[]
++                elif code==42:dest=[op['op1']['word0']]
++                elif code==43:dest=[pc+1,op['op2']['word0']]
++                else:dest=[pc+1]
++                for next_pc in dest:
++                    todo.append((next_pc,last))
++            rep=read_definitions({'opcodes':ops})
++            self.assertEqual(rep['status'],'analyzed_syntactically',case)
++            observed={r['instruction_index']:set(r['reaching_definition_indices'])
++                      for r in rep['temporary_uses']}
++            self.assertEqual(observed,dict(oracle),f'case {case}, opcodes {ops}')
++
++
++if __name__=='__main__':
++    unittest.main()
+--- a/tests/test_v27_triage.py
++++ b/tests/test_v27_triage.py
+@@ -0,0 +1,33 @@
++"""Triage contains structural facts but never source string literals or PHP output."""
++from pathlib import Path
++import sys
++import unittest
++ROOT=Path(__file__).resolve().parents[1]
++sys.path.insert(0,str(ROOT))
++from zend_triage_v27 import triage
++
++
++class ReadOnlyTriageTests(unittest.TestCase):
++    def test_focus_inputs_and_prioritized_evidence_are_literal_free(self):
++        report=triage([ROOT/'sample_inputs/fun_all.php',ROOT/'sample_inputs/links_fun(1).php'],
++                      ROOT/'zend_verified_dictionary.bin', ROOT/'opcode_map_observed_v20.json')
++        self.assertEqual(report['kind'],'OFFLINE_LITERAL_FREE_OPCODE_AND_CFG_TRIAGE_V27')
++        self.assertFalse(report['semantic_equivalence_proven'])
++        self.assertTrue(report['no_php_generated'])
++        fun,links=report['files']
++        self.assertEqual(fun['groups'],23)
++        self.assertEqual(links['groups'],6)
++        f_unknown=[x for x in fun['issues'] if x['kind']=='unknown_or_disputed_mapping']
++        self.assertTrue(any(x['key']=='1:199' and x['group']=='out_price' for x in f_unknown))
++        self.assertTrue(any(x['key']=='1:199' and x['group']=='uc_rus' for x in f_unknown))
++        out_link=[x for x in fun['issues'] if x['kind']=='ambiguous_syntactic_definition'
++                  and x['group']=='out_link' and x['index']==16]
++        self.assertEqual(out_link[0]['reaching_definition_indices'],[13,15])
++        self.assertEqual(out_link[0]['structural_paths']['status'],'complete')
++        self.assertTrue(any(x['key']=='6:226' and x['index']==14 for x in links['issues']))
++        for file in report['files']:
++            for issue in file['issues']:
++                for op in issue.get('literal_free_opcode_neighborhood',[]):
++                    self.assertEqual(set(op),{'index','line','encoded_key',
++                                              'native_opcode_hypothesis','evidence_status',
++                                              'operand_types'})

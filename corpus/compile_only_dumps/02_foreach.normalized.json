@@ -1,0 +1,93 @@
+{
+  "format": "php52-native-oparray-probe-v1",
+  "groups": [
+    {
+      "name": "<main>",
+      "opcodes": [
+        {
+          "index": 0,
+          "opcode": 71,
+          "line": 2,
+          "extended": 0
+        },
+        {
+          "index": 1,
+          "opcode": 72,
+          "line": 2,
+          "extended": 0
+        },
+        {
+          "index": 2,
+          "opcode": 38,
+          "line": 2,
+          "extended": 0
+        },
+        {
+          "index": 3,
+          "opcode": 77,
+          "line": 3,
+          "extended": 0
+        },
+        {
+          "index": 4,
+          "opcode": 78,
+          "line": 3,
+          "extended": 0
+        },
+        {
+          "index": 5,
+          "opcode": 137,
+          "line": 3,
+          "extended": 0
+        },
+        {
+          "index": 6,
+          "opcode": 38,
+          "line": 3,
+          "extended": 0
+        },
+        {
+          "index": 7,
+          "opcode": 40,
+          "line": 3,
+          "extended": 0
+        },
+        {
+          "index": 8,
+          "opcode": 42,
+          "line": 3,
+          "extended": 0
+        },
+        {
+          "index": 9,
+          "opcode": 49,
+          "line": 3,
+          "extended": 1
+        },
+        {
+          "index": 10,
+          "opcode": 62,
+          "line": 4,
+          "extended": 0
+        },
+        {
+          "index": 11,
+          "opcode": 149,
+          "line": 4,
+          "extended": 0
+        }
+      ],
+      "compiled_vars": [
+        {
+          "index": 0,
+          "name_hex": "61"
+        },
+        {
+          "index": 1,
+          "name_hex": "76"
+        }
+      ]
+    }
+  ],
+  "total_instructions": 12
+}

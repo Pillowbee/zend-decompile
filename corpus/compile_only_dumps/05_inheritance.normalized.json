@@ -1,0 +1,114 @@
+{
+  "format": "php52-native-oparray-probe-v1",
+  "groups": [
+    {
+      "name": "answer",
+      "opcodes": [
+        {
+          "index": 0,
+          "opcode": 62,
+          "line": 2,
+          "extended": 0
+        },
+        {
+          "index": 1,
+          "opcode": 62,
+          "line": 2,
+          "extended": 0
+        },
+        {
+          "index": 2,
+          "opcode": 149,
+          "line": 2,
+          "extended": 0
+        }
+      ],
+      "compiled_vars": []
+    },
+    {
+      "name": "answer",
+      "opcodes": [
+        {
+          "index": 0,
+          "opcode": 109,
+          "line": 3,
+          "extended": 2
+        },
+        {
+          "index": 1,
+          "opcode": 113,
+          "line": 3,
+          "extended": 0
+        },
+        {
+          "index": 2,
+          "opcode": 61,
+          "line": 3,
+          "extended": 0
+        },
+        {
+          "index": 3,
+          "opcode": 1,
+          "line": 3,
+          "extended": 0
+        },
+        {
+          "index": 4,
+          "opcode": 62,
+          "line": 3,
+          "extended": 0
+        },
+        {
+          "index": 5,
+          "opcode": 62,
+          "line": 3,
+          "extended": 0
+        },
+        {
+          "index": 6,
+          "opcode": 149,
+          "line": 3,
+          "extended": 0
+        }
+      ],
+      "compiled_vars": []
+    },
+    {
+      "name": "<main>",
+      "opcodes": [
+        {
+          "index": 0,
+          "opcode": 0,
+          "line": 2,
+          "extended": 0
+        },
+        {
+          "index": 1,
+          "opcode": 0,
+          "line": 3,
+          "extended": 4
+        },
+        {
+          "index": 2,
+          "opcode": 0,
+          "line": 3,
+          "extended": 40
+        },
+        {
+          "index": 3,
+          "opcode": 62,
+          "line": 4,
+          "extended": 0
+        },
+        {
+          "index": 4,
+          "opcode": 149,
+          "line": 4,
+          "extended": 0
+        }
+      ],
+      "compiled_vars": []
+    }
+  ],
+  "total_instructions": 15
+}

@@ -1,0 +1,30 @@
+[probe] startup=0xd922150 size=208
+[probe] activate
+[probe] function_name=answer
+[probe] op_array=0xda098d8 last=3 opcodes=0xda07a68 filename=0xda05668
+[probe] filename: corpus/own_sources/05_inheritance.php
+[probe] compiled_vars=0x0 last_var=0
+[probe] #00 opcode=62 handler=0x0 line=2 extended=0 result{node_type=8,val=0x0,len=0,ztype=0} op1{node_type=1,val=0x2a,len=1,ztype=1} op2{node_type=8,val=0x0,len=0,ztype=0} mapmatches=
+[probe] #01 opcode=62 handler=0x0 line=2 extended=0 result{node_type=8,val=0x0,len=0,ztype=0} op1{node_type=1,val=0x0,len=0,ztype=0} op2{node_type=8,val=0x0,len=0,ztype=0} mapmatches=
+[probe] #02 opcode=149 handler=0x0 line=2 extended=0 result{node_type=8,val=0x0,len=0,ztype=0} op1{node_type=8,val=0x0,len=0,ztype=0} op2{node_type=8,val=0x0,len=0,ztype=0} mapmatches=
+[probe] function_name=answer
+[probe] op_array=0xda080f8 last=7 opcodes=0xda09a90 filename=0xda05668
+[probe] filename: corpus/own_sources/05_inheritance.php
+[probe] compiled_vars=0x0 last_var=0
+[probe] #00 opcode=109 handler=0x0 line=3 extended=2 result{node_type=1,val=0x200000000,len=0,ztype=0} op1{node_type=8,val=0x0,len=0,ztype=0} op2{node_type=8,val=0x0,len=0,ztype=0} mapmatches=
+[probe] #01 opcode=113 handler=0x0 line=3 extended=0 result{node_type=8,val=0x0,len=0,ztype=0} op1{node_type=1,val=0x200000000,len=0,ztype=0} op2{node_type=1,val=0xda08058,len=6,ztype=6} hex=616e73776572 mapmatches=
+[probe] #02 opcode=61 handler=0x0 line=3 extended=0 result{node_type=4,val=0x28,len=0,ztype=0} op1{node_type=8,val=0x0,len=0,ztype=0} op2{node_type=8,val=0x0,len=0,ztype=0} mapmatches=
+[probe] #03 opcode=1 handler=0x0 line=3 extended=0 result{node_type=2,val=0x50,len=0,ztype=0} op1{node_type=4,val=0x800000028,len=0,ztype=0} op2{node_type=1,val=0x1,len=1,ztype=1} mapmatches=
+[probe] #04 opcode=62 handler=0x0 line=3 extended=0 result{node_type=8,val=0x0,len=0,ztype=0} op1{node_type=2,val=0x50,len=0,ztype=0} op2{node_type=8,val=0x0,len=0,ztype=0} mapmatches=
+[probe] #05 opcode=62 handler=0x0 line=3 extended=0 result{node_type=8,val=0x0,len=0,ztype=0} op1{node_type=1,val=0x0,len=0,ztype=0} op2{node_type=8,val=0x0,len=0,ztype=0} mapmatches=
+[probe] #06 opcode=149 handler=0x0 line=3 extended=0 result{node_type=8,val=0x0,len=0,ztype=0} op1{node_type=8,val=0x0,len=0,ztype=0} op2{node_type=8,val=0x0,len=0,ztype=0} mapmatches=
+[probe] function_name=<main>
+[probe] op_array=0xda05500 last=5 opcodes=0xda05720 filename=0xda05668
+[probe] filename: corpus/own_sources/05_inheritance.php
+[probe] compiled_vars=0x0 last_var=0
+[probe] #00 opcode=0 handler=0x0 line=2 extended=0 result{node_type=1,val=0x0,len=0,ztype=0} op1{node_type=8,val=0x0,len=0,ztype=0} op2{node_type=8,val=0x0,len=0,ztype=0} candidate_INCLUDE_OR_EVAL_handler=0x5baa00 same=0 candidate_RETURN_handler=0x5baa00 same=0 mapmatches=
+[probe] #01 opcode=0 handler=0x0 line=3 extended=4 result{node_type=8,val=0x400000028,len=0,ztype=0} op1{node_type=8,val=0x0,len=0,ztype=0} op2{node_type=8,val=0x0,len=0,ztype=0} candidate_INCLUDE_OR_EVAL_handler=0x5baa00 same=0 candidate_RETURN_handler=0x5baa00 same=0 mapmatches=
+[probe] #02 opcode=0 handler=0x0 line=3 extended=40 result{node_type=1,val=0x50,len=0,ztype=0} op1{node_type=8,val=0x0,len=0,ztype=0} op2{node_type=8,val=0x0,len=0,ztype=0} candidate_INCLUDE_OR_EVAL_handler=0x5baa00 same=0 candidate_RETURN_handler=0x5baa00 same=0 mapmatches=
+[probe] #03 opcode=62 handler=0x0 line=4 extended=0 result{node_type=8,val=0x0,len=0,ztype=0} op1{node_type=1,val=0x1,len=1978608256,ztype=1} op2{node_type=8,val=0x0,len=0,ztype=0} mapmatches=
+[probe] #04 opcode=149 handler=0x0 line=4 extended=0 result{node_type=8,val=0x0,len=0,ztype=0} op1{node_type=8,val=0x0,len=0,ztype=0} op2{node_type=8,val=0x0,len=0,ztype=0} mapmatches=
+No syntax errors detected in corpus/own_sources/05_inheritance.php

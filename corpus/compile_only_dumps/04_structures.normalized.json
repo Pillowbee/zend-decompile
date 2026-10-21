@@ -1,0 +1,199 @@
+{
+  "format": "php52-native-oparray-probe-v1",
+  "groups": [
+    {
+      "name": "unpack_pair",
+      "opcodes": [
+        {
+          "index": 0,
+          "opcode": 63,
+          "line": 2,
+          "extended": 0
+        },
+        {
+          "index": 1,
+          "opcode": 81,
+          "line": 3,
+          "extended": 1
+        },
+        {
+          "index": 2,
+          "opcode": 38,
+          "line": 3,
+          "extended": 0
+        },
+        {
+          "index": 3,
+          "opcode": 81,
+          "line": 3,
+          "extended": 1
+        },
+        {
+          "index": 4,
+          "opcode": 38,
+          "line": 3,
+          "extended": 0
+        },
+        {
+          "index": 5,
+          "opcode": 115,
+          "line": 4,
+          "extended": 1
+        },
+        {
+          "index": 6,
+          "opcode": 46,
+          "line": 4,
+          "extended": 0
+        },
+        {
+          "index": 7,
+          "opcode": 115,
+          "line": 4,
+          "extended": 2
+        },
+        {
+          "index": 8,
+          "opcode": 13,
+          "line": 4,
+          "extended": 0
+        },
+        {
+          "index": 9,
+          "opcode": 52,
+          "line": 4,
+          "extended": 0
+        },
+        {
+          "index": 10,
+          "opcode": 43,
+          "line": 4,
+          "extended": 0
+        },
+        {
+          "index": 11,
+          "opcode": 62,
+          "line": 4,
+          "extended": 0
+        },
+        {
+          "index": 12,
+          "opcode": 42,
+          "line": 4,
+          "extended": 0
+        },
+        {
+          "index": 13,
+          "opcode": 62,
+          "line": 5,
+          "extended": 0
+        },
+        {
+          "index": 14,
+          "opcode": 62,
+          "line": 6,
+          "extended": 0
+        },
+        {
+          "index": 15,
+          "opcode": 149,
+          "line": 6,
+          "extended": 0
+        }
+      ],
+      "compiled_vars": [
+        {
+          "index": 0,
+          "name_hex": "696e707574"
+        },
+        {
+          "index": 1,
+          "name_hex": "61"
+        },
+        {
+          "index": 2,
+          "name_hex": "62"
+        }
+      ]
+    },
+    {
+      "name": "<main>",
+      "opcodes": [
+        {
+          "index": 0,
+          "opcode": 0,
+          "line": 2,
+          "extended": 141
+        },
+        {
+          "index": 1,
+          "opcode": 109,
+          "line": 7,
+          "extended": 4
+        },
+        {
+          "index": 2,
+          "opcode": 68,
+          "line": 7,
+          "extended": 0
+        },
+        {
+          "index": 3,
+          "opcode": 65,
+          "line": 7,
+          "extended": 61
+        },
+        {
+          "index": 4,
+          "opcode": 61,
+          "line": 7,
+          "extended": 1
+        },
+        {
+          "index": 5,
+          "opcode": 108,
+          "line": 7,
+          "extended": 0
+        },
+        {
+          "index": 6,
+          "opcode": 42,
+          "line": 7,
+          "extended": 0
+        },
+        {
+          "index": 7,
+          "opcode": 109,
+          "line": 7,
+          "extended": 132
+        },
+        {
+          "index": 8,
+          "opcode": 107,
+          "line": 7,
+          "extended": 10
+        },
+        {
+          "index": 9,
+          "opcode": 40,
+          "line": 7,
+          "extended": 0
+        },
+        {
+          "index": 10,
+          "opcode": 62,
+          "line": 8,
+          "extended": 0
+        },
+        {
+          "index": 11,
+          "opcode": 149,
+          "line": 8,
+          "extended": 0
+        }
+      ],
+      "compiled_vars": []
+    }
+  ],
+  "total_instructions": 28
+}

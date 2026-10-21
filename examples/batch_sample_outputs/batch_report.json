@@ -1,0 +1,119 @@
+{
+  "version": "v20",
+  "total": 11,
+  "generated": 8,
+  "unsupported": 2,
+  "not_encoded": 1,
+  "empirical_opcode_mapping": true,
+  "semantic_equivalence_proven": false,
+  "files": [
+    {
+      "source": "basket.php",
+      "sha256": "f7e848f39dac0f87e4ef7fe3604e6661e6bd8edd7782b0804f714ae811ce8203",
+      "status": "candidate_generated",
+      "behavior_checked": false,
+      "syntax_checked": true,
+      "syntax_passed": true,
+      "output": "basket.php",
+      "serialized_instructions": 270,
+      "audit": "_audits/basket.json"
+    },
+    {
+      "source": "course_get.php",
+      "sha256": "0d5ef7ea17ef2eef826d758929dcd7c0ed8f9f83da08a9f99ad517bc758fca09",
+      "status": "candidate_generated",
+      "behavior_checked": false,
+      "syntax_checked": true,
+      "syntax_passed": true,
+      "output": "course_get.php",
+      "serialized_instructions": 59,
+      "audit": "_audits/course_get.json"
+    },
+    {
+      "source": "fun_all.php",
+      "sha256": "2e3a30bee58e1f2169b168441819f0f342904ba9958a8cd7ed6648ef9eb0dc72",
+      "status": "unsupported",
+      "behavior_checked": false,
+      "reason": "Unsupported: Cannot restore out_link: structured: out_link block B016: Unresolved temporary (2, 0, 0); state fallback: Unresolved temporary (2, 0, 0)"
+    },
+    {
+      "source": "get_wares.php",
+      "sha256": "71ed43508bcdfdb4f68c4940bae62532264690dd13f41738150cbc2a4a82c569",
+      "status": "candidate_generated",
+      "behavior_checked": false,
+      "syntax_checked": true,
+      "syntax_passed": true,
+      "output": "get_wares.php",
+      "serialized_instructions": 488,
+      "audit": "_audits/get_wares.json"
+    },
+    {
+      "source": "gr_wares1.php",
+      "sha256": "2d5e3bdf21bb1eea6935ca5ec5350382ef2684239568674a99621dd0625c2d54",
+      "status": "candidate_generated",
+      "behavior_checked": false,
+      "syntax_checked": true,
+      "syntax_passed": true,
+      "output": "gr_wares1.php",
+      "serialized_instructions": 870,
+      "audit": "_audits/gr_wares1.json"
+    },
+    {
+      "source": "header_admin.php",
+      "sha256": "4ec12441d7cf0b2645052f8d6def7de1a21a12d17082e213696444a14dcc8110",
+      "status": "not_encoded",
+      "behavior_checked": false
+    },
+    {
+      "source": "header_index(1).php",
+      "sha256": "1c5fa919febfd89b0c662d1052919fc6b516c4a3337ab98e796f156f32378b5b",
+      "status": "candidate_generated",
+      "behavior_checked": false,
+      "syntax_checked": true,
+      "syntax_passed": true,
+      "output": "header_index(1).php",
+      "serialized_instructions": 12,
+      "audit": "_audits/header_index(1).json"
+    },
+    {
+      "source": "import(1).php",
+      "sha256": "c04564a8e50cad0a1106eaa82e2d91dba576d1317f0e783a21284281c877b919",
+      "status": "candidate_generated",
+      "behavior_checked": false,
+      "syntax_checked": true,
+      "syntax_passed": true,
+      "output": "import(1).php",
+      "serialized_instructions": 917,
+      "audit": "_audits/import(1).json"
+    },
+    {
+      "source": "links_fun(1).php",
+      "sha256": "acebeca1aa9bcc86c9c0d6d42e1ee03609466146074ad6cb8edcfed039678f56",
+      "status": "unsupported",
+      "behavior_checked": false,
+      "reason": "Unsupported: Cannot restore <main>: structured: <main> block B012: SEND without call; state fallback: SEND without call"
+    },
+    {
+      "source": "orders_admin.php",
+      "sha256": "873af19873ab0b98d6aa9ef9d46529a6c43fffd9122bc9a880dd1f3c39243eff",
+      "status": "candidate_generated",
+      "behavior_checked": false,
+      "syntax_checked": true,
+      "syntax_passed": true,
+      "output": "orders_admin.php",
+      "serialized_instructions": 336,
+      "audit": "_audits/orders_admin.json"
+    },
+    {
+      "source": "user.php",
+      "sha256": "e3476b2c0d422652576f26649badfdb7d94fae77aa303602c503f359905cc065",
+      "status": "candidate_generated",
+      "behavior_checked": false,
+      "syntax_checked": true,
+      "syntax_passed": true,
+      "output": "user.php",
+      "serialized_instructions": 282,
+      "audit": "_audits/user.json"
+    }
+  ]
+}

@@ -1,0 +1,25 @@
+[probe] startup=0x165db150 size=208
+[probe] activate
+[probe] function_name=f
+[probe] op_array=0x166e5130 last=5 opcodes=0x166c0550 filename=0x166be638
+[probe] filename: corpus/own_sources/01_calls.php
+[probe] compiled_vars=0x166c2468 last_var=1
+[probe] compiled_var idx=0 len=1 hex=78
+[probe] #00 opcode=63 handler=0x0 line=2 extended=0 result{node_type=16,val=0x100000000,len=1526265044,ztype=0} op1{node_type=1,val=0x1,len=1526268208,ztype=1} op2{node_type=8,val=0x0,len=0,ztype=0} mapmatches=
+[probe] #01 opcode=1 handler=0x0 line=2 extended=0 result{node_type=2,val=0x0,len=0,ztype=0} op1{node_type=16,val=0x1000000000,len=1,ztype=6} op2{node_type=1,val=0x1,len=1,ztype=1} mapmatches=
+[probe] #02 opcode=62 handler=0x0 line=2 extended=0 result{node_type=8,val=0x0,len=0,ztype=0} op1{node_type=2,val=0x0,len=0,ztype=0} op2{node_type=8,val=0x0,len=0,ztype=0} mapmatches=
+[probe] #03 opcode=62 handler=0x0 line=2 extended=0 result{node_type=8,val=0x0,len=0,ztype=0} op1{node_type=1,val=0x0,len=0,ztype=0} op2{node_type=8,val=0x0,len=0,ztype=0} mapmatches=
+[probe] #04 opcode=149 handler=0x0 line=2 extended=0 result{node_type=8,val=0x0,len=0,ztype=0} op1{node_type=8,val=0x0,len=0,ztype=0} op2{node_type=8,val=0x0,len=0,ztype=0} mapmatches=
+[probe] function_name=<main>
+[probe] op_array=0x166be4d0 last=7 opcodes=0x166be6e0 filename=0x166be638
+[probe] filename: corpus/own_sources/01_calls.php
+[probe] compiled_vars=0x166c07b8 last_var=1
+[probe] compiled_var idx=0 len=1 hex=61
+[probe] #00 opcode=0 handler=0x0 line=2 extended=141 result{node_type=8,val=0x0,len=0,ztype=0} op1{node_type=8,val=0x0,len=0,ztype=0} op2{node_type=8,val=0x0,len=0,ztype=0} candidate_INCLUDE_OR_EVAL_handler=0x5baa00 same=0 candidate_RETURN_handler=0x5baa00 same=0 mapmatches=
+[probe] #01 opcode=65 handler=0x0 line=3 extended=60 result{node_type=8,val=0x0,len=0,ztype=0} op1{node_type=1,val=0x2,len=1,ztype=1} op2{node_type=8,val=0x1,len=0,ztype=0} mapmatches=
+[probe] #02 opcode=60 handler=0x0 line=3 extended=1 result{node_type=4,val=0x0,len=0,ztype=0} op1{node_type=1,val=0x166c0948,len=1,ztype=6} hex=66 op2{node_type=8,val=0x0,len=0,ztype=0} mapmatches=
+[probe] #03 opcode=38 handler=0x0 line=3 extended=0 result{node_type=4,val=0x100000028,len=0,ztype=0} op1{node_type=16,val=0x1000000000,len=1,ztype=6} op2{node_type=4,val=0x800000000,len=0,ztype=0} mapmatches=
+[probe] #04 opcode=40 handler=0x0 line=4 extended=0 result{node_type=8,val=0x0,len=0,ztype=0} op1{node_type=16,val=0x1000000000,len=1,ztype=6} op2{node_type=8,val=0x0,len=0,ztype=0} mapmatches=
+[probe] #05 opcode=62 handler=0x0 line=5 extended=0 result{node_type=8,val=0x0,len=0,ztype=0} op1{node_type=1,val=0x1,len=1526273472,ztype=1} op2{node_type=8,val=0x0,len=0,ztype=0} mapmatches=
+[probe] #06 opcode=149 handler=0x0 line=5 extended=0 result{node_type=8,val=0x0,len=0,ztype=0} op1{node_type=8,val=0x0,len=0,ztype=0} op2{node_type=8,val=0x0,len=0,ztype=0} mapmatches=
+No syntax errors detected in corpus/own_sources/01_calls.php

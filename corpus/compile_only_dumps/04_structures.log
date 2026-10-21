@@ -1,0 +1,42 @@
+[probe] startup=0x16599150 size=208
+[probe] activate
+[probe] function_name=unpack_pair
+[probe] op_array=0x166a30b0 last=16 opcodes=0x1667e590 filename=0x1667c668
+[probe] filename: corpus/own_sources/04_structures.php
+[probe] compiled_vars=0x166804e0 last_var=3
+[probe] compiled_var idx=0 len=5 hex=696e707574
+[probe] compiled_var idx=1 len=1 hex=61
+[probe] compiled_var idx=2 len=1 hex=62
+[probe] #00 opcode=63 handler=0x0 line=2 extended=0 result{node_type=16,val=0x100000000,len=4229168,ztype=254} op1{node_type=1,val=0x1,len=0,ztype=1} op2{node_type=8,val=0x0,len=0,ztype=0} mapmatches=
+[probe] #01 opcode=81 handler=0x0 line=3 extended=1 result{node_type=4,val=0x0,len=0,ztype=0} op1{node_type=16,val=0x1000000000,len=5,ztype=6} op2{node_type=1,val=0x1,len=0,ztype=1} mapmatches=
+[probe] #02 opcode=38 handler=0x0 line=3 extended=0 result{node_type=4,val=0x100000028,len=0,ztype=0} op1{node_type=16,val=0x1000000002,len=1,ztype=6} op2{node_type=4,val=0x0,len=0,ztype=0} mapmatches=
+[probe] #03 opcode=81 handler=0x0 line=3 extended=1 result{node_type=4,val=0x50,len=0,ztype=0} op1{node_type=16,val=0x1000000000,len=5,ztype=6} op2{node_type=1,val=0x0,len=0,ztype=1} mapmatches=
+[probe] #04 opcode=38 handler=0x0 line=3 extended=0 result{node_type=4,val=0x100000078,len=0,ztype=0} op1{node_type=16,val=0x1000000001,len=1,ztype=6} op2{node_type=4,val=0x50,len=0,ztype=0} mapmatches=
+[probe] #05 opcode=115 handler=0x0 line=4 extended=1 result{node_type=2,val=0xa0,len=0,ztype=0} op1{node_type=16,val=0x0,len=5,ztype=6} op2{node_type=1,val=0x0,len=5,ztype=1} mapmatches=
+[probe] #06 opcode=46 handler=0x0 line=4 extended=0 result{node_type=2,val=0xa0,len=0,ztype=0} op1{node_type=2,val=0xa0,len=0,ztype=0} op2{node_type=8,val=0xa,len=0,ztype=0} mapmatches=
+[probe] #07 opcode=115 handler=0x0 line=4 extended=2 result{node_type=2,val=0xc8,len=0,ztype=0} op1{node_type=16,val=0x0,len=5,ztype=6} op2{node_type=1,val=0x1,len=5,ztype=1} mapmatches=
+[probe] #08 opcode=13 handler=0x0 line=4 extended=0 result{node_type=2,val=0xf0,len=0,ztype=0} op1{node_type=2,val=0xc8,len=0,ztype=0} op2{node_type=8,val=0x0,len=0,ztype=0} mapmatches=
+[probe] #09 opcode=52 handler=0x0 line=4 extended=0 result{node_type=2,val=0xa0,len=0,ztype=0} op1{node_type=2,val=0xf0,len=0,ztype=0} op2{node_type=8,val=0x0,len=0,ztype=0} mapmatches=
+[probe] #10 opcode=43 handler=0x0 line=4 extended=0 result{node_type=8,val=0x0,len=0,ztype=0} op1{node_type=2,val=0xa0,len=0,ztype=0} op2{node_type=8,val=0xd,len=0,ztype=0} mapmatches=
+[probe] #11 opcode=62 handler=0x0 line=4 extended=0 result{node_type=8,val=0x0,len=0,ztype=0} op1{node_type=16,val=0x1000000001,len=1,ztype=6} op2{node_type=8,val=0x0,len=0,ztype=0} mapmatches=
+[probe] #12 opcode=42 handler=0x0 line=4 extended=0 result{node_type=8,val=0x0,len=0,ztype=0} op1{node_type=8,val=0xd,len=0,ztype=0} op2{node_type=8,val=0x0,len=0,ztype=0} mapmatches=
+[probe] #13 opcode=62 handler=0x0 line=5 extended=0 result{node_type=8,val=0x0,len=0,ztype=0} op1{node_type=16,val=0x1000000002,len=1,ztype=6} op2{node_type=8,val=0x0,len=0,ztype=0} mapmatches=
+[probe] #14 opcode=62 handler=0x0 line=6 extended=0 result{node_type=8,val=0x0,len=0,ztype=0} op1{node_type=1,val=0x0,len=0,ztype=0} op2{node_type=8,val=0x0,len=0,ztype=0} mapmatches=
+[probe] #15 opcode=149 handler=0x0 line=6 extended=0 result{node_type=8,val=0x0,len=0,ztype=0} op1{node_type=8,val=0x0,len=0,ztype=0} op2{node_type=8,val=0x0,len=0,ztype=0} mapmatches=
+[probe] function_name=<main>
+[probe] op_array=0x1667c500 last=12 opcodes=0x1667c720 filename=0x1667c668
+[probe] filename: corpus/own_sources/04_structures.php
+[probe] compiled_vars=0x0 last_var=0
+[probe] #00 opcode=0 handler=0x0 line=2 extended=141 result{node_type=8,val=0x0,len=0,ztype=0} op1{node_type=8,val=0x0,len=0,ztype=0} op2{node_type=8,val=0x0,len=0,ztype=0} candidate_INCLUDE_OR_EVAL_handler=0x5baa00 same=0 candidate_RETURN_handler=0x5baa00 same=0 mapmatches=
+[probe] #01 opcode=109 handler=0x0 line=7 extended=4 result{node_type=1,val=0x400000000,len=0,ztype=0} op1{node_type=8,val=0x0,len=0,ztype=0} op2{node_type=1,val=0x166809c8,len=9,ztype=6} hex=457863657074696f6e mapmatches=
+[probe] #02 opcode=68 handler=0x0 line=7 extended=0 result{node_type=4,val=0x28,len=0,ztype=0} op1{node_type=1,val=0x400000000,len=0,ztype=0} op2{node_type=8,val=0x5,len=0,ztype=0} mapmatches=
+[probe] #03 opcode=65 handler=0x0 line=7 extended=61 result{node_type=8,val=0x0,len=0,ztype=0} op1{node_type=1,val=0x1667ed40,len=4,ztype=6} hex=64656d6f op2{node_type=8,val=0x1,len=0,ztype=0} mapmatches=
+[probe] #04 opcode=61 handler=0x0 line=7 extended=1 result{node_type=4,val=0x100000050,len=0,ztype=0} op1{node_type=8,val=0x0,len=0,ztype=0} op2{node_type=8,val=0x0,len=0,ztype=0} mapmatches=
+[probe] #05 opcode=108 handler=0x0 line=7 extended=0 result{node_type=8,val=0x0,len=0,ztype=0} op1{node_type=4,val=0x28,len=0,ztype=0} op2{node_type=8,val=0x0,len=0,ztype=0} mapmatches=
+[probe] #06 opcode=42 handler=0x0 line=7 extended=0 result{node_type=8,val=0x0,len=0,ztype=0} op1{node_type=8,val=0xa,len=0,ztype=0} op2{node_type=8,val=0x0,len=0,ztype=0} mapmatches=
+[probe] #07 opcode=109 handler=0x0 line=7 extended=132 result{node_type=1,val=0x400000078,len=0,ztype=0} op1{node_type=8,val=0x0,len=0,ztype=0} op2{node_type=1,val=0x1667ed20,len=9,ztype=6} hex=457863657074696f6e mapmatches=
+[probe] #08 opcode=107 handler=0x0 line=7 extended=10 result{node_type=8,val=0x0,len=0,ztype=0} op1{node_type=1,val=0x100000078,len=0,ztype=0} op2{node_type=1,val=0x1667ed60,len=1,ztype=6} hex=65 mapmatches=
+[probe] #09 opcode=40 handler=0x0 line=7 extended=0 result{node_type=8,val=0x0,len=0,ztype=0} op1{node_type=1,val=0x1667ed80,len=6,ztype=6} hex=636175676874 op2{node_type=8,val=0x0,len=0,ztype=0} mapmatches=
+[probe] #10 opcode=62 handler=0x0 line=8 extended=0 result{node_type=8,val=0x0,len=0,ztype=0} op1{node_type=1,val=0x1,len=3148616864,ztype=1} op2{node_type=8,val=0x0,len=0,ztype=0} mapmatches=
+[probe] #11 opcode=149 handler=0x0 line=8 extended=0 result{node_type=8,val=0x0,len=0,ztype=0} op1{node_type=8,val=0x0,len=0,ztype=0} op2{node_type=8,val=0x0,len=0,ztype=0} mapmatches=
+No syntax errors detected in corpus/own_sources/04_structures.php

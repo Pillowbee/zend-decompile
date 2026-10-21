@@ -1,0 +1,45 @@
+{
+  "kind": "OWN_SOURCE_COMPILE_ONLY_NOT_DECOMPILER_INPUT",
+  "programs": [
+    {
+      "name": "01_calls.php",
+      "sha256": "e318d47a4cd01881904067d2dceb89946c763753c21782765d43bbef5212b0f6",
+      "compile_only_passed": true,
+      "function_count": 1,
+      "group_count": 2,
+      "native_opcode_count": 12
+    },
+    {
+      "name": "02_foreach.php",
+      "sha256": "f1caaad4a66dc8dd857e2b0eb6e752c80000f6de038bea6fa5fa2c4959b9a732",
+      "compile_only_passed": true,
+      "function_count": 0,
+      "group_count": 1,
+      "native_opcode_count": 12
+    },
+    {
+      "name": "03_flow.php",
+      "sha256": "3b8631ca1dc6ae94307d55d692f9ab861771267cebc27146a91073a1ee5fe1e0",
+      "compile_only_passed": true,
+      "function_count": 1,
+      "group_count": 2,
+      "native_opcode_count": 26
+    },
+    {
+      "name": "04_structures.php",
+      "sha256": "bbee1684b744627097c7cd9073678e4980cae7dfae1de36f6b17df3f6f496279",
+      "compile_only_passed": true,
+      "function_count": 1,
+      "group_count": 2,
+      "native_opcode_count": 28
+    },
+    {
+      "name": "05_inheritance.php",
+      "sha256": "4a66605a681b94825ed651b91582da3e3965f952a636bba6bdae6966020e7dfb",
+      "compile_only_passed": true,
+      "function_count": 2,
+      "group_count": 3,
+      "native_opcode_count": 15
+    }
+  ]
+}

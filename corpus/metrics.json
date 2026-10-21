@@ -1,0 +1,14 @@
+{
+  "total_own_files": 5,
+  "total_own_functions": 5,
+  "compile_only_files": 5,
+  "compile_only_functions": 5,
+  "restoration_eligible_files": 0,
+  "restoration_eligible_functions": 0,
+  "restoration_success_fraction_files": null,
+  "restoration_success_fraction_functions": null,
+  "round_trip": {
+    "status": "not_run",
+    "reason": "No verified adapter from PHP 5.2 native op_array dump to SSG Team serialized operand format"
+  }
+}
