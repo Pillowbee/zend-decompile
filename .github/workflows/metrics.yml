@@ -69,3 +69,32 @@ jobs:
                   if not group['generated']:
                       print(f"UNSUPPORTED_GROUP {filename} {group['name']}: {group.get('failure', '?')[:250]}")
           PY
+      - name: Inspect opaque call operand layout without printing literals
+        env:
+          PYTHONPATH: src
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          from zend_decompiler.assets import DICTIONARY, OPCODE_MAP
+          from zend_decompiler.serial_parser import decompress_encoded, parse_binary
+          from zend_decompiler.calibrate import choose_opcode
+          mapping=json.loads(OPCODE_MAP.read_text())
+          targets={'links_fun(1).php':{'<main>':12,'count_ln_out':1},
+                   'fun_all.php':{'path_groups':25,'out_replace_files':31,'minmax_price':43}}
+          def shape(n):
+              return {'kind':n['type'], 'words':[n.get('word0'),n.get('word1')] if n['type']!=1 else None,
+                      'constant_kind': n.get('constant',{}).get('kind') if n['type']==1 else None}
+          for filename,locations in targets.items():
+              parsed=parse_binary(decompress_encoded(Path('sample_inputs')/filename,DICTIONARY.read_bytes())[0][1])
+              groups={'<main>':parsed['main']}
+              groups.update({bytes.fromhex(g['name_hex']).decode('ascii'):g for g in parsed['functions']})
+              for name,center in locations.items():
+                  ops=groups[name]['opcodes']
+                  for op in ops[max(0,center-3):min(len(ops),center+5)]:
+                      num=choose_opcode(op,mapping)
+                      print('CALL_CONTEXT',filename,name,op['index'],mapping['names'].get(str(num),f'OP_{num}'),
+                            'key',f"{op['index']%8}:{op['encoded_opcode']}",
+                            'op1',shape(op['op1']),'op2',shape(op['op2']),
+                            'result',shape(op['result']),'extended',op['extended_value'])
+          PY
