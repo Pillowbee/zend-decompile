@@ -5,7 +5,7 @@ Function fragments are EXPERIMENTAL, unverified, and never exported as .php.
 from __future__ import annotations
 from pathlib import Path
 import tempfile
-from zend_research import research
+from .research import research
 
 
 def partial_text(source:Path,dictionary:Path,mapping:Path) -> tuple[bytes,dict]:

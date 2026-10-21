@@ -8,13 +8,13 @@ from __future__ import annotations
 import hashlib, json
 from collections import Counter
 from pathlib import Path
-from zend_serial_parser import decompress_encoded, parse_binary
-from zend_calibrate import choose_opcode
-from zend_cfg import cfg_for_group
-from zend_crossblock import join_proofs
-from zend_prefix_restore import Decoder, Unsupported, sym
-from zend_structure import Emitter, build_graph, insist, StructureError
-from zend_state import state_emit
+from .serial_parser import decompress_encoded, parse_binary
+from .calibrate import choose_opcode
+from .cfg import cfg_for_group
+from .crossblock import join_proofs
+from .prefix_restore import Decoder, Unsupported, sym
+from .structure import Emitter, build_graph, insist, StructureError
+from .state import state_emit
 
 def function_parameters(group: dict) -> list[bytes]:
     ops = group['opcodes']
@@ -84,7 +84,7 @@ def build_group(group: dict, mapping: dict, name: str):
     return body, audit
 
 def function_parameters_after_decode(group,mapping):
-    from zend_calibrate import choose_opcode
+    from .calibrate import choose_opcode
     for op in group['opcodes']:
         op['decoded_opcode']=choose_opcode(op,mapping)
         op['_decoded_name']=mapping['names'].get(str(op['decoded_opcode']))

@@ -9,26 +9,32 @@
 - Кандидат PHP, его синтаксическая валидность и совпадение с golden **не равнозначны** поведенческой эквивалентности исходной программы. Никакого подтверждённого source → encoded Zend stream → decompiled source round-trip пока нет.
 - Недоверенный/защищённый PHP и восстановленные кандидаты **не исполнять**. Допускается только статический разбор, а для синтаксиса — отдельно согласованный PHP `-n -l` без исполнения. `--isolate-parser` ограничивает первичный разбор на Linux, но не является общей песочницей.
 
-## 2. Актуальная архитектура
+## 2. Актуальная архитектура и структура исходников
+
+Рабочий код упакован как стандартный Python-пакет `src/zend_decompiler/`; **в корне нет исполняемых Python-модулей**. Импорты внутри пакета относительные, установка выполняется через `pip install -e .` или сборку wheel. `pyproject.toml` определяет entry-point `zend-decompiler = "zend_decompiler.cli:main"`; альтернативный запуск — `python -m zend_decompiler`.
 
 ```text
-zend_cli.py ────────────────> zend_engine.restore_result()  [единая точка API]
-   │                            │
-   ├── zend_batch.py            ├── zend_serial_parser.py (+ isolated preflight)
-   │                            ├── zend_calibrate.py (+ opcode evidence)
-   │                            └── zend_restore_core.restore()
-   │                                ├── zend_prefix_restore.py [выражения/TMP/VAR]
-   │                                ├── zend_cfg.py [CFG]
-   │                                ├── zend_crossblock.py [межблочные связи]
-   │                                ├── zend_structure.py [структуры]
-   │                                └── zend_state.py [консервативная эмиссия]
-   └── dataflow/triage ─────> отдельные read-only анализаторы
+src/zend_decompiler/
+  __init__.py, __main__.py   публичный Python API и модульный запуск
+  cli.py ────────────────> engine.restore_result() [единая точка восстановления]
+   │                         ├── serial_parser.py (+ parser_isolated.py)
+   ├── batch.py              ├── calibrate.py (+ evidence из data/opcodes/)
+   │                         └── restore_core.py
+   │                              ├── prefix_restore.py [выражения/TMP/VAR]
+   │                              ├── cfg.py [CFG], crossblock.py [связи]
+   │                              └── structure.py, state.py [эмиссия]
+   └── readonly_dataflow.py, triage.py, ir_evidence.py [read-only]
+  assets.py                  пути к словарю, карте, тестовым эталонам
+  block_previews.py, research.py, fuzz.py, alignment_audit.py,
+  header_audit.py, compiler_oracle.py, partial.py [исследования]
+data/opcodes/, data/research/ данные отдельно от Python-кода
+tests/, golden/reference/     неизменённые регрессионные объекты
+sample_inputs/, corpus/       испытательные входы и собственные фикстуры
 ```
 
-- `zend_assets.py` централизует текущую карту opcode, словарь, схемы и golden-пути.
-- `zend_readonly_dataflow.py`, `zend_triage.py`, `zend_ir_evidence.py`, `zend_block_previews.py`, `zend_alignment_audit.py`, `zend_header_audit.py`, `zend_compiler_oracle.py`, `zend_fuzz.py`, `zend_research.py` — специализированные диагностики/исследовательские утилиты. Их вывод **не** автоматически разрешает генерацию PHP.
-- Публичный Python API: `zend_engine.RestoreResult` / `restore_result()`. Отдельных устаревших восстановителей и исполняемых `*_vNN.py` в корне нет.
-- `pyproject.toml` описывает пакет `zend-decompiler-experimental`, версию `28.0.0`, Python >= 3.10 и `networkx>=2.8`. GitHub Actions проверяет Python 3.10/3.11/3.12.
+Публичный API: `zend_decompiler.restore_result()`, `zend_decompiler.RestoreResult`; реализация в `zend_decompiler.engine`. Исследовательские CLI запускаются как `python -m zend_decompiler.<имя_модуля>` (например, `zend_decompiler.triage`), а не исполнением внутренних файлов по абсолютному пути. Изолированный парсер также использует `-m zend_decompiler.parser_isolated`.
+
+Тесты теперь импортируют только `zend_decompiler.*`. Ранее существовавшие `zend_*.py` в корне полностью удалены после проверки поведенческой идентичности. Формат `data/`, `golden/` и SHA-256 доказательств не изменён. Сборка wheel и запуск CLI из отдельного окружения проверены; GitHub Actions устанавливает пакет в editable-режиме на Python 3.10–3.12.
 
 ## 3. Проверенная регрессия, а не обещание корректности
 
@@ -36,7 +42,7 @@ zend_cli.py ────────────────> zend_engine.restor
 
 | Контроль | Зафиксированный результат |
 |---|---|
-| `python -m unittest discover -s tests -q` | **76 тестов: 73 успешно, 3 пропущены, 0 ошибок** |
+| `python -m unittest discover -s tests -q` | **79 тестов: 76 успешно, 3 пропущены, 0 ошибок** |
 | `python zend_cli.py validate` | Тот же набор |
 | `python zend_cli.py batch sample_inputs -o … --isolate-parser` | **11 входов: 8 кандидатов / 2 unsupported / 1 not_encoded**, ожидаемый exit code 2 |
 | 8 сгенерированных PHP-кандидатов | Совпадение с прежней кодогенерацией после исключения **только комментария версии** |
@@ -76,7 +82,7 @@ zend_cli.py ────────────────> zend_engine.restor
 - CFG: `EXIT = 79` является терминальным native opcode (обычное продолжение отсутствует); неподтверждённые рёбра для `BRK/CONT/FE_RESET/FE_FETCH/CATCH/THROW` должны приводить к консервативному отказу, а не к фиктивному fallthrough. **Native** семантика не подтверждает автоматически **Encoder** mapping.
 - Синтаксический reaching-definitions обрабатывает back-edges и вход `undefined` отдельно. Для чтения с несколькими возможными определениями сохраняет неоднозначность; не удаляет `undefined` и не генерирует фиктивный литерал.
 - Синтетическая ограниченная независимая проверка: **300/300** коротких CFG совпали между fixed-point и BFS-эталоном. Это свидетельство против локальных багов, но не всеобщее доказательство.
-- `zend_compiler_oracle.py` читает **compile-only native op_array** для *собственных* фикстур из `corpus/`. Адаптера native `op_array` → формат `SSG Team` и настоящего подтверждённого round-trip **нет**.
+- `src/zend_decompiler/compiler_oracle.py` читает **compile-only native op_array** для *собственных* фикстур из `corpus/`. Адаптера native `op_array` → формат `SSG Team` и настоящего подтверждённого round-trip **нет**.
 - Read-only инструменты должны сохранять контекст ошибки (operand-type, instruction index, путь, лимиты бюджета), не писать строковые литералы PHP/секреты и не воздействовать на PHP-эмиттер.
 
 ## 7. Приоритеты дальнейшего развития
@@ -114,3 +120,11 @@ JSON в **других каталогах** (`golden/reference/`, `corpus/`, `sc
 2. Если меняется формат `data/opcodes/`, вместе обновлять сериализатор, валидацию SHA-256, упаковку wheel, тесты и документацию; любое новое соответствие opcode требует независимого доказательства.
 3. Для исследовательских новых данных добавлять смысловой `records.<name>`, проверяемое происхождение и отдельную проверку; не возвращать разрозненные `validation_vNN.json` в корень.
 4. Повышать число **обоснованно** восстановленных конструкций, сохраняя fail-closed для неподтверждённых случаев. Факты из архивных экспериментов не превращать в «confirmed» автоматически.
+
+## 10. Правила размещения нового кода
+
+1. Новые исполняемые Python-модули размещать только в `src/zend_decompiler/`; импортировать внутри пакета относительно (`from .assets import …`).
+2. Для общих команд расширять `cli.py` и публичный `__main__.py`, не добавлять новые скрипты в корень.
+3. Регрессионные тесты — `tests/`; новые fixture/evidence — в соответствующих каталогах `data/`, `corpus/`, `golden/` без перезаписи проверенных байтов.
+4. При изменении точек входа, путей к данным или структуры пакета обязательно прогонять Python 3.10–3.12, `python -m zend_decompiler validate`, batch 8/2/1, сборку и smoke-test wheel.
+5. Изменение модульной структуры не является новым подтверждением семантики Zend Encoder: неизвестные opcode и отсутствие round-trip остаются ограничениями.

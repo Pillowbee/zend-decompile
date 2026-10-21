@@ -7,8 +7,8 @@ import hashlib, json, re, sys, unittest
 from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
-from zend_assets import GOLDEN, OPCODE_MAP, DICTIONARY
-from zend_engine import restore_result
+from zend_decompiler.assets import GOLDEN, OPCODE_MAP, DICTIONARY
+from zend_decompiler.engine import restore_result
 
 
 def neutralize_generator_comment(code: bytes) -> bytes:

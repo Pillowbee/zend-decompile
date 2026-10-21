@@ -4,8 +4,8 @@ import hashlib,json,sys,tempfile,unittest
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT))
-from zend_assets import OPCODE_MAP, OPCODE_METADATA, GOLDEN, SCHEMAS, ALIGNMENT_FIXTURE, BATCH_REPORT_FIXTURE
-from zend_compiler_oracle import (read_probe_log,ProbeFormatError,compile_own_fixture,
+from zend_decompiler.assets import OPCODE_MAP, OPCODE_METADATA, GOLDEN, SCHEMAS, ALIGNMENT_FIXTURE, BATCH_REPORT_FIXTURE
+from zend_decompiler.compiler_oracle import (read_probe_log,ProbeFormatError,compile_own_fixture,
                                   corpus_metrics,generate_fixture_manifest)
 
 class OwnOracleTests(unittest.TestCase):

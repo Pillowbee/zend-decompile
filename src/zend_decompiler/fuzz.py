@@ -11,8 +11,8 @@ import json
 import random
 from pathlib import Path
 
-from zend_serial_parser import parse_binary, decompress_encoded, FormatError
-from zend_parser_isolated import parse_isolated
+from .serial_parser import parse_binary, decompress_encoded, FormatError
+from .parser_isolated import parse_isolated
 
 ALLOWED=(ValueError,IndexError,KeyError,UnicodeError,OverflowError,RecursionError,MemoryError)
 

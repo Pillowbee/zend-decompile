@@ -13,9 +13,9 @@ import hashlib
 import json
 import re
 
-from zend_restore_core import restore as restore_candidate
-from zend_serial_parser import decompress_encoded, parse_binary, FormatError
-from zend_calibrate import choose_opcode
+from .restore_core import restore as restore_candidate
+from .serial_parser import decompress_encoded, parse_binary, FormatError
+from .calibrate import choose_opcode
 
 __version__ = '28.0.0'
 Status = Literal['candidate_generated', 'unsupported', 'not_encoded']
@@ -41,7 +41,7 @@ def inspect(source: Path, dictionary: Path, mapping: Path, *, window: int = 2, i
     if len(streams)!=1:
         raise FormatError(f'Expected one stream, observed {len(streams)}')
     if isolate_parser:
-        from zend_parser_isolated import parse_isolated
+        from .parser_isolated import parse_isolated
         preflight=parse_isolated(streams[0][1])
         if preflight['status']!='parsed':
             raise FormatError('Isolated parser preflight rejected input: '+preflight.get('reason','unknown'))
@@ -165,7 +165,7 @@ def restore_result(source: Path, dictionary: Path, mapping: Path, *, isolate_par
             group_match=re.search(r'Cannot restore\s+([^:]+):',str(exc))
             group_name=group_match.group(1) if group_match else '<main>'
             try:
-                from zend_cfg import cfg_for_group
+                from .cfg import cfg_for_group
                 raw=decompress_encoded(source,dictionary.read_bytes())
                 if len(raw)==1:
                     parsed=parse_binary(raw[0][1])

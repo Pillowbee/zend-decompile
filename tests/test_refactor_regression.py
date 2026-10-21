@@ -9,8 +9,8 @@ import hashlib, json, re, sys, unittest
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT))
-from zend_assets import OPCODE_MAP, DICTIONARY
-from zend_block_previews import run
+from zend_decompiler.assets import OPCODE_MAP, DICTIONARY
+from zend_decompiler.block_previews import run
 
 REFERENCE=json.loads((ROOT/'tests/fixtures/preview_completed_blocks.json').read_text(encoding='utf8'))
 
@@ -46,7 +46,7 @@ class RefactorRegression(unittest.TestCase):
         self.assertGreater(improvement,0,'Latest decoder should recover more blocks than former implementation')
 
     def test_public_version_agrees_with_package_metadata(self):
-        from zend_engine import __version__
+        from zend_decompiler.engine import __version__
         config=(ROOT/'pyproject.toml').read_text(encoding='utf8')
         declared=re.search(r'^version\s*=\s*"([0-9.]+)"',config,re.M)
         self.assertIsNotNone(declared)

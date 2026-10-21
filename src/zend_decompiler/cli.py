@@ -3,11 +3,11 @@
 from __future__ import annotations
 import argparse,json,sys
 from pathlib import Path
-from zend_engine import restore_result, __version__
-from zend_assets import GOLDEN, OPCODE_MAP, DICTIONARY, DATA_DIR
-from zend_batch import batch,atomic_bytes,write_candidate,syntax_check,json_bytes
+from .engine import restore_result, __version__
+from .assets import GOLDEN, OPCODE_MAP, DICTIONARY, DATA_DIR
+from .batch import batch,atomic_bytes,write_candidate,syntax_check,json_bytes
 
-BASE=Path(__file__).resolve().parent
+from .assets import BASE
 
 
 def main(argv=None):
@@ -44,13 +44,13 @@ def main(argv=None):
     align.add_argument('-o','--output',type=Path,required=True)
     a=p.parse_args(argv)
     if a.command=='dataflow':
-        from zend_readonly_dataflow import analyze_file
+        from .readonly_dataflow import analyze_file
         result=analyze_file(a.source,a.dictionary,a.map)
         atomic_bytes(a.output,json_bytes(result))
         print(f'Read-only CFG dataflow: {len(result["groups"])} groups; PHP output not generated')
         return 0
     if a.command=='align-archived':
-        from zend_alignment_audit import audit_alignment
+        from .alignment_audit import audit_alignment
         result=audit_alignment(BASE,a.data_root)
         atomic_bytes(a.output,json_bytes(result))
         print(f'Archived-trace audit: {result["serialized_instructions"]} instructions; no mappings changed')

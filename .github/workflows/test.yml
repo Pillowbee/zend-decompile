@@ -11,7 +11,9 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
-      - run: python -m pip install 'networkx>=2.8'
+      - run: python -m pip install -e .
       - run: python -m unittest discover -s tests -v
+      - run: python -m zend_decompiler --version
+      - run: python -m zend_decompiler validate
       # PHP 5.2 compiler and Zend-probe infrastructure are NOT on this runner.
       # Original encoded PHP and generated candidates MUST NOT be executed in CI.

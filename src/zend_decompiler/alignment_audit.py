@@ -13,9 +13,9 @@ from hashlib import sha256
 import json
 from pathlib import Path
 
-from zend_calibrate import read_trace, choose_opcode
-from zend_assets import OPCODE_MAP, DICTIONARY, BASE
-from zend_serial_parser import decompress_encoded, parse_binary
+from .calibrate import read_trace, choose_opcode
+from .assets import OPCODE_MAP, DICTIONARY, BASE
+from .serial_parser import decompress_encoded, parse_binary
 
 # Two explicitly observed native-stream insertions after FE_FETCH; this is a
 # trace alignment annotation, NOT an interpretation of the unknown encoded op.
@@ -134,7 +134,7 @@ def audit_alignment(project: Path, data_root: Path) -> dict:
 
 def main():
     ap=argparse.ArgumentParser(description=__doc__)
-    ap.add_argument('--project',type=Path,default=Path(__file__).resolve().parent)
+    ap.add_argument('--project',type=Path,default=BASE)
     ap.add_argument('--data-root',type=Path,default=Path('/mnt/data'))
     ap.add_argument('-o','--output',type=Path,required=True)
     ns=ap.parse_args()

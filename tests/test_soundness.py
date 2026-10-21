@@ -10,8 +10,8 @@ from pathlib import Path
 
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT))
-from zend_assets import OPCODE_MAP, OPCODE_METADATA, GOLDEN, SCHEMAS, ALIGNMENT_FIXTURE, BATCH_REPORT_FIXTURE
-from zend_readonly_dataflow import read_definitions, analyze_file, _validated_evidence
+from zend_decompiler.assets import OPCODE_MAP, OPCODE_METADATA, GOLDEN, SCHEMAS, ALIGNMENT_FIXTURE, BATCH_REPORT_FIXTURE
+from zend_decompiler.readonly_dataflow import read_definitions, analyze_file, _validated_evidence
 
 
 def unused(word0=0, word1=0):

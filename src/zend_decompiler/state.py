@@ -6,11 +6,11 @@ it does not fabricate unknown instructions or cross-block temporary values.
 """
 from __future__ import annotations
 
-from zend_cfg import cfg_for_group
-from zend_crossblock import join_proofs
-from zend_calibrate import choose_opcode
-from zend_prefix_restore import Decoder, Unsupported
-from zend_structure import build_graph, insist
+from .cfg import cfg_for_group
+from .crossblock import join_proofs
+from .calibrate import choose_opcode
+from .prefix_restore import Decoder, Unsupported
+from .structure import build_graph, insist
 from collections import Counter
 
 

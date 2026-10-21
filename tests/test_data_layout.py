@@ -6,7 +6,7 @@ import unittest
 from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
-from zend_assets import OPCODE_MAP, OPCODE_METADATA, ALIGNMENT_FIXTURE
+from zend_decompiler.assets import OPCODE_MAP, OPCODE_METADATA, ALIGNMENT_FIXTURE
 
 class DataLayoutTests(unittest.TestCase):
     def test_no_root_level_json_or_legacy_duplicate_map(self):

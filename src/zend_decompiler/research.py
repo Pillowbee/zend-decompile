@@ -3,12 +3,12 @@
 from __future__ import annotations
 import argparse,hashlib,json
 from pathlib import Path
-from zend_assets import OPCODE_MAP, DICTIONARY
-from zend_serial_parser import decompress_encoded,parse_binary
-from zend_calibrate import choose_opcode
-from zend_restore_core import build_group, function_parameters_after_decode
-from zend_state import state_emit
-from zend_engine import __version__
+from .assets import OPCODE_MAP, DICTIONARY
+from .serial_parser import decompress_encoded,parse_binary
+from .calibrate import choose_opcode
+from .restore_core import build_group, function_parameters_after_decode
+from .state import state_emit
+from .engine import __version__
 
 
 def research(source:Path, dictionary:Path, mapping_file:Path, out:Path):

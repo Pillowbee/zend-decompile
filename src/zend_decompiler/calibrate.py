@@ -11,7 +11,7 @@ import collections
 import json
 import re
 from pathlib import Path
-from zend_serial_parser import decompress_encoded, parse_binary
+from .serial_parser import decompress_encoded, parse_binary
 
 TRACE_OPCODE = re.compile(r'^\[probe\] #(\d+) opcode=(\d+) handler=0x[0-9a-f]+ line=(\d+).* mapmatches=([\d,]*)$')
 FUNC_RE = re.compile(r'^\[probe\] function_name=(.*)$')

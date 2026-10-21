@@ -11,7 +11,7 @@ import sys
 import tempfile
 from pathlib import Path
 
-from zend_serial_parser import MAX_BINARY
+from .serial_parser import MAX_BINARY
 
 
 def parse_isolated(raw:bytes, *, timeout_s:float=5.0, max_memory_mb:int=512) -> dict:
@@ -24,7 +24,7 @@ def parse_isolated(raw:bytes, *, timeout_s:float=5.0, max_memory_mb:int=512) -> 
     with tempfile.TemporaryDirectory(prefix='zend_parse_isolated_') as tmp:
         path=Path(tmp)/'stream.bin';path.write_bytes(raw)
         try:
-            proc=subprocess.run([sys.executable, str(Path(__file__).resolve()), '--worker',str(path),str(max_memory_mb)],
+            proc=subprocess.run([sys.executable, '-m', 'zend_decompiler.parser_isolated', '--worker',str(path),str(max_memory_mb)],
                                 stdout=subprocess.PIPE,stderr=subprocess.PIPE,timeout=timeout_s,check=False)
         except subprocess.TimeoutExpired:
             return {'status':'unsupported','reason':'Isolated parser exceeded wall-clock limit'}
@@ -45,7 +45,7 @@ def _worker(path:Path,mem_mb:int) -> int:
     resource.setrlimit(resource.RLIMIT_CPU,(3,4))
     mem_bytes=mem_mb*1024*1024
     resource.setrlimit(resource.RLIMIT_AS,(mem_bytes,mem_bytes))
-    from zend_serial_parser import parse_binary
+    from .serial_parser import parse_binary
     try:
         obj=parse_binary(path.read_bytes())
         result={'status':'parsed','format':obj['format'],

@@ -10,10 +10,14 @@ requires-python = ">=3.10"
 dependencies = ["networkx>=2.8"]
 
 [project.scripts]
-zend-decompiler = "zend_cli:main"
+zend-decompiler = "zend_decompiler.cli:main"
 
-[tool.setuptools]
-py-modules = ["zend_restore_core", "zend_engine", "zend_assets", "zend_batch", "zend_partial", "zend_cli", "zend_serial_parser", "zend_calibrate", "zend_prefix_restore", "zend_crossblock", "zend_cfg", "zend_state", "zend_structure", "zend_block_previews", "zend_research", "zend_compiler_oracle", "zend_parser_isolated", "zend_fuzz", "zend_alignment_audit", "zend_header_audit", "zend_readonly_dataflow", "zend_triage", "zend_ir_evidence"]
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["zend_decompiler*"]
+
+[tool.setuptools.package-dir]
+"" = "src"
 
 [tool.setuptools.data-files]
 "share/zend-decompiler" = ["zend_verified_dictionary.bin"]

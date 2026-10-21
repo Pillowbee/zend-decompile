@@ -8,11 +8,11 @@ are left unresolved rather than guessed. Does NOT execute the PHP source.
 from __future__ import annotations
 import json
 from pathlib import Path
-from zend_assets import OPCODE_MAP, DICTIONARY
-from zend_serial_parser import decompress_encoded, parse_binary
-from zend_calibrate import choose_opcode
-from zend_prefix_restore import Decoder, Unsupported, spot
-from zend_cfg import cfg_for_group
+from .assets import OPCODE_MAP, DICTIONARY
+from .serial_parser import decompress_encoded, parse_binary
+from .calibrate import choose_opcode
+from .prefix_restore import Decoder, Unsupported, spot
+from .cfg import cfg_for_group
 
 COMPARISONS={
     'IS_EQUAL':b' == ', 'IS_NOT_EQUAL':b' != ',

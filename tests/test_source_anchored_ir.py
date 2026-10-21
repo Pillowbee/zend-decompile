@@ -10,8 +10,8 @@ from pathlib import Path
 
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT))
-from zend_assets import OPCODE_MAP, OPCODE_METADATA, GOLDEN, SCHEMAS, ALIGNMENT_FIXTURE, BATCH_REPORT_FIXTURE
-from zend_ir_evidence import (php_mask,source_hints,neighborhood,
+from zend_decompiler.assets import OPCODE_MAP, OPCODE_METADATA, GOLDEN, SCHEMAS, ALIGNMENT_FIXTURE, BATCH_REPORT_FIXTURE
+from zend_decompiler.ir_evidence import (php_mask,source_hints,neighborhood,
                                   short_circuit_candidates,produce)
 
 

@@ -11,14 +11,14 @@ import argparse
 from collections import Counter, defaultdict, deque
 from dataclasses import dataclass
 from pathlib import Path
-from zend_assets import OPCODE_MAP, DICTIONARY
+from .assets import OPCODE_MAP, DICTIONARY
 import json
 import hashlib
 
-from zend_calibrate import choose_opcode
-from zend_cfg import cfg_for_group, UNMODELED_CONTROL_FLOW
-from zend_serial_parser import FormatError
-from zend_serial_parser import decompress_encoded, parse_binary
+from .calibrate import choose_opcode
+from .cfg import cfg_for_group, UNMODELED_CONTROL_FLOW
+from .serial_parser import FormatError
+from .serial_parser import decompress_encoded, parse_binary
 
 
 @dataclass(frozen=True)

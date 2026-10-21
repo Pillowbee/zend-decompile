@@ -1,59 +1,72 @@
 # Zend Decompiler v28
 
-Экспериментальный **офлайн-декомпилятор Zend Encoder / PHP 5.2**. Читает поддерживаемые сериализованные данные и создаёт **непроверенные PHP-кандидаты** и JSON-аудиты. Это исследовательский инструмент, а не универсальный декодер и не средство получения готового к эксплуатации PHP.
+Экспериментальный **офлайн-инструмент** для исследования ограниченного набора сериализованных Zend Encoder / PHP 5.2-файлов. Восстановленный PHP — **непроверенный кандидат**, а не гарантированно эквивалентный исходник. Не исполняйте ни защищённые входные файлы, ни восстановленный код, ни неизвестные загрузчики Zend. Синтаксическая проверка `php -n -l` сама по себе не доказывает эквивалентность.
 
-**Важно:** восстановленный PHP не доказан эквивалентным оригиналу. Не исполняйте защищённые исходные PHP, полученные PHP-кандидаты или неизвестные Zend/PHP loaders. Для проверки синтаксиса применим только внешний PHP-линтер `-n -l`; это не доказывает семантическую корректность.
+## Структура проекта
 
-## Установка
+```text
+src/zend_decompiler/        Python-пакет: весь актуальный исполняемый код
+  __main__.py               python -m zend_decompiler
+  cli.py, engine.py         CLI и публичный API восстановления
+  restore_core.py           единое ядро генерации кандидатов
+  serial_parser.py          разбор сериализованного формата
+  prefix_restore.py         инструкции, выражения и временные значения
+  cfg.py, crossblock.py     граф управления и межблочные связи
+  structure.py, state.py    структурирование и консервативная эмиссия
+  batch.py                  пакетная обработка
+  assets.py, calibrate.py   источники данных и карта opcode
+  *_audit.py, triage.py,
+  readonly_dataflow.py,
+  ir_evidence.py, fuzz.py   независимая диагностика и исследования
+data/opcodes/              активная таблица opcode, evidence и метаданные
+data/research/             сохранённые read-only исследования
+tests/                     автоматическая проверка текущего Python-пакета
+golden/reference/          неизменяемые регрессионные эталоны
+sample_inputs/             11 исходных закодированных образцов
+corpus/, schemas/          исследовательский корпус и JSON-схемы
+examples/, generated/      примеры и сохранённые результаты
+reference_headers_*/       Zend-заголовки разного уровня достоверности
+docs/PROJECT_STATUS.md     действующее техническое состояние и roadmap
+pyproject.toml             сборка/установка и entry-point
+```
 
-Требуется Python **3.10+** и `networkx>=2.8`.
+Корень проекта содержит конфигурацию, документацию и тестовые артефакты, но **не содержит рабочих Python-скриптов**. Внутренние импорты пакета относительные; старые имена верхнеуровневых модулей `zend_*.py` удалены. Исходники доступны в `src/zend_decompiler/`.
+
+## Установка и тестирование
+
+Python **3.10+**, `networkx>=2.8`.
 
 ```bash
-python -m pip install -r requirements.txt
+python -m pip install -e .
 python -m unittest discover -s tests -v
-python zend_cli.py validate
-python zend_cli.py --version
+python -m zend_decompiler validate
+python -m zend_decompiler --version
 ```
 
-`validate` работает в исходном дереве с `tests/` и `golden/reference/`; установочный wheel не содержит эти эталоны и должен отказывать в полной валидации без них.
+Команда после обычной установки: `zend-decompiler`. Установленный wheel не содержит `tests/` и `golden/reference/`: поэтому `validate` без исходного дерева должен возвращать отказ, а не сообщать об успехе.
 
-## Команды
+## Использование
 
-Запускайте из корня репозитория; выходные пути указывайте **за пределами** `sample_inputs/`.
+Команды запускаются из корня checkout, с выводом **за пределами** `sample_inputs/`:
 
 ```bash
-python zend_cli.py batch sample_inputs -o /tmp/zend_batch --isolate-parser
-python zend_cli.py restore sample_inputs/basket.php \
+python -m zend_decompiler batch sample_inputs -o /tmp/zend_batch --isolate-parser
+python -m zend_decompiler restore sample_inputs/basket.php \
   -o /tmp/basket_candidate.php --audit /tmp/basket_audit.json --isolate-parser
-python zend_cli.py audit sample_inputs/basket.php
-python zend_cli.py dataflow sample_inputs/fun_all.php -o /tmp/fun_all_dataflow.json
-python zend_triage.py sample_inputs/fun_all.php 'sample_inputs/links_fun(1).php' -o /tmp/triage.json
-python zend_ir_evidence.py sample_inputs/fun_all.php -o /tmp/ir_evidence.json
+python -m zend_decompiler audit sample_inputs/basket.php
+python -m zend_decompiler dataflow sample_inputs/fun_all.php -o /tmp/fun_all_dataflow.json
+python -m zend_decompiler.triage sample_inputs/fun_all.php 'sample_inputs/links_fun(1).php' -o /tmp/triage.json
+python -m zend_decompiler.ir_evidence sample_inputs/fun_all.php -o /tmp/ir_evidence.json
 ```
 
-`--isolate-parser` — дополнительная Linux-изоляция первичного разбора. Команда `batch` возвращает код **2**, если хотя бы один вход не поддерживается. Для 11 включённых образцов проверенная регрессия — **8 candidate_generated / 2 unsupported / 1 not_encoded**; для неподдерживаемых файлов PHP-вывод не создаётся.
+`--isolate-parser` — ограниченная Linux-изоляция парсера, не общая песочница. `batch` возвращает код **2**, если встречается `unsupported`; это ожидаемо для текущего набора. Проверенный результат: **11 входов → 8 candidate_generated, 2 unsupported, 1 not_encoded**. Для двух неподдерживаемых файлов готовый PHP не создаётся.
 
-## Где находится код
+## Данные и документы
 
-- `zend_cli.py` — интерфейс командной строки; `zend_engine.py` — единственная публичная точка восстановления, `RestoreResult` и статусы.
-- `zend_serial_parser.py`, `zend_parser_isolated.py` — разбор входного формата и опциональная изоляция.
-- `zend_restore_core.py` — единое ядро восстановления; `zend_prefix_restore.py`, `zend_cfg.py`, `zend_crossblock.py`, `zend_structure.py`, `zend_state.py` — выражения, CFG, межблочные связи и эмиссия.
-- `zend_calibrate.py`, `zend_assets.py` — эмпирическая карта опкодов и пути к данным.
-- `zend_batch.py` — пакетная обработка и запись.
-- `zend_readonly_dataflow.py`, `zend_triage.py`, `zend_ir_evidence.py` и другие `zend_*audit.py` — **диагностика**, не альтернативный декомпилятор.
+- `data/opcodes/opcode_map.json` и `opcode_evidence.json` — неизменённые эмпирические данные, защищённые SHA-256. Метаданные `opcode_map.json.meta.json` содержат контрольные суммы и гипотезы; **наличие записи в карте не означает независимого подтверждения**.
+- `data/research/{alignment,analysis,header_audits}.json` — read-only свидетельства; это не активные правила декомпиляции.
+- `tests/`, `golden/reference/`, `sample_inputs/` — регрессионная база; не корректировать эталоны только ради прохождения тестов.
+- **[PROJECT_STATUS.md](docs/PROJECT_STATUS.md)** — ограничения, доказательства, нерешённые ключи `1:199` и `140`, безопасные направления развития и полный перечень JSON.
+- Старые отчёты, код устаревших версий и прежние корневые скрипты доступны только в Git history.
 
-Исходные образцы: `sample_inputs/`; неизменяемые регрессионные эталоны: `golden/reference/`; тесты: `tests/`; подтверждающие исследовательские артефакты: `corpus/`, `schemas/` и JSON-файлы в корне. Исторические метки `vNN` в именах **данных** фиксируют происхождение, а не вторые реализации Python.
-
-## JSON-данные и их назначение
-
-Рабочие JSON собраны в `data/opcodes/`: `opcode_map.json` (карта), `opcode_evidence.json` (уровень подтверждения) и `opcode_map.json.meta.json` (контроль SHA-256, описание формата и гипотезы). **Движок использует только эти три файла**; их исходные карта и evidence сохранены побайтово.
-
-В `data/research/` находятся `alignment.json` (исторический тестовый эталон), `analysis.json` (объединённые read-only исследования) и `header_audits.json` (проверки происхождения Zend-заголовков). Это диагностические свидетельства, не разрешения на новые opcode. Все архивные снимки `validation_v*.json`, старая карта v10 и персональные отчёты v19 исключены из корня как устаревшие, но доступны в истории Git. Исходные `golden/`, `corpus/`, `tests/` и `schemas/` не изменялись.
-
-Назначение каждого файла, структура объединения и требования к целостности описаны в [техническом состоянии](docs/PROJECT_STATUS.md#8-каталог-json-данных-и-их-роль).
-
-## Текущее состояние и дальнейшая разработка
-
-**[PROJECT_STATUS.md](docs/PROJECT_STATUS.md)** — единая техническая документация: архитектура, ограничения достоверности, измеренные регрессии, нерешённые случаи `fun_all.php` / `links_fun(1).php`, исследовательские данные, приоритеты и критерии приёмки. Она заменяет исторические отчёты `REPORT_*.md`, `README_V*.md` и документы отдельных итераций. Их прежние версии доступны в истории Git; отдельные устаревшие отчёты больше не являются действующей документацией.
-
-Пожалуйста, не меняйте эмпирическую таблицу opcode и golden-эталоны только ради прохождения тестов: регрессия по байтам сама по себе **не** доказывает корректность декомпиляции.
+Проект исследовательский; отсутствие падений тестов и совпадение PHP-кандидатов по байтам **не доказывают** эквивалентности реальному PHP.

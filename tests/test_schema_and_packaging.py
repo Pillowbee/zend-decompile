@@ -3,9 +3,9 @@ import importlib.util,json,sys,unittest
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT))
-from zend_assets import OPCODE_MAP, OPCODE_METADATA, GOLDEN, SCHEMAS, ALIGNMENT_FIXTURE, BATCH_REPORT_FIXTURE
-from zend_engine import restore_result
-from zend_compiler_oracle import read_probe_log
+from zend_decompiler.assets import OPCODE_MAP, OPCODE_METADATA, GOLDEN, SCHEMAS, ALIGNMENT_FIXTURE, BATCH_REPORT_FIXTURE
+from zend_decompiler.engine import restore_result
+from zend_decompiler.compiler_oracle import read_probe_log
 
 class SchemaPackaging(unittest.TestCase):
     def test_new_schemas_on_real_samples(self):

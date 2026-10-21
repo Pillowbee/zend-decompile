@@ -3,9 +3,9 @@ import hashlib,json,sys,tempfile,unittest
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT))
-from zend_assets import OPCODE_MAP, OPCODE_METADATA, GOLDEN, SCHEMAS, ALIGNMENT_FIXTURE, BATCH_REPORT_FIXTURE
-from zend_fuzz import run_campaign
-from zend_serial_parser import parse_binary,decompress_encoded,FormatError
+from zend_decompiler.assets import OPCODE_MAP, OPCODE_METADATA, GOLDEN, SCHEMAS, ALIGNMENT_FIXTURE, BATCH_REPORT_FIXTURE
+from zend_decompiler.fuzz import run_campaign
+from zend_decompiler.serial_parser import parse_binary,decompress_encoded,FormatError
 
 class FuzzRegressionTests(unittest.TestCase):
     def test_saved_mutations_are_rejected(self):

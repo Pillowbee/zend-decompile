@@ -11,7 +11,7 @@ import argparse
 import json
 from collections import deque
 from pathlib import Path
-from zend_serial_parser import parse_binary, decompress_encoded, FormatError
+from .serial_parser import parse_binary, decompress_encoded, FormatError
 
 JMP=42
 JMPZ=43

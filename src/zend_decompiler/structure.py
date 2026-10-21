@@ -13,8 +13,8 @@ import json
 import hashlib
 import networkx as nx
 from pathlib import Path
-from zend_assets import OPCODE_MAP, DICTIONARY
-from zend_block_previews import run as previews
+from .assets import OPCODE_MAP, DICTIONARY
+from .block_previews import run as previews
 
 class StructureError(ValueError): pass
 

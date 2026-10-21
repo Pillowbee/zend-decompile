@@ -11,11 +11,11 @@ from collections import Counter
 import hashlib
 import json
 from pathlib import Path
-from zend_assets import OPCODE_MAP, DICTIONARY
+from .assets import OPCODE_MAP, DICTIONARY
 
-from zend_readonly_dataflow import analyze_file, _validated_evidence
-from zend_calibrate import choose_opcode
-from zend_serial_parser import decompress_encoded, parse_binary
+from .readonly_dataflow import analyze_file, _validated_evidence
+from .calibrate import choose_opcode
+from .serial_parser import decompress_encoded, parse_binary
 
 
 def _summarize_opcode(op:dict, mapping:dict, evidence:dict) -> dict:

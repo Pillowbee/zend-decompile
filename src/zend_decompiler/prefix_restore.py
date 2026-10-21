@@ -10,11 +10,11 @@ import argparse
 import json
 import re
 from pathlib import Path
-from zend_assets import OPCODE_MAP, DICTIONARY
+from .assets import OPCODE_MAP, DICTIONARY
 from dataclasses import dataclass
 from collections import Counter
-from zend_serial_parser import decompress_encoded, parse_binary
-from zend_calibrate import choose_opcode
+from .serial_parser import decompress_encoded, parse_binary
+from .calibrate import choose_opcode
 
 IDENT = re.compile(rb'^[A-Za-z_][A-Za-z_0-9]*$')
 

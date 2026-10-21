@@ -4,10 +4,10 @@ from pathlib import Path
 from unittest.mock import patch
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT))
-from zend_assets import OPCODE_MAP, OPCODE_METADATA, GOLDEN, SCHEMAS, ALIGNMENT_FIXTURE, BATCH_REPORT_FIXTURE
-from zend_engine import restore_result
-from zend_parser_isolated import parse_isolated
-from zend_serial_parser import decompress_encoded,MAX_BINARY
+from zend_decompiler.assets import OPCODE_MAP, OPCODE_METADATA, GOLDEN, SCHEMAS, ALIGNMENT_FIXTURE, BATCH_REPORT_FIXTURE
+from zend_decompiler.engine import restore_result
+from zend_decompiler.parser_isolated import parse_isolated
+from zend_decompiler.serial_parser import decompress_encoded,MAX_BINARY
 D=ROOT/'zend_verified_dictionary.bin';M=OPCODE_MAP
 
 class Diagnostics23(unittest.TestCase):
@@ -64,7 +64,7 @@ class Diagnostics23(unittest.TestCase):
     def test_parse_recursion_and_memory_errors_are_structured(self):
         for exc in (RecursionError('forced'),MemoryError('forced')):
             with self.subTest(exc=type(exc).__name__):
-                with patch('zend_engine.parse_binary',side_effect=exc):
+                with patch('zend_decompiler.engine.parse_binary',side_effect=exc):
                     result=restore_result(ROOT/'sample_inputs/basket.php',D,M)
                     self.assertEqual(result.status,'unsupported')
                     self.assertIsNone(result.code)

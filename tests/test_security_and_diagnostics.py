@@ -4,10 +4,10 @@ import json,sys,unittest,random,time,tempfile
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[1]
 sys.path.insert(0,str(ROOT))
-from zend_assets import OPCODE_MAP, OPCODE_METADATA, GOLDEN, SCHEMAS, ALIGNMENT_FIXTURE, BATCH_REPORT_FIXTURE
-from zend_engine import restore_result,inspect
-from zend_batch import batch,write_candidate,atomic_bytes
-from zend_serial_parser import parse_binary,FormatError,MAX_BINARY
+from zend_decompiler.assets import OPCODE_MAP, OPCODE_METADATA, GOLDEN, SCHEMAS, ALIGNMENT_FIXTURE, BATCH_REPORT_FIXTURE
+from zend_decompiler.engine import restore_result,inspect
+from zend_decompiler.batch import batch,write_candidate,atomic_bytes
+from zend_decompiler.serial_parser import parse_binary,FormatError,MAX_BINARY
 D=ROOT/'zend_verified_dictionary.bin';M=OPCODE_MAP;S=ROOT/'sample_inputs'
 
 class SafetyTests(unittest.TestCase):
@@ -62,7 +62,7 @@ class SafetyTests(unittest.TestCase):
         # Deterministic bit flips and truncations on the decoded serialization.
         # Parser exceptions are expected; uncaught exceptions are not.
         import zlib
-        from zend_serial_parser import decompress_encoded
+        from zend_decompiler.serial_parser import decompress_encoded
         stream=decompress_encoded(S/'basket.php',D.read_bytes())[0][1]
         rng=random.Random(20261021)
         cases=[b'',b'\0',b'xx']+[stream[:i] for i in (0,1,2,3,8,25,50,100,len(stream)//2,len(stream)-1)]

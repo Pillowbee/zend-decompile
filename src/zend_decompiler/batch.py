@@ -3,8 +3,8 @@
 from __future__ import annotations
 from pathlib import Path
 import hashlib, json, os, subprocess, tempfile
-from zend_engine import restore_result, RestoreResult, __version__
-from zend_partial import partial_text
+from .engine import restore_result, RestoreResult, __version__
+from .partial import partial_text
 
 def json_bytes(value: dict) -> bytes:
     return (json.dumps(value,ensure_ascii=False,indent=2,sort_keys=True)+'\n').encode('utf8')
@@ -16,7 +16,7 @@ def atomic_bytes(path: Path, data: bytes, *, refuse_overwrite: bool = True) -> N
         raise FileExistsError(f'Output exists: {path}')
     name=None
     try:
-        with tempfile.NamedTemporaryFile(prefix='.zend_tmp_',dir=path.parent,delete=False) as f:
+        with tempfile.NamedTemporaryFile(prefix='.tmp_',dir=path.parent,delete=False) as f:
             name=Path(f.name); f.write(data); f.flush(); os.fsync(f.fileno())
         if refuse_overwrite and path.exists():raise FileExistsError(f'Output exists: {path}')
         os.replace(name,path)

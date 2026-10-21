@@ -5,9 +5,9 @@ No PHP script is executed. The output is an analysis artifact, not a program.
 """
 import argparse, json
 from pathlib import Path
-from zend_assets import OPCODE_MAP, DICTIONARY
-from zend_crossblock import analyzed_source
-from zend_prefix_restore import Decoder,Unsupported
+from .assets import OPCODE_MAP, DICTIONARY
+from .crossblock import analyzed_source
+from .prefix_restore import Decoder,Unsupported
 
 
 def run(src:Path, dictionary:Path, mapping:Path):

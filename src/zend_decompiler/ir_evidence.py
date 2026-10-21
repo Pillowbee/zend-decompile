@@ -13,12 +13,12 @@ import json
 import re
 from collections import defaultdict
 from pathlib import Path
-from zend_assets import OPCODE_MAP, DICTIONARY
+from .assets import OPCODE_MAP, DICTIONARY
 
-from zend_calibrate import choose_opcode
-from zend_cfg import JMPZ_EX, JMPNZ_EX, branch_destinations
-from zend_readonly_dataflow import read_definitions, _validated_evidence
-from zend_serial_parser import parse_binary, decompress_encoded
+from .calibrate import choose_opcode
+from .cfg import JMPZ_EX, JMPNZ_EX, branch_destinations
+from .readonly_dataflow import read_definitions, _validated_evidence
+from .serial_parser import parse_binary, decompress_encoded
 
 
 PHP_TAG = re.compile(r'<\?(?:php\b|=)?|\?>', re.I)
