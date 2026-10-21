@@ -1,0 +1,22 @@
+[
+  {
+    "file": "empty.bin",
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "expected": "unsupported"
+  },
+  {
+    "file": "bad_signature.bin",
+    "sha256": "c4c96e8c3fdcf1c4b569ea62a943e80f54fef574f77c1463baa9c7d0201ad64a",
+    "expected": "unsupported"
+  },
+  {
+    "file": "truncated_record.bin",
+    "sha256": "1fcbbd196277ff910f241f0ba320927623e6b77583cc059e6e92f2a9e10ac4e1",
+    "expected": "unsupported"
+  },
+  {
+    "file": "truncated_header.bin",
+    "sha256": "4f86970ddd53fcd71e43b8f219260659f7b3fc9c6ce3b91579d13fb09d21120e",
+    "expected": "unsupported"
+  }
+]

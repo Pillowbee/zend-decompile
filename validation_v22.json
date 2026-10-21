@@ -1,0 +1,30 @@
+{
+  "version": "22.0.0-experimental",
+  "change": "Consolidated restoration orchestration in zend_restore_core.py",
+  "golden_full_candidates": 8,
+  "golden_php_bytes": "identical_to_v20_after_header_version_normalization",
+  "v20_compatibility_bytes": "identical_to_v20_including_header",
+  "v20_compatibility_audits": "structurally_identical",
+  "unittests_passed": 12,
+  "unittests_total": 12,
+  "batch": {
+    "total": 11,
+    "generated": 8,
+    "unsupported": 2,
+    "not_encoded": 1
+  },
+  "syntax_checked_successful_candidates": 8,
+  "link_functions": {
+    "generated_groups": 4,
+    "total_groups": 6
+  },
+  "fun_all": {
+    "generated_groups": 12,
+    "total_groups": 23
+  },
+  "legacy_imported_on_active_path": false,
+  "round_trip": {
+    "status": "not_run"
+  },
+  "semantic_equivalence_proven": false
+}

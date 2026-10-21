@@ -1,0 +1,70 @@
+{
+  "version": "27.0.0-experimental",
+  "method": "offline static and synthetic CFG model checks",
+  "tests": {
+    "total": 57,
+    "failures": 0,
+    "errors": 0,
+    "skips": 2,
+    "bounded_model_cases": 300,
+    "bounded_model_mismatches": 0,
+    "baseline_v26_total": 49
+  },
+  "golden": {
+    "matched_artifacts": 16,
+    "total_artifacts": 16,
+    "matched_inputs": 11,
+    "dictionary_sha256": "e20528db8cd90b6e11deeafd572cb176fdeb905f932104687bae58aedd028cf2",
+    "mapping_sha256": "a70dbf7d66e5ee2277bc5411426ae75d66f4c60b72530d70d94c789a31051b0b",
+    "modified_for_test_passes": false
+  },
+  "batch": {
+    "total": 11,
+    "candidate_generated": 8,
+    "unsupported": 2,
+    "not_encoded": 1,
+    "exit_code": 2,
+    "unsupported_php_outputs_created": false
+  },
+  "triage": {
+    "fun_all.php": {
+      "group_coverage": {
+        "analyzed_syntactically": 15,
+        "unsupported": 8
+      },
+      "events": 22,
+      "kinds": {
+        "ambiguous_syntactic_definition": 4,
+        "unknown_or_disputed_mapping": 18
+      }
+    },
+    "links_fun(1).php": {
+      "group_coverage": {
+        "analyzed_syntactically": 4,
+        "unsupported": 2
+      },
+      "events": 2,
+      "kinds": {
+        "unknown_or_disputed_mapping": 2
+      }
+    }
+  },
+  "new_opcode_mappings_added": 0,
+  "native_header_corroboration": "Provided 5.2-family zend_vm_def.h handlers; not Encoder mapping proof",
+  "semantic_equivalence_proven": false,
+  "encoder_oracle_available": false,
+  "runtime": {
+    "encoded_php_executed": false,
+    "php_candidates_executed": false,
+    "provided_php_binary_executed": false,
+    "zend_optimizer_loaded": false,
+    "php_lint_performed": false
+  },
+  "remaining_blockers": [
+    "1:199",
+    "native 140 encoded contexts",
+    "3:139 and 6:236 disputed archived alignments",
+    "out_link read #16 ambiguous",
+    "links_fun main SEND state #12"
+  ]
+}

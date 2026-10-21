@@ -1,0 +1,56 @@
+{
+  "kind": "V28_VALIDATION_NO_PROTECTED_PHP_EXECUTION",
+  "test_command": "python -m unittest discover -s tests -q",
+  "unit_tests": {
+    "run": 70,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 2
+  },
+  "golden_artifacts": {
+    "passed": 16,
+    "total": 16
+  },
+  "unchanged_inputs": {
+    "passed": 11,
+    "total": 11
+  },
+  "critical_sha256_unchanged": {
+    "zend_verified_dictionary.bin": {
+      "before": "e20528db8cd90b6e11deeafd572cb176fdeb905f932104687bae58aedd028cf2",
+      "after": "e20528db8cd90b6e11deeafd572cb176fdeb905f932104687bae58aedd028cf2"
+    },
+    "opcode_map_observed_v20.json": {
+      "before": "a70dbf7d66e5ee2277bc5411426ae75d66f4c60b72530d70d94c789a31051b0b",
+      "after": "a70dbf7d66e5ee2277bc5411426ae75d66f4c60b72530d70d94c789a31051b0b"
+    },
+    "opcode_evidence_v21.json": {
+      "before": "eae9bc0a14197235a8a28344915f1689de61031e86641398136ae1aba223af92",
+      "after": "eae9bc0a14197235a8a28344915f1689de61031e86641398136ae1aba223af92"
+    },
+    "opcode_map_observed_v20.json.meta.json": {
+      "before": "8c726210bce30862746099bf68ffed3470b5306ead8611899aed4e66fc7be919",
+      "after": "8c726210bce30862746099bf68ffed3470b5306ead8611899aed4e66fc7be919"
+    },
+    "golden/v20/manifest.json": {
+      "before": "014096da8fe209b99f2ec28f3c3c320200e36466a7f9acb8b4266a736bbc1631",
+      "after": "014096da8fe209b99f2ec28f3c3c320200e36466a7f9acb8b4266a736bbc1631"
+    }
+  },
+  "batch_command": "python zend_cli.py batch sample_inputs -o /mnt/data/v28_batch --isolate-parser",
+  "batch_expected_exit": 2,
+  "batch_status": {
+    "candidate_generated": 8,
+    "not_encoded": 1,
+    "unsupported": 2
+  },
+  "batch_outputs_byte_identical_v27": true,
+  "batch_file_count": 22,
+  "no_unsupported_executable_php_generated": true,
+  "opcode_contexts": 18,
+  "repeated_context_shapes": 2,
+  "potential_short_circuit_joins": 3,
+  "protected_php_executed": false,
+  "semantic_equivalence_proven": false,
+  "reference_source_files_embedded": false
+}

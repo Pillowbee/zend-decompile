@@ -1,0 +1,78 @@
+{
+  "version": "v20",
+  "sample_results": [
+    {
+      "source": "basket.php",
+      "deterministic": true,
+      "serialized_instructions": 270,
+      "syntax_passed": true,
+      "matches_v19_code": true,
+      "status": "generated"
+    },
+    {
+      "source": "get_wares.php",
+      "deterministic": true,
+      "serialized_instructions": 488,
+      "syntax_passed": true,
+      "matches_v19_code": true,
+      "status": "generated"
+    },
+    {
+      "source": "orders_admin.php",
+      "deterministic": true,
+      "serialized_instructions": 336,
+      "syntax_passed": true,
+      "matches_v19_code": true,
+      "status": "generated"
+    },
+    {
+      "source": "course_get.php",
+      "deterministic": true,
+      "serialized_instructions": 59,
+      "syntax_passed": true,
+      "matches_v19_code": true,
+      "status": "generated"
+    },
+    {
+      "source": "user.php",
+      "deterministic": true,
+      "serialized_instructions": 282,
+      "syntax_passed": true,
+      "matches_v19_code": true,
+      "status": "generated"
+    },
+    {
+      "source": "header_index(1).php",
+      "deterministic": true,
+      "serialized_instructions": 12,
+      "syntax_passed": true,
+      "matches_v19_code": true,
+      "status": "generated"
+    },
+    {
+      "source": "gr_wares1.php",
+      "deterministic": true,
+      "serialized_instructions": 870,
+      "syntax_passed": true,
+      "status": "generated"
+    },
+    {
+      "source": "import(1).php",
+      "deterministic": true,
+      "serialized_instructions": 917,
+      "syntax_passed": true,
+      "negated_feof_loop": true,
+      "status": "generated"
+    },
+    {
+      "source": "links_fun(1).php",
+      "complete_groups": 4,
+      "group_count": 6,
+      "silent_file_call": true,
+      "not_full_reconstruction": true
+    }
+  ],
+  "failures": [],
+  "php_syntax_checked": true,
+  "behavioral_equivalence_proven": false
+}
