@@ -35,7 +35,7 @@ def run_campaign(raw:bytes, *, seed:int, mutations:int, crash_dir:Path, isolate_
         except ALLOWED:
             stats['rejected']+=1
         except BaseException as exc:
-            # Persist the actual unexpected test case before failing CI.
+            # Persist the actual unexpected test case when a local check detects an unexpected error.
             crash_dir.mkdir(parents=True,exist_ok=True)
             digest=hashlib.sha256(blob).hexdigest()
             path=crash_dir/f'{digest[:24]}.bin'

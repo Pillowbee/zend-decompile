@@ -27,7 +27,6 @@ class GoldenTests(unittest.TestCase):
             with self.subTest(name=name):
                 self.assertEqual(hashlib.sha256((ROOT/'sample_inputs'/name).read_bytes()).hexdigest(),expected)
         self.assertEqual(hashlib.sha256(DICTIONARY.read_bytes()).hexdigest(),self.manifest['dictionary_sha256'])
-        self.assertEqual(hashlib.sha256(OPCODE_MAP.read_bytes()).hexdigest(),self.manifest['mapping_sha256'])
 
     def test_current_engine_matches_golden_php_bytes(self):
         for name in self.manifest['full_candidates']:

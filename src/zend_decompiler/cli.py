@@ -33,7 +33,7 @@ def main(argv=None):
                 s.add_argument('--recursive',action='store_true')
                 s.add_argument('--php-linter',type=Path)
                 s.add_argument('--lib-dir',type=Path)
-    # Read-only diagnostics; existing restore/batch APIs unchanged.
+    # Read-only diagnostics.
     diag=sub.add_parser('dataflow',help='inspect syntactic TMP/VAR reaching definitions; no PHP output')
     diag.add_argument('source',type=Path)
     diag.add_argument('--dictionary',type=Path,default=DICTIONARY)
@@ -57,9 +57,9 @@ def main(argv=None):
         return 0
     if a.command=='validate':
         import unittest
-        # Wheels do not ship golden fixtures. Never call an empty test suite success.
+        # Do not report an empty test suite as successful validation.
         if not (BASE/'tests/test_golden.py').exists() or not (GOLDEN/'manifest.json').exists():
-            print('Full golden validation requires the source distribution with tests/ and golden/reference/',file=sys.stderr)
+            print('Validation requires a checkout containing tests/ and golden/reference/',file=sys.stderr)
             return 2
         suite=unittest.defaultTestLoader.discover(str(BASE/'tests'))
         result=unittest.TextTestRunner(verbosity=2).run(suite)

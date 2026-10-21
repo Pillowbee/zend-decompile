@@ -84,7 +84,7 @@ class ArchivedAlignmentTests(unittest.TestCase):
         self.assertFalse(any(v.get('archived_trace_consistent') for k,v in data['key_audit'].items() if k in ('3:139','6:236')))
 
     def test_optional_saved_trace_recalculation(self):
-        # Preserve portable CI: logs are *not shipped* because they may include
+        # Do not ship sensitive probe logs: they may include
         # user program literals. Run locally when the original saved logs exist.
         root=Path('/mnt/data')
         if not all((root/relative).exists() for relative in TRACE_LOCATIONS.values()):

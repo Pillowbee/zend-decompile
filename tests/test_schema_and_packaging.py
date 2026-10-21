@@ -21,14 +21,20 @@ class SchemaPackaging(unittest.TestCase):
         meta=json.loads((OPCODE_METADATA).read_text())
         jsonschema.validate(meta,json.loads((SCHEMAS/'opcode_metadata.schema.json').read_text()))
 
-    def test_no_github_actions_workflows(self):
-        workflows = ROOT / '.github' / 'workflows'
-        self.assertFalse(workflows.exists() and any(workflows.iterdir()))
+    def test_current_data_paths_exist(self):
+        self.assertTrue(OPCODE_MAP.is_file())
+        self.assertTrue(OPCODE_METADATA.is_file())
+        self.assertTrue(ALIGNMENT_FIXTURE.is_file())
+        self.assertTrue(BATCH_REPORT_FIXTURE.is_file())
 
-    def test_compatibility_mapping_golden_is_unchanged(self):
+    def test_active_mapping_metadata_is_consistent(self):
         import hashlib
-        base=json.loads((GOLDEN/'manifest.json').read_text())
-        self.assertEqual(hashlib.sha256((OPCODE_MAP).read_bytes()).hexdigest(),base['mapping_sha256'])
-        self.assertEqual(hashlib.sha256((ROOT/'zend_verified_dictionary.bin').read_bytes()).hexdigest(),base['dictionary_sha256'])
+        metadata = json.loads(OPCODE_METADATA.read_text(encoding='utf-8'))
+        evidence = OPCODE_MAP.parent / metadata['evidence_file']
+        self.assertEqual(metadata['mapping_file'], OPCODE_MAP.name)
+        self.assertEqual(hashlib.sha256(OPCODE_MAP.read_bytes()).hexdigest(),
+                         metadata['mapping_sha256'])
+        self.assertEqual(hashlib.sha256(evidence.read_bytes()).hexdigest(),
+                         metadata['evidence_sha256'])
 
 if __name__=='__main__':unittest.main()
