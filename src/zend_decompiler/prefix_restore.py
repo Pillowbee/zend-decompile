@@ -15,6 +15,7 @@ from dataclasses import dataclass
 from collections import Counter
 from .serial_parser import decompress_encoded, parse_binary
 from .calibrate import choose_opcode
+from .call_protocol import CallProtocolError, DirectCallBuffer
 
 IDENT = re.compile(rb'^[A-Za-z_][A-Za-z_0-9]*$')
 
@@ -70,6 +71,7 @@ class Decoder:
         self.map=mapping
         self.defs={}
         self.call_stack=[]
+        self.direct_call_args=DirectCallBuffer()
         self.lines=[]
         self.branch=None
         self.covered=[]
@@ -205,13 +207,38 @@ class Decoder:
             elif kind=='FETCH_FUNC_ARG':
                 self.put(r,b'$'+sym(raw_string(a)))
             elif kind in ('SEND_VAR','SEND_VAL','SEND_VAR_NO_REF'):
-                if not self.call_stack:raise Unsupported('SEND without call')
-                self.call_stack[-1]['args'].append(self.val(a))
-            elif kind=='DO_FCALL_BY_NAME':
-                if not self.call_stack:raise Unsupported('DO without call')
-                call=self.call_stack.pop()
-                if call['name'] != sym(raw_string(a)):raise Unsupported('Function-name mismatch')
-                expr=call['name']+b'('+b', '.join(call['args'])+b')'
+                argument=self.val(a)
+                if self.call_stack:
+                    self.call_stack[-1]['args'].append(argument)
+                else:
+                    if b['type']!=8 or b['word1']!=0:
+                        raise Unsupported('Unsupported direct-call SEND operand')
+                    try:
+                        self.direct_call_args.push(b['word0'],argument)
+                    except CallProtocolError as exc:
+                        raise Unsupported(str(exc)) from exc
+            elif kind in ('DO_FCALL','DO_FCALL_BY_NAME'):
+                if kind=='DO_FCALL':
+                    # PHP 5.2 can emit SEND_* / DO_FCALL with no INIT opcode.
+                    # Own-source compile-only native trace: corpus/compile_only_dumps/01_calls.log.
+                    if self.call_stack:
+                        raise Unsupported('Direct DO_FCALL inside initialized call state')
+                    if b['type']!=8 or b['word0']!=0 or b['word1']!=0:
+                        raise Unsupported('Unsupported direct DO_FCALL operand2')
+                    name=sym(raw_string(a))
+                    try:
+                        args=self.direct_call_args.finish(op['extended_value'])
+                    except CallProtocolError as exc:
+                        raise Unsupported(str(exc)) from exc
+                else:
+                    if not self.call_stack:
+                        raise Unsupported('DO without initialized call')
+                    call=self.call_stack.pop()
+                    name=sym(raw_string(a))
+                    if call['name'] != name:
+                        raise Unsupported('Function-name mismatch')
+                    args=call['args']
+                expr=name+b'('+b', '.join(args)+b')'
                 if self.silence_slot is not None:
                     if self.silenced_calls:
                         raise Unsupported('Multiple calls in @ region')
@@ -278,6 +305,10 @@ class Decoder:
             # Count actual completed Decoder branches, not mere opcode occurrences.
             self.fired_rules[kind]+=1
         if self.call_stack:raise Unsupported('Incomplete function calls')
+        try:
+            self.direct_call_args.require_empty()
+        except CallProtocolError as exc:
+            raise Unsupported(str(exc)) from exc
         if self.silence_slot is not None:raise Unsupported('Silence region crosses block boundary')
         return Segment([line for line in self.lines if line is not None],self.branch,self.covered,self.last_assignment,dict(self.fired_rules))
 
