@@ -43,7 +43,7 @@ python -m zend_decompiler validate
 python -m zend_decompiler --version
 ```
 
-Команда после обычной установки: `zend-decompiler`. Установленный wheel не содержит `tests/` и `golden/reference/`: поэтому `validate` без исходного дерева должен возвращать отказ, а не сообщать об успехе.
+Команда после установки в editable-режиме: `zend-decompiler`. Полная проверка `validate` требует исходное дерево с `tests/` и `golden/reference/`; при их отсутствии команда должна завершаться отказом, а не сообщать об успехе.
 
 ## Использование
 

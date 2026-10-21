@@ -21,11 +21,10 @@ class SchemaPackaging(unittest.TestCase):
         meta=json.loads((OPCODE_METADATA).read_text())
         jsonschema.validate(meta,json.loads((SCHEMAS/'opcode_metadata.schema.json').read_text()))
 
-    def test_ci_only_uses_unit_tests_never_runs_user_tests(self):
-        ci=(ROOT/'.github/workflows/test.yml').read_text()
-        self.assertIn('unittest discover -s tests',ci)
-        self.assertNotIn('user_tests',ci)
-        
+    def test_no_github_actions_workflows(self):
+        workflows = ROOT / '.github' / 'workflows'
+        self.assertFalse(workflows.exists() and any(workflows.iterdir()))
+
     def test_compatibility_mapping_golden_is_unchanged(self):
         import hashlib
         base=json.loads((GOLDEN/'manifest.json').read_text())
