@@ -56,7 +56,7 @@ def inspect(source: Path, dictionary: Path, mapping: Path, *, window: int = 2, i
             raise FormatError('Opcode metadata SHA256 does not match supplied mapping')
         if metadata.get('mapping_file')!=mapping.name:
             raise FormatError('Opcode metadata mapping file mismatch')
-    evidence_path=mapping.with_name(metadata['evidence_file'] if metadata else 'opcode_evidence_v21.json')
+    evidence_path=mapping.with_name(metadata['evidence_file'] if metadata else 'opcode_evidence.json')
     evidence=None
     if evidence_path.exists():
         evidence=json.loads(evidence_path.read_text(encoding='utf8'))
@@ -187,7 +187,7 @@ def restore_result(source: Path, dictionary: Path, mapping: Path, *, isolate_par
                                 audit['failure']['index_precision']='CFG block start only (not exact)'
                             audit['failure']['block_start_opcode_index']=block['first']
                             audit['failure']['block_end_opcode_index']=block['last']
-                            evidence_path=mapping.with_name('opcode_evidence_v21.json')
+                            evidence_path=mapping.with_name('opcode_evidence.json')
                             ev=json.loads(evidence_path.read_text(encoding='utf-8')).get('entries',{}) if evidence_path.exists() else {}
                             rows=[]
                             for op in g['opcodes']:

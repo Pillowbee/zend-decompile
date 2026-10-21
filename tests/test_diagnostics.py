@@ -43,13 +43,13 @@ class Diagnostics23(unittest.TestCase):
         self.assertEqual(r.audit['confidence_counts']['confirmed'],0)
         self.assertEqual(r.audit['mapped_instructions'],1629)
         self.assertEqual(r.audit['serialized_instructions'],1631)
-        self.assertEqual(r.audit['mapping_metadata_sha256'],hashlib.sha256((ROOT/(M.name+'.meta.json')).read_bytes()).hexdigest())
+        self.assertEqual(r.audit['mapping_metadata_sha256'],hashlib.sha256(OPCODE_METADATA.read_bytes()).hexdigest())
         self.assertTrue(all(g['confirmed_instruction_count']==0 for g in r.audit['group_diagnostics']))
         self.assertTrue(all(g['confirmed_fraction']==0 for g in r.audit['group_diagnostics'] if g['instructions']))
         self.assertEqual(r.audit['round_trip']['status'],'not_run')
 
     def test_integrity_metadata_fail_closed(self):
-        meta_path=ROOT/(M.name+'.meta.json')
+        meta_path=OPCODE_METADATA
         original=meta_path.read_bytes()
         try:
             bad=json.loads(original);bad['mapping_sha256']='0'*64

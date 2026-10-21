@@ -16,4 +16,5 @@ zend-decompiler = "zend_cli:main"
 py-modules = ["zend_restore_core", "zend_engine", "zend_assets", "zend_batch", "zend_partial", "zend_cli", "zend_serial_parser", "zend_calibrate", "zend_prefix_restore", "zend_crossblock", "zend_cfg", "zend_state", "zend_structure", "zend_block_previews", "zend_research", "zend_compiler_oracle", "zend_parser_isolated", "zend_fuzz", "zend_alignment_audit", "zend_header_audit", "zend_readonly_dataflow", "zend_triage", "zend_ir_evidence"]
 
 [tool.setuptools.data-files]
-"share/zend-decompiler" = ["opcode_map_observed_v20.json", "opcode_evidence_v21.json", "opcode_map_observed_v20.json.meta.json", "opcode_hypotheses_v23.json", "zend_verified_dictionary.bin"]
+"share/zend-decompiler" = ["zend_verified_dictionary.bin"]
+"share/zend-decompiler/opcodes" = ["data/opcodes/opcode_map.json", "data/opcodes/opcode_evidence.json", "data/opcodes/opcode_map.json.meta.json"]

@@ -14,7 +14,7 @@ import json
 from pathlib import Path
 
 from zend_calibrate import read_trace, choose_opcode
-from zend_assets import OPCODE_MAP, DICTIONARY
+from zend_assets import OPCODE_MAP, DICTIONARY, BASE
 from zend_serial_parser import decompress_encoded, parse_binary
 
 # Two explicitly observed native-stream insertions after FE_FETCH; this is a
@@ -37,10 +37,10 @@ def _sha(path: Path) -> str:
 
 
 def audit_alignment(project: Path, data_root: Path) -> dict:
-    mapping_path = project / OPCODE_MAP.name
+    mapping_path = project / OPCODE_MAP.relative_to(BASE)
     dictionary_path = project / DICTIONARY.name
     mapping = json.loads(mapping_path.read_text(encoding='utf-8'))
-    evidence = json.loads((project/'opcode_evidence_v21.json').read_text(encoding='utf-8'))
+    evidence = json.loads((mapping_path.parent/'opcode_evidence.json').read_text(encoding='utf-8'))
     dictionary = dictionary_path.read_bytes()
     counts = Counter()
     rows_by_key: dict[str,list[dict]] = defaultdict(list)
