@@ -211,7 +211,7 @@ class Decoder:
                 if self.call_stack:
                     self.call_stack[-1]['args'].append(argument)
                 else:
-                    if b['type']!=8 or b['word1']!=0:
+                    if b['type']!=8 or b['word1']!=1:
                         raise Unsupported('Unsupported direct-call SEND operand')
                     try:
                         self.direct_call_args.push(b['word0'],argument)
@@ -223,7 +223,7 @@ class Decoder:
                     # Own-source compile-only native trace: corpus/compile_only_dumps/01_calls.log.
                     if self.call_stack:
                         raise Unsupported('Direct DO_FCALL inside initialized call state')
-                    if b['type']!=8 or b['word0']!=0 or b['word1']!=0:
+                    if b['type']!=8 or b['word0']!=0 or b['word1']!=1:
                         raise Unsupported('Unsupported direct DO_FCALL operand2')
                     name=sym(raw_string(a))
                     try:
