@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/zend-decompiler/audit-v21",
+  "title": "Zend Decompiler v21 audit",
+  "type": "object",
+  "required": ["tool_version", "status", "input_sha256", "dictionary_sha256", "mapping_sha256", "syntax_checked", "semantic_equivalence_proven", "round_trip"],
+  "properties": {
+    "tool_version": {"type": "string"},
+    "status": {"enum": ["candidate_generated", "unsupported", "not_encoded"]},
+    "input_sha256": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+    "dictionary_sha256": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+    "mapping_sha256": {"type": ["string", "null"], "pattern": "^[0-9a-f]{64}$"},
+    "evidence_sha256": {"type": ["string", "null"]},
+    "syntax_checked": {"type": "boolean"},
+    "semantic_equivalence_proven": {"const": false},
+    "production_ready": {"const": false},
+    "mapped_instructions": {"type": "integer", "minimum": 0},
+    "serialized_instructions": {"type": "integer", "minimum": 0},
+    "recognition_fraction": {"type": "number", "minimum": 0, "maximum": 1},
+    "opcode_mapping_confidence_fraction": {"type": "number", "minimum": 0, "maximum": 1},
+    "confidence_counts": {"type": "object", "properties": {"confirmed": {"type": "integer"}, "inferred": {"type": "integer"}, "unknown": {"type": "integer"}}},
+    "round_trip": {"type": "object", "required": ["status"], "properties": {"status": {"enum": ["not_run", "passed", "failed"]}, "reason": {"type": "string"}}},
+    "failure": {"type": "object"}
+  },
+  "additionalProperties": true
+}

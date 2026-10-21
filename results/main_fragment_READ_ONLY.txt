@@ -1,0 +1,39 @@
+if (($link_n == 0)) {
+    $link_n = '';
+}
+if (('' != $link_n)) {
+    $sql = 'SELECT name_link, file_link, dir_link FROM
+ pages_links WHERE id_link = \'' . $link_n . '\'';
+    $qwe = mysql_query($sql, $connect_mysql);
+    $rs1 = mysql_fetch_row($qwe);
+    $name_section = $rs1[0];
+    $file_section = $rs1[1];
+    $dir_section = $rs1[2];
+}
+if (($dir_section == '')) {
+    $dir_section = 'include';
+}
+if ((($page == '') || ($page == '0'))) {
+    $page = 1;
+    $page_forum = 0;
+    $page_wares = 0;
+    $page_wares_admin = 0;
+    $page_news = 0;
+    $page_user = 0;
+    $page_order = 0;
+    $page_mess = 0;
+    $page_link = 0;
+} else {
+    $page_forum = (($page - 1) * $lines_forum);
+    $page_wares = (($page - 1) * $lines_wares);
+    $page_wares_admin = (($page - 1) * $lines_wares_admin);
+    $page_news = (($page - 1) * $lines_news);
+    $page_user = (($page - 1) * $lines_user);
+    $page_order = (($page - 1) * $lines_order);
+    $page_mess = (($page - 1) * $lines_mess);
+    $page_link = (($page - 1) * $lines_link);
+}
+if (($HTTP_GET_VARS['partner'] != '')) {
+    setcookie('partner', $HTTP_GET_VARS['partner'], 0, '/');
+}
+return 1;

@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Zend Decompiler v23 batch report",
+  "type": "object",
+  "required": ["version","total","generated","unsupported","not_encoded","files","round_trip","semantic_equivalence_proven"],
+  "properties": {
+    "version":{"type":"string"},
+    "total":{"type":"integer","minimum":0},
+    "generated":{"type":"integer","minimum":0},
+    "unsupported":{"type":"integer","minimum":0},
+    "not_encoded":{"type":"integer","minimum":0},
+    "semantic_equivalence_proven":{"const":false},
+    "round_trip":{"type":"object","required":["status"],"properties":{"status":{"enum":["not_run","passed","failed"]}}},
+    "files":{"type":"array","items":{"type":"object","required":["source","status","input_sha256"],
+      "properties":{"source":{"type":"string"},"status":{"enum":["candidate_generated","unsupported","not_encoded"]},
+        "input_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+        "group_coverage":{"type":"array","items":{"type":"object","required":["name","instructions","mapped","confirmed_fraction"],
+          "properties":{"name":{"type":"string"},"instructions":{"type":"integer","minimum":0},
+            "mapped":{"type":"integer","minimum":0},"confirmed_fraction":{"type":"number","minimum":0,"maximum":1}}}}}}
+    }
+  },
+  "additionalProperties":true
+}

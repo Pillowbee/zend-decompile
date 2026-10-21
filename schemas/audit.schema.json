@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Zend Decompiler v23 audit (semantic equivalence NOT established)",
+  "type": "object",
+  "required": ["tool_version", "status", "input_sha256", "dictionary_sha256", "mapping_sha256", "semantic_equivalence_proven", "round_trip"],
+  "properties": {
+    "tool_version": {"type":"string"},
+    "status": {"enum":["candidate_generated","unsupported","not_encoded"]},
+    "input_sha256": {"type":["string","null"],"pattern":"^[0-9a-f]{64}$"},
+    "dictionary_sha256": {"type":["string","null"],"pattern":"^[0-9a-f]{64}$"},
+    "mapping_sha256": {"type":["string","null"],"pattern":"^[0-9a-f]{64}$"},
+    "mapping_metadata_sha256": {"type":["string","null"],"pattern":"^[0-9a-f]{64}$"},
+    "semantic_equivalence_proven": {"const":false},
+    "production_ready": {"const":false},
+    "supported_unary_bool_not": {"type":"boolean"},
+    "supported_simple_at_function_call": {"type":"boolean"},
+    "rule_usage": {"type":"object","additionalProperties":{"type":"integer","minimum":0}},
+    "group_diagnostics": {
+      "type":"array", "items": {
+        "type":"object","required":["name","instructions","mapped","recognition_fraction","confirmed_fraction"],
+        "properties":{"name":{"type":"string"},"instructions":{"type":"integer","minimum":0},
+          "mapped":{"type":"integer","minimum":0},"recognition_fraction":{"type":"number","minimum":0,"maximum":1},
+          "confirmed_fraction":{"type":"number","minimum":0,"maximum":1}}
+      }
+    },
+    "round_trip": {"type":"object","required":["status","reason"],
+      "properties":{"status":{"enum":["passed","failed","not_run"]},"reason":{"type":"string"}}},
+    "failure":{"type":"object","properties":{"opcode_index":{"type":"integer","minimum":0},
+      "index_precision":{"type":"string"},"block_window":{"type":"object"}}}
+  },
+  "additionalProperties":true
+}

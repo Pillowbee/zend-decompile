@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Empirical opcode map metadata v23",
+  "type": "object",
+  "required": ["schema_version", "format_variant", "php_target", "mapping_file", "mapping_sha256", "evidence_file", "evidence_sha256", "confidence_policy"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "format_variant": {"type":"string"},
+    "php_target": {"type":"string"},
+    "mapping_file": {"type":"string"},
+    "mapping_sha256": {"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "evidence_file": {"type":"string"},
+    "evidence_sha256": {"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "confidence_policy": {"type":"string"},
+    "hypotheses_file": {"type":"string"}
+  },
+  "additionalProperties":true
+}
