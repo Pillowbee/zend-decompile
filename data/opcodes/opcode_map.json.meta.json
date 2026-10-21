@@ -1,0 +1,37 @@
+{
+  "confidence_policy": "Require verified native-to-encoded alignment and primary source before marking confirmed",
+  "evidence_file": "opcode_evidence.json",
+  "evidence_sha256": "eae9bc0a14197235a8a28344915f1689de61031e86641398136ae1aba223af92",
+  "format_variant": "SSG Team serialized research v6 / cyclic opcode key (instruction index mod 8, encoded byte)",
+  "hypotheses": {
+    "issues": [
+      {
+        "identifier": "140",
+        "observation": "Empirical mapping includes native number 140 but several call argument contexts do not match DECLARE_INHERITED_CLASS. Native enum nomenclature does not prove encoded meaning.",
+        "resolution_requirement": "Obtain authoritative PHP 5.2.17 opcode definitions and demonstrate per-instruction operand+line alignment on same encoded fixture using compile-only probe; do not remap by context.",
+        "status": "unresolved",
+        "type": "native_opcode_number_vs_encoded_context"
+      },
+      {
+        "identifier": "1:199",
+        "observation": "Observed foreach-adjacent in out_price opcode #65 and uc_rus opcode #17.",
+        "resolution_requirement": "Independent decode of exactly these encoded records and aligned native trace from same protected artifact, without executing it.",
+        "status": "unknown",
+        "type": "unknown_encoded_key"
+      },
+      {
+        "identifier": "49",
+        "observation": "Own PHP 5.2.17 foreach example emits a native opcode 49 after FE_FETCH. This is not evidence that raw encoded key 1:199 means 49.",
+        "resolution_requirement": "Verify official 5.2.17 zend_vm_opcodes.h and operand patterns from same encoded foreach stream before changing mapping.",
+        "status": "unresolved",
+        "type": "opcode_semantics_unverified_in_encoded_stream"
+      }
+    ]
+  },
+  "mapping_file": "opcode_map.json",
+  "mapping_sha256": "a70dbf7d66e5ee2277bc5411426ae75d66f4c60b72530d70d94c789a31051b0b",
+  "own_probe_files": "corpus/compile_only_dumps/*.normalized.json (own PHP source only; no encoded mapping evidence)",
+  "php_target": "5.2.17",
+  "provenance": "Empirical encoded sample alignment; NOT independently proven mapping for every key",
+  "schema_version": 1
+}

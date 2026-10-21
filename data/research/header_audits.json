@@ -1,0 +1,243 @@
+{
+  "records": {
+    "comparison_summary": {
+      "batch": {
+        "command": "python zend_cli.py batch sample_inputs -o <fresh_dir> --isolate-parser --php-linter <php52_linter> --lib-dir <php52_libs>",
+        "generated": 8,
+        "not_encoded": 1,
+        "syntax_checked_generated": 8,
+        "total": 11,
+        "unsupported": 2
+      },
+      "comparison": "latest supplied headers vs previously supplied modern headers",
+      "definitions_parsed": 129,
+      "encoder_mapping_changed": false,
+      "encoder_mapping_confirmed_new_keys": 0,
+      "exact_php_5_2_17_build_verified": false,
+      "handler_mismatches": 0,
+      "native_opcode_numbers": {
+        "140": {
+          "header_definition": {
+            "line": 141,
+            "name": "ZEND_DECLARE_INHERITED_CLASS"
+          },
+          "vm_handlers": [
+            {
+              "line": 3776,
+              "name": "ZEND_DECLARE_INHERITED_CLASS"
+            }
+          ]
+        },
+        "199": {
+          "header_definition": null,
+          "vm_handlers": []
+        },
+        "49": {
+          "header_definition": {
+            "line": 70,
+            "name": "ZEND_SWITCH_FREE"
+          },
+          "vm_handlers": [
+            {
+              "line": 2556,
+              "name": "ZEND_SWITCH_FREE"
+            }
+          ]
+        }
+      },
+      "new_header_verdict": "php_5_2_family_layout_unverified_build",
+      "round_trip": "not_run",
+      "semantic_equivalence_proven": false,
+      "sha256_files": {
+        "zend_compile.h": "04dc75093fdb2c5fcae6280b7e86d9811f790cf65a8c315b67f039dd277ebd32",
+        "zend_vm_def.h": "8b72eded13eecb3b4a6441ada182a044ae542dd7cb37903eeebc73f6b6527714",
+        "zend_vm_opcodes.h": "2a1d22dbf3a9784a70b8cb9147173319d490626618bcafc5d85211656fee20ad"
+      },
+      "unit_tests": {
+        "command": "python -m unittest discover -s tests -v",
+        "failed": 0,
+        "passed": 36
+      },
+      "unresolved_encoder_key": "1:199"
+    },
+    "incompatible_headers": {
+      "duplicate_numeric_definitions": [],
+      "encoder_map_unchanged": true,
+      "explanation": "Observed modern Zend Engine features exclude PHP 5.2; numerical matches are not mapping evidence.",
+      "files": {
+        "zend_compile.h": {
+          "modern_markers": [
+            {
+              "line": 22,
+              "marker": "zend_ast"
+            },
+            {
+              "line": 113,
+              "marker": "zend_string"
+            },
+            {
+              "line": 208,
+              "marker": "zend_property_hook_kind"
+            }
+          ],
+          "sha256": "1534dc6c9e865a662e4e8d659af1f946527bbda2db3da443788107ff7d0b8abe",
+          "size": 55936
+        },
+        "zend_vm_def.h": {
+          "modern_markers": [
+            {
+              "line": 9484,
+              "marker": "ZEND_MATCH"
+            }
+          ],
+          "sha256": "ae9b44d5c298b8474de442f21196033ccda827824e9513895d4c7f87ec51fbae",
+          "size": 313048
+        },
+        "zend_vm_opcodes.h": {
+          "modern_markers": [
+            {
+              "line": 317,
+              "marker": "ZEND_MATCH"
+            },
+            {
+              "line": 321,
+              "marker": "ZEND_CHECK_UNDEF_ARGS"
+            },
+            {
+              "line": 331,
+              "marker": "ZEND_INIT_PARENT_PROPERTY_HOOK_CALL"
+            }
+          ],
+          "sha256": "43c25fa88d575e40a8f6b9cc4d56a3633476f6549a1b01e1ddf663b760ebca8e",
+          "size": 15524
+        }
+      },
+      "header_internal_disagreements": [],
+      "missing": [],
+      "schema_version": 1,
+      "selected_native_opcode_numbers": {
+        "140": {
+          "header_definition": {
+            "line": 262,
+            "name": "ZEND_MAKE_REF"
+          },
+          "vm_handlers": [
+            {
+              "line": 9390,
+              "name": "ZEND_MAKE_REF"
+            }
+          ]
+        },
+        "199": {
+          "header_definition": {
+            "line": 321,
+            "name": "ZEND_CHECK_UNDEF_ARGS"
+          },
+          "vm_handlers": []
+        },
+        "49": {
+          "header_definition": {
+            "line": 172,
+            "name": "ZEND_CHECK_VAR"
+          },
+          "vm_handlers": [
+            {
+              "line": 9377,
+              "name": "ZEND_CHECK_VAR"
+            }
+          ]
+        }
+      },
+      "status_updates": {
+        "confirmed": 0,
+        "inferred": 0,
+        "unknown": 0
+      },
+      "suitable_for_encoder_opcode_confirmation": false,
+      "target": "PHP 5.2.17 / Zend Engine 2",
+      "verdict": "incompatible_with_php_5_2"
+    },
+    "php52_family": {
+      "all_header_handler_mismatches": [],
+      "duplicate_numeric_definitions": [],
+      "encoder_map_unchanged": true,
+      "exact_php_5_2_17_build_verified": false,
+      "explanation": "The numeric layout matches the PHP 5.2 family, but exact 5.2.17 provenance and serialized encoder mapping remain unverified.",
+      "files": {
+        "zend_compile.h": {
+          "modern_markers": [],
+          "sha256": "04dc75093fdb2c5fcae6280b7e86d9811f790cf65a8c315b67f039dd277ebd32",
+          "size": 25659
+        },
+        "zend_vm_def.h": {
+          "modern_markers": [],
+          "sha256": "8b72eded13eecb3b4a6441ada182a044ae542dd7cb37903eeebc73f6b6527714",
+          "size": 117827
+        },
+        "zend_vm_opcodes.h": {
+          "modern_markers": [],
+          "sha256": "2a1d22dbf3a9784a70b8cb9147173319d490626618bcafc5d85211656fee20ad",
+          "size": 6588
+        }
+      },
+      "header_internal_disagreements": [],
+      "missing": [],
+      "native_opcode_layout_matches_php_5_2_family": true,
+      "number_of_opcode_definitions": 129,
+      "schema_version": 2,
+      "selected_native_opcode_numbers": {
+        "140": {
+          "header_definition": {
+            "line": 141,
+            "name": "ZEND_DECLARE_INHERITED_CLASS"
+          },
+          "vm_handlers": [
+            {
+              "line": 3776,
+              "name": "ZEND_DECLARE_INHERITED_CLASS"
+            }
+          ]
+        },
+        "199": {
+          "header_definition": null,
+          "vm_handlers": []
+        },
+        "49": {
+          "header_definition": {
+            "line": 70,
+            "name": "ZEND_SWITCH_FREE"
+          },
+          "vm_handlers": [
+            {
+              "line": 2556,
+              "name": "ZEND_SWITCH_FREE"
+            }
+          ]
+        }
+      },
+      "status_updates": {
+        "confirmed": 0,
+        "inferred": 0,
+        "unknown": 0
+      },
+      "suitable_for_encoder_opcode_confirmation": false,
+      "target": "PHP 5.2.17 / Zend Engine 2",
+      "verdict": "php_5_2_family_layout_unverified_build"
+    }
+  },
+  "schema_version": 1,
+  "source_integrity": {
+    "comparison_summary": {
+      "original_sha256": "dd9dff640b9b26397410e1278a70ceb0ec226f591d2c6628161e9266a38bed97",
+      "payload_sha256": "1b1691cf249c712e63456dd23083f1045f1d67fc6d0f8063883db8c1d4662bd1"
+    },
+    "incompatible_headers": {
+      "original_sha256": "af58a325d97419a5135b21739d220c8e9253c4bcfbb84cf4ceebb14aa7c5223d",
+      "payload_sha256": "f999fe31400104b7dea7c181292095dc663b5d7e58d7c6ac48c6ee988cf4ee0f"
+    },
+    "php52_family": {
+      "original_sha256": "f26fa24690ab2c67c186deef86de641ca58385d1cc6a2cf1d732c48662ce53d5",
+      "payload_sha256": "a639062e49a6566a46e37d2b10d6e387413920a5fc0db58ceb1cca5dd9cd557c"
+    }
+  }
+}
