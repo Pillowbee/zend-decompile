@@ -1,0 +1,26 @@
+{
+  "version": 1,
+  "issues": [
+    {
+      "identifier": "140",
+      "type": "native_opcode_number_vs_encoded_context",
+      "status": "unresolved",
+      "observation": "Empirical mapping includes native number 140 but several call argument contexts do not match DECLARE_INHERITED_CLASS. Native enum nomenclature does not prove encoded meaning.",
+      "resolution_requirement": "Obtain authoritative PHP 5.2.17 opcode definitions and demonstrate per-instruction operand+line alignment on same encoded fixture using compile-only probe; do not remap by context."
+    },
+    {
+      "identifier": "1:199",
+      "type": "unknown_encoded_key",
+      "status": "unknown",
+      "observation": "Observed foreach-adjacent in out_price opcode #65 and uc_rus opcode #17.",
+      "resolution_requirement": "Independent decode of exactly these encoded records and aligned native trace from same protected artifact, without executing it."
+    },
+    {
+      "identifier": "49",
+      "type": "opcode_semantics_unverified_in_encoded_stream",
+      "status": "unresolved",
+      "observation": "Own PHP 5.2.17 foreach example emits a native opcode 49 after FE_FETCH. This is not evidence that raw encoded key 1:199 means 49.",
+      "resolution_requirement": "Verify official 5.2.17 zend_vm_opcodes.h and operand patterns from same encoded foreach stream before changing mapping."
+    }
+  ]
+}

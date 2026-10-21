@@ -1,0 +1,26 @@
+{
+  "source": "corpus/own_sources/02_foreach.php",
+  "mode": "php52_-n_-l_WITH_OWN_SOURCE_ONLY",
+  "native_opcodes": [
+    71,
+    72,
+    38,
+    77,
+    78,
+    137,
+    38,
+    40,
+    42,
+    49,
+    62,
+    149
+  ],
+  "comparison_with_saved_own_fixture_dump": "equal",
+  "php_sha256": "be41096a64705fa207668fd8c56145bdac347a71095600cb0173c0285ebf9c23",
+  "probe_sha256": "4476d185f8a439a7e8d259bb408bf67903a34e788a6e95983a9e346cafa8b455",
+  "round_trip": {
+    "status": "not_run",
+    "reason": "No known Zend Encoder executable to encode own fixtures into SSG Team format"
+  },
+  "candidate_php_executed": false
+}
