@@ -6,7 +6,7 @@ import unittest
 from zend_decompiler.prefix_restore import Decoder, Unsupported
 
 
-def unused(value=0, marker=0):
+def unused(value=0, marker=1):
     return {'type': 8, 'word0': value, 'word1': marker}
 
 
