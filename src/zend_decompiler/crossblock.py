@@ -54,6 +54,36 @@ def render_range(ops:list[dict], cv:dict, mapping:dict, first:int, last:int, slo
     return value
 
 
+def proof_seeds_by_block(proofs:dict[int,dict], blocks:list[dict]) -> dict[int,dict]:
+    """Place proven expression values only at their checked block entries."""
+    seeds={}
+    for join,proof in proofs.items():
+        block=next((b for b in blocks if b['first']<=join<=b['last']),None)
+        if block is None:raise Unsupported('Short-circuit join has no CFG block')
+        if proof.get('nested') and block['first']!=join:
+            raise Unsupported('Nested short-circuit join is not at a block entry')
+        values={tuple(term['slot']):bytes.fromhex(term['value_hex'])
+                for term in proof.get('term_slots',[])}
+        values[tuple(proof['slot'])]=bytes.fromhex(proof['expression_hex'])
+        existing=seeds.setdefault(block['first'],{})
+        for slot,value in values.items():
+            if slot in existing and existing[slot]!=value:
+                raise Unsupported('Conflicting short-circuit block seed')
+            existing[slot]=value
+        for extra in proof.get('block_seeds',[]):
+            index=extra['instruction_index']
+            target=next((b for b in blocks if b['first']<=index<=b['last']),None)
+            if target is None or target['first']!=index:
+                raise Unsupported('Proven intermediate value is not at a block entry')
+            slot=tuple(extra['slot'])
+            value=bytes.fromhex(extra['value_hex'])
+            existing=seeds.setdefault(index,{})
+            if slot in existing and existing[slot]!=value:
+                raise Unsupported('Conflicting short-circuit block seed')
+            existing[slot]=value
+    return seeds
+
+
 def join_proofs(ops:list[dict], cv:dict[int,bytes], mapping:dict) -> dict[int,dict]:
     """Return verified join summaries keyed by the consuming JMPZ/JMPNZ index."""
     parser=Decoder(ops,cv,mapping)
@@ -205,6 +235,95 @@ def join_proofs(ops:list[dict], cv:dict[int,bytes], mapping:dict) -> dict[int,di
                          'branch_target':final['op2']['word0'],
                          'conditional_opcode':name(join)}
         except (Unsupported, IndexError, KeyError, TypeError):
+            continue
+    # A bounded nested form has two OR terms separated by one AND term.
+    # The outer JMPZ_EX instructions skip the entire remaining condition;
+    # folding either OR alone would leave edges into removed CFG blocks.
+    # Keep this proof to CV/constant comparisons and BOOL wrappers, with no
+    # calls, fetches or assignments in the folded interval.
+    for join,right in list(found.items()):
+        try:
+            if (name(join)!='JMPZ' or right['mode']!='OR' or
+                    right['comparison_count']!=2 or right['call_sites']):
+                continue
+            right_indices=right['source_indices']
+            right_start=right_indices[0]
+            if (right_start<1 or
+                    right_indices!=list(range(right_start,join+1)) or
+                    len(right['shortcut_indices'])!=1 or
+                    name(join-1)!='BOOL'):
+                continue
+            right_shortcut=right['shortcut_indices'][0]
+            if (name(right_shortcut)!='JMPNZ_EX' or
+                    slot(ops[right_shortcut]['result'])!=slot(ops[join-1]['op1']) or
+                    ops[right_shortcut]['op2']['type']!=8 or
+                    ops[right_shortcut]['op2']['word1']!=1 or
+                    ops[right_shortcut]['op2']['word0']!=join-1):
+                continue
+            middle_jump=right_start-1
+            if name(middle_jump)!='JMPZ_EX':continue
+            jump=ops[middle_jump]
+            if (jump['op2']['type']!=8 or jump['op2']['word1']!=1 or
+                    jump['op2']['word0']!=join):
+                continue
+            middle,cursor,used,calls,_slots,_rendered=term_ending_at(
+                middle_jump-1,slot(jump['op1']))
+            if calls or sorted(used)!=list(range(cursor+1,middle_jump)):
+                continue
+            left=found.get(cursor)
+            if (left is None or left['mode']!='OR' or left['comparison_count']!=2 or
+                    left['call_sites'] or name(cursor)!='JMPZ_EX'):
+                continue
+            left_indices=left['source_indices']
+            if (left_indices!=list(range(left_indices[0],cursor+1)) or
+                    len(left['shortcut_indices'])!=1):
+                continue
+            left_jump=ops[cursor]
+            left_shortcut=ops[left['shortcut_indices'][0]]
+            final_slot=slot(ops[join]['op1'])
+            if (left_shortcut['op2']['type']!=8 or
+                    left_shortcut['op2']['word1']!=1 or
+                    left_shortcut['op2']['word0']!=cursor or
+                    left_jump['op2']['type']!=8 or left_jump['op2']['word1']!=1 or
+                    left_jump['op2']['word0']!=join or
+                    slot(left_jump['op1'])!=final_slot or
+                    slot(left_jump['result'])!=final_slot or
+                    slot(jump['op1'])!=final_slot or
+                    slot(jump['result'])!=final_slot or
+                    tuple(left['slot'])!=final_slot or
+                    tuple(right['slot'])!=final_slot):
+                continue
+            interval=list(range(left_indices[0],join+1))
+            if sorted(set(left_indices+used+[middle_jump]+right_indices))!=interval:
+                continue
+            allowed=set(COMPARISONS)|{'BOOL','JMPNZ_EX','JMPZ_EX','JMPZ'}
+            if any(name(i) not in allowed for i in interval):continue
+            if any(ops[i][operand]['type'] not in (1,16)
+                   for i in interval if name(i) in COMPARISONS
+                   for operand in ('op1','op2')):
+                continue
+            left_expression=bytes.fromhex(left['expression_hex'])
+            right_expression=bytes.fromhex(right['expression_hex'])
+            expression=b'('+left_expression+b' && '+middle+b' && '+right_expression+b')'
+            found[join]={**right,
+                         'mode':'AND','expression_hex':expression.hex(),
+                         'expression':expression.decode('cp1251','backslashreplace'),
+                         'comparison_count':left['comparison_count']+1+right['comparison_count'],
+                         'source_indices':interval,
+                         'shortcut_indices':sorted(left['shortcut_indices']+
+                                                   [cursor,middle_jump]+
+                                                   right['shortcut_indices']),
+                         'call_sites':[],'term_slots':[],
+                         'rendered_term':expression.decode('cp1251','backslashreplace'),
+                         'block_seeds':[
+                             {'instruction_index':cursor,'slot':left['slot'],
+                              'value_hex':left['expression_hex']},
+                             {'instruction_index':join-1,
+                              'slot':list(slot(ops[join-1]['op1'])),
+                              'value_hex':right['expression_hex']}],
+                         'nested':True}
+            del found[cursor]
+        except (Unsupported, IndexError, KeyError, TypeError, ValueError):
             continue
     return found
 

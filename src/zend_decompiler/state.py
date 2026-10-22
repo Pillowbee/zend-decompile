@@ -7,7 +7,7 @@ it does not fabricate unknown instructions or cross-block temporary values.
 from __future__ import annotations
 
 from .cfg import cfg_for_group
-from .crossblock import join_proofs
+from .crossblock import join_proofs, proof_seeds_by_block
 from .calibrate import choose_opcode
 from .encoder_foreach import foreach_fetches, foreach_markers
 from .prefix_restore import Decoder, Unsupported, _foreach_facts
@@ -29,25 +29,14 @@ def recover_blocks(group, mapping, name, symbols=None, callees=None):
     cvs={x['index']:bytes.fromhex(x['name_hex']) for x in group['compiled_vars']}
     cfg=cfg_for_group(name,group)
     proofs=join_proofs(ops,cvs,mapping)
-    # A proven join may sit inside a block that starts earlier, so the proof
-    # is given to the block that contains the join.
-    proofs_by_block={}
-    for join_index,proof in proofs.items():
-        for block in cfg['basic_blocks']:
-            if block['first']<=join_index<=block['last']:
-                proofs_by_block[block['first']]=proof
-                break
+    seeds_by_block=proof_seeds_by_block(proofs,cfg['basic_blocks'])
     blocks=[]
     used_rules=Counter()
     encoder_calls=[]
     context={}
     for block in cfg['basic_blocks']:
         decoder=Decoder(ops,cvs,mapping,symbols,callees,context)
-        if block['first'] in proofs_by_block:
-            p=proofs_by_block[block['first']]
-            for term in p.get('term_slots',[]):
-                decoder.defs[tuple(term['slot'])]=bytes.fromhex(term['value_hex'])
-            decoder.defs[tuple(p['slot'])]=bytes.fromhex(p['expression_hex'])
+        decoder.defs.update(seeds_by_block.get(block['first'],{}))
         before=dict(context.get('foreach') or {})
         try:
             segment=decoder.run(block['first'],block['last'])
