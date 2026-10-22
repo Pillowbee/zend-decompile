@@ -27,7 +27,7 @@ corpus/, schemas/          исследовательский корпус и JS
 research/fragments/       12 уникальных экспериментальных PHP-фрагментов
 research/diagnostics/     сохранённые read-only частичные разборы
 results/                  независимые исторические исследовательские артефакты
-reference_headers_*/       Zend-заголовки разного уровня достоверности
+reference_headers_php52_candidate/  Заголовки семейства PHP 5.2 (точная сборка не подтверждена)
 docs/PROJECT_STATUS.md     действующее техническое состояние и roadmap
 pyproject.toml             конфигурация проекта и CLI entry-point
 ```
@@ -87,7 +87,7 @@ python -m zend_decompiler.ir_evidence sample_inputs/fun_all.php -o /tmp/ir_evide
 ## Данные и документы
 
 - `data/opcodes/opcode_map.json` и `opcode_evidence.json` — неизменённые эмпирические данные, защищённые SHA-256. Метаданные `opcode_map.json.meta.json` содержат контрольные суммы и гипотезы; **наличие записи в карте не означает независимого подтверждения**.
-- `data/research/{alignment,analysis,header_audits}.json` — read-only свидетельства; это не активные правила декомпиляции.
+- `data/research/{alignment,analysis,header_audits}.json` — read-only свидетельства; это не активные правила декомпиляции. История сравнения с несовместимыми современными заголовками сохранена в `header_audits.json`, а сами современные заголовки не хранятся в рабочем дереве.
 - `tests/`, `golden/reference/`, `sample_inputs/` — тестовые входы и текущие эталоны. Эталоны можно обновлять вместе с изменением алгоритма, но не только ради формального прохождения тестов.
 - `tests/fixtures/batch_report.json` — один архивный JSON batch для проверки схемы (его пути к прошлым отчётам — исторические, не действующие файлы).
 - `research/fragments/` — 12 уникальных **частичных** PHP-кандидатов, не пригодных для запуска; сохранённые read-only тексты лежат в `research/diagnostics/`.
