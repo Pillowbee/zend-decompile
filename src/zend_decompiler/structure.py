@@ -58,9 +58,17 @@ def build_graph(data):
         for call in proof.get('call_sites',[]):
             call_block=next((b for b in original.values()
                              if b['first']<=call['index']<=b['last']),None)
-            insist(call_block is not None and call_block['id']==lead['id'],
-                   'Call in a folded term is outside the short-circuit block')
-            sources=lead.get('statement_sources') or []
+            if proof.get('effectful_call_chain'):
+                insist(call_block is not None and
+                       call_block['id'] in {lead['id']}|{b['id'] for b in mids},
+                       'Call is outside its short-circuit term')
+                insist(call_block['first']<=call['first'] and
+                       call['last']<=call_block['last'],
+                       'Call crosses a short-circuit boundary')
+            else:
+                insist(call_block is not None and call_block['id']==lead['id'],
+                       'Call in a folded term is outside the short-circuit block')
+            sources=call_block.get('statement_sources') or []
             insist(all(source<call['index'] for source in sources),
                    'Short-circuit block emits statements after a folded call')
         # All intermediary blocks must be pure: no locally emitted statements.

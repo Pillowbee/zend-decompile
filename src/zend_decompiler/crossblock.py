@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Conservative, proof-carrying reconstruction of short-circuit boolean joins.
 
-Supports CV/constant comparisons and a bounded, confirmed form of two nested
-dimension-read chains, followed by JMPNZ_EX/JMPZ_EX joins with checked targets.
+Supports CV/constant comparisons, a bounded form of nested dimension reads,
+and a three-call AND chain with checked targets and call evaluation order.
 Other expressions are left unresolved rather than guessed. Does NOT execute PHP.
 """
 from __future__ import annotations
@@ -199,6 +199,127 @@ def join_proofs(ops:list[dict], cv:dict[int,bytes], mapping:dict) -> dict[int,di
                 'rendered_term':rendered.decode('cp1251','backslashreplace'),
                 'fallthrough':join+1,'branch_target':final['op2']['word0'],
                 'conditional_opcode':'JMPZ','nested_dimension_reads':True}
+    def three_call_and(join:int, evidence:dict) -> dict:
+        """Prove three ordered calls joined by two false shortcuts."""
+        if (name(join)!='JMPZ' or join<9 or name(join-1)!='BOOL' or
+                name(join-2)!='DO_FCALL_BY_NAME'):
+            raise Unsupported('Different call condition')
+        third_first,_=call_range(ops,name,join-2)
+        second_jump=third_first-1
+        if (second_jump<3 or name(second_jump)!='JMPZ_EX' or
+                name(second_jump-1)!='BOOL' or
+                name(second_jump-2)!='BOOL_NOT' or
+                name(second_jump-3)!='DO_FCALL_BY_NAME'):
+            raise Unsupported('Second call condition absent')
+        second_first,_=call_range(ops,name,second_jump-3)
+        first_jump=second_first-1
+        if (first_jump<2 or name(first_jump)!='JMPZ_EX' or
+                name(first_jump-1)!='BOOL_NOT' or
+                name(first_jump-2)!='DO_FCALL_BY_NAME'):
+            raise Unsupported('First call condition absent')
+        first_first,_=call_range(ops,name,first_jump-2)
+        calls=[(first_first,first_jump-2),(second_first,second_jump-3),
+               (third_first,join-2)]
+        permitted={'INIT_FCALL_BY_NAME','DO_FCALL_BY_NAME','CONCAT',
+                   'INIT_STRING','ADD_STRING','ADD_VAR','SEND_VAL','SEND_VAR',
+                   'SEND_VAR_NO_REF'}
+        for first,last in calls:
+            kinds=[name(i) for i in range(first,last+1)]
+            if (kinds[0]!='INIT_FCALL_BY_NAME' or
+                    kinds.count('INIT_FCALL_BY_NAME')!=1 or
+                    kinds.count('DO_FCALL_BY_NAME')!=1 or
+                    kinds[-1]!='DO_FCALL_BY_NAME' or
+                    not set(kinds)<=permitted):
+                raise Unsupported('Call interval has other effects')
+        first_call,second_call,third_call=(ops[last] for _,last in calls)
+        not1,not2,bool2,bool3=(ops[i] for i in
+                               (first_jump-1,second_jump-2,second_jump-1,join-1))
+        jump1,jump2,final=ops[first_jump],ops[second_jump],ops[join]
+        shared=slot(jump1['result'])
+        if (first_call['result']['type']!=4 or second_call['result']['type']!=4 or
+                third_call['result']['type']!=4 or
+                not1['op1']!=first_call['result'] or
+                not2['op1']!=second_call['result'] or
+                bool2['op1']!=not2['result'] or
+                bool3['op1']!=third_call['result'] or
+                not1['result']['type']!=2 or not2['result']['type']!=2 or
+                bool2['result']['type']!=2 or bool3['result']['type']!=2 or
+                final['op1']['type']!=2 or
+                any(slot(op['result'])!=shared for op in
+                    (not1,jump1,bool2,jump2,bool3)) or
+                jump1['op1']!=not1['result'] or
+                jump2['op1']!=bool2['result'] or
+                final['op1']!=bool3['result'] or
+                any(op['op2']!={'type':8,'word0':join,'word1':1}
+                    for op in (jump1,jump2)) or
+                any(op['extended_value']!=0 for op in
+                    (not1,not2,bool2,bool3,jump1,jump2,final)) or
+                final['op2']['type']!=8 or final['op2']['word1']!=1 or
+                final['op2']['word0'] in range(first_first,join+1)):
+            raise Unsupported('Call join slots or targets disagree')
+        for i in range(first_first,join+1):
+            op=ops[i];key=f'{i%8}:{op["encoded_opcode"]}'
+            observed=evidence.get(key)
+            if (observed is None or observed.get('status')!='confirmed' or
+                    observed.get('opcode')!=op.get('decoded_opcode') or
+                    mapping['opcodes'].get(key)!=op.get('decoded_opcode')):
+                raise Unsupported('Call condition lacks confirmed opcode')
+        group={'opcodes':[dict(op,decoded_opcode=choose_opcode(op,mapping))
+                          for op in ops],'compiled_vars':[],'loop_records':[]}
+        cfg=cfg_for_group('<call join>',group)
+        by_first={b['first']:b for b in cfg['basic_blocks']}
+        lead=next((b for b in cfg['basic_blocks'] if b['last']==first_jump),None)
+        middle=by_first.get(second_first);last=by_first.get(third_first)
+        tail=by_first.get(join)
+        if (lead is None or middle is None or last is None or tail is None or
+                not all(b['reachable'] for b in (lead,middle,last,tail)) or
+                not lead['first']<=first_first or middle['last']!=second_jump or
+                last['last']!=join-1 or tail['last']!=join or
+                middle['predecessors']!=[lead['id']] or
+                last['predecessors']!=[middle['id']] or
+                set(tail['predecessors'])!={lead['id'],middle['id'],last['id']} or
+                {(e['kind'],e['block']) for e in lead['successors']}!=
+                    {('zero',tail['id']),('nonzero',middle['id'])} or
+                {(e['kind'],e['block']) for e in middle['successors']}!=
+                    {('zero',tail['id']),('nonzero',last['id'])} or
+                [(e['kind'],e['block']) for e in last['successors']]!=
+                    [('fallthrough',tail['id'])]):
+            raise Unsupported('Call join has another entry or branch')
+        analysis=read_definitions(group,title='<call join>')
+        if analysis['status']!='analyzed_syntactically':
+            raise Unsupported('Call join lacks reaching definitions')
+        expected={(first_jump-1,'op1'):{calls[0][1]},
+                  (first_jump,'op1'):{first_jump-1},
+                  (second_jump-2,'op1'):{calls[1][1]},
+                  (second_jump-1,'op1'):{second_jump-2},
+                  (second_jump,'op1'):{second_jump-1},
+                  (join-1,'op1'):{calls[2][1]},
+                  (join,'op1'):{first_jump,second_jump,join-1}}
+        producers={calls[0][1],first_jump-1,first_jump,
+                   calls[1][1],second_jump-2,second_jump-1,second_jump,
+                   calls[2][1],join-1}
+        uses=[u for u in analysis['temporary_uses']
+              if set(u['reaching_definition_indices']) & producers]
+        if (len(uses)!=len(expected) or
+                {(u['instruction_index'],u['operand']):
+                 set(u['reaching_definition_indices']) for u in uses}!=expected):
+            raise Unsupported('Call condition has external TMP consumers')
+        expressions=[render_range(ops,cv,mapping,first,last,
+                                  slot(ops[last]['result'])) for first,last in calls]
+        expression=(b'((!'+expressions[0]+b') && (!'+expressions[1]+b') && '+
+                    expressions[2]+b')')
+        return {'join_index':join,'slot':list(shared),'mode':'AND',
+                'expression_hex':expression.hex(),
+                'expression':expression.decode('cp1251','backslashreplace'),
+                'comparison_count':3,
+                'source_indices':list(range(first_first,join+1)),
+                'shortcut_indices':[first_jump,second_jump],
+                'call_sites':[{'first':first,'last':last,'index':last}
+                              for first,last in calls],
+                'term_slots':[],
+                'rendered_term':expression.decode('cp1251','backslashreplace'),
+                'fallthrough':join+1,'branch_target':final['op2']['word0'],
+                'conditional_opcode':'JMPZ','effectful_call_chain':True}
     def term_ending_at(index:int, expected):
         """Prove a pure comparison, optionally preceded by single-dimension
         FETCH_DIM_R operands. Require strict adjacency and matching TEMP slots.
@@ -348,6 +469,14 @@ def join_proofs(ops:list[dict], cv:dict[int,bytes], mapping:dict) -> dict[int,di
         try:
             if evidence is None:evidence=_validated_evidence(OPCODE_MAP)
             found[join]=nested_dimension_join(join,evidence)
+        except (Unsupported, ValueError, IndexError, KeyError, TypeError):
+            continue
+    for join in range(9,len(ops)):
+        if join in found or name(join)!='JMPZ' or name(join-1)!='BOOL':
+            continue
+        try:
+            if evidence is None:evidence=_validated_evidence(OPCODE_MAP)
+            found[join]=three_call_and(join,evidence)
         except (Unsupported, ValueError, IndexError, KeyError, TypeError):
             continue
     # A bounded nested form has two OR terms separated by one AND term.
