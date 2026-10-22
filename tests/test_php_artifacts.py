@@ -35,10 +35,10 @@ class PHPArtifactLayout(unittest.TestCase):
 
     def test_preserved_categories(self):
         self.assertEqual(len(list((ROOT / 'sample_inputs').glob('*.php'))), 11)
-        self.assertEqual(len(list((ROOT / 'golden/reference/code').glob('*.php'))), 9)
+        self.assertEqual(len(list((ROOT / 'golden/reference/code').glob('*.php'))), 10)
         self.assertEqual(len(list((ROOT / 'corpus/own_sources').glob('*.php'))), 5)
         self.assertEqual(len(list((ROOT / 'research/fragments').glob('*.php'))), 12)
-        self.assertEqual(len(list(ROOT.rglob('*.php'))), 37)
+        self.assertEqual(len(list(ROOT.rglob('*.php'))), 38)
 
 
 if __name__ == '__main__':

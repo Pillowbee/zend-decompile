@@ -67,8 +67,10 @@ class HeaderIndexedCallEvidenceTests(unittest.TestCase):
         self.assertEqual(len(links['observations']), 2)
         self.assertEqual(len(full['observations']), 16)
         both = links['observations'] + full['observations']
+        # The foreach control flow is modelled now, so every call site of the
+        # corpus can be checked structurally.
         self.assertEqual(Counter(r['status'] for r in both),
-                         {'experimental_structural_match': 15, 'unverifiable_cfg': 3})
+                         {'experimental_structural_match': 18})
         self.assertTrue(all(r['encoded_key'] in DISPUTED_KEYS for r in both))
         self.assertTrue(all(r['evidence_status'] == 'unknown' for r in both))
         for report in (links, full):
@@ -102,12 +104,12 @@ class HeaderIndexedCallEvidenceTests(unittest.TestCase):
         self.assertEqual({(r['group'], r['index'], r['callee'])
                           for r in full['observations']}, expected)
 
-    def test_cfg_unmodelled_foreach_is_not_reported_as_valid(self):
+    def test_foreach_call_sites_are_now_checkable(self):
         rows = [x for x in self.report('fun_all.php')['observations']
                 if x['group'] == 'out_price']
         self.assertEqual([r['index'] for r in rows], [21, 106, 115])
-        self.assertTrue(all(r['status'] == 'unverifiable_cfg' for r in rows))
-        self.assertTrue(all(r['basic_block'] is None for r in rows))
+        self.assertTrue(all(r['status'] == 'experimental_structural_match' for r in rows))
+        self.assertTrue(all(r['basic_block'] is not None for r in rows))
 
     def test_offline_api_matches_pure_function_without_rewriting_parsed(self):
         p = copy.deepcopy(self.parsed['links_fun(1).php'])
@@ -239,13 +241,12 @@ class HeaderIndexedCallEvidenceTests(unittest.TestCase):
                          ('rejected', 'unclosed_prior_send'))
 
     def test_unmodeled_cfg_is_refused_without_guessing(self):
-        # The foreach groups stay unverifiable: their control flow still
-        # contains the unmodelled FE_RESET/FE_FETCH pair.  The refusal is
-        # reported, never silently treated as a valid call site.
+        # No call site of the corpus is unverifiable any more; the check keeps
+        # the refusal path alive for inputs whose control flow cannot be
+        # modelled.
         report = self.report('fun_all.php')
-        self.assertEqual(Counter(r['reason'] for r in report['observations']
-                                 if r['status'] == 'unverifiable_cfg'),
-                         {'unmodeled_or_invalid_cfg': 3})
+        self.assertEqual(Counter(r['status'] for r in report['observations']),
+                         {'experimental_structural_match': 16})
 
 
 if __name__ == '__main__':

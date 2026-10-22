@@ -20,6 +20,11 @@ from . import encoder_calls
 
 IDENT = re.compile(rb'^[A-Za-z_][A-Za-z_0-9]*$')
 
+# Sentinel for the element of a foreach.  The element has no PHP expression
+# outside the foreach construct, so the value is marked instead of guessed.
+# Any statement that would leak the sentinel is refused.
+FOREACH_VALUE = b'__ZEND_FOREACH_VALUE__'
+
 class Unsupported(Exception):
     pass
 
@@ -56,6 +61,44 @@ def spot(node):
     return node['type'],node['word0'],node['word1']
 
 
+def _foreach_facts(before: dict, after: dict) -> dict:
+    """Facts of a foreach that this block contributed.
+
+    The array of the foreach is known where FE_RESET is decoded, the bound
+    variable where the assignment is decoded; the header block is the one
+    where the fetch is decoded.  The facts are merged later by their id.
+    """
+    facts = {}
+    if after.get('stage') == 'fetch' and before.get('stage') == 'reset':
+        facts['id'] = after.get('id')
+        facts['array'] = after['array'].decode('cp1251')
+    if after.get('stage') == 'bound' and before.get('stage') in ('fetch', 'binding'):
+        facts['id'] = after.get('id')
+        facts['variable'] = after['variable'].decode('cp1251')
+        facts['by_ref'] = bool(after.get('by_ref'))
+    return facts
+
+
+def _merge_foreach_facts(blocks: list) -> None:
+    """Give every foreach header the array and the bound variable."""
+    arrays = {}
+    variables = {}
+    for block in blocks:
+        facts = block.get('foreach') or {}
+        if 'array' in facts:
+            arrays[facts['id']] = facts
+        if 'variable' in facts:
+            variables[facts['id']] = facts
+    for block in blocks:
+        facts = block.get('foreach') or {}
+        if 'id' not in facts:
+            continue
+        merged = dict(facts)
+        merged.update(arrays.get(facts['id'], {}))
+        merged.update(variables.get(facts['id'], {}))
+        block['foreach'] = merged
+
+
 @dataclass
 class Segment:
     statements: list[bytes]
@@ -68,7 +111,7 @@ class Segment:
 
 
 class Decoder:
-    def __init__(self,ops,cv,mapping,symbols=None,callees=None):
+    def __init__(self,ops,cv,mapping,symbols=None,callees=None,context=None):
         self.ops=ops
         self.cv=cv
         self.map=mapping
@@ -77,6 +120,8 @@ class Decoder:
         # encoder call sites, which keeps the decoder fail-closed.
         self.symbols=list(symbols or [])
         self.callees=dict(callees or {})
+        # State that spans the basic blocks of one group (foreach construct).
+        self.context=context if context is not None else {}
         self.defs={}
         self.call_stack=[]
         self.direct_call_args=DirectCallBuffer()
@@ -140,6 +185,17 @@ class Decoder:
         self.consumed_call_slots.discard(k)
         self.defs[k] = text
 
+    def _is_foreach_binding(self,lhs_node,rhs_node) -> bool:
+        """True when an assignment binds the value of the current foreach."""
+        state=self.context.get('foreach')
+        if not state or state.get('stage') not in ('fetch','binding'):
+            return False
+        if lhs_node.get('type')!=16:
+            return False
+        if rhs_node.get('type') not in (2,4):
+            return False
+        return spot(rhs_node) in (state.get('element_slot'),state.get('binding_slot'))
+
     def emit_call(self,result_node,expr):
         """Emit a call expression and keep it available as a side effect."""
         if self.silence_slot is not None:
@@ -194,9 +250,17 @@ class Decoder:
                 pieces.append(val)
                 self.put(r,pieces)
             elif kind=='FETCH_W':
-                if a['type']!=1 or b['type']!=8:raise Unsupported('Complex FETCH_W unsupported')
-                var=sym(raw_string(a))
-                self.put(r,b'$GLOBALS['+php_string(var)+b']')
+                if b['type']!=8:raise Unsupported('Complex FETCH_W unsupported')
+                if a['type']==1:
+                    # A global variable: $GLOBALS['name'].
+                    var=sym(raw_string(a))
+                    self.put(r,b'$GLOBALS['+php_string(var)+b']')
+                elif a['type']==16:
+                    # A variable variable: the container of the variable that
+                    # is named by the value of the compiled variable.
+                    self.put(r,b'$$'+sym(self.cv[a['word0']]))
+                else:
+                    raise Unsupported('Complex FETCH_W unsupported')
             elif kind=='FETCH_R':
                 if b['type']!=8 or b['word0']!=1 or b['word1']!=1:
                     raise Unsupported('Noncanonical dynamic-variable FETCH_R')
@@ -209,7 +273,12 @@ class Decoder:
                 lhs=self.val(a);rhs=self.val(b)
                 if rhs==b'$GLOBALS['+php_string(lhs[1:])+b']':
                     self.lines.append(b'global '+lhs+b';')
-                else:raise Unsupported('Non-global ASSIGN_REF unsupported')
+                elif lhs.startswith(b'$') and rhs.startswith(b'$'):
+                    # A reference assignment.  The operands are the containers
+                    # of the target and of the source.
+                    self.lines.append(lhs+b' = &'+rhs+b';')
+                else:
+                    raise Unsupported('Non-global ASSIGN_REF unsupported')
             elif kind in ('FETCH_DIM_R','FETCH_DIM_FUNC_ARG','FETCH_DIM_W'):
                 if b['type']==8:
                     if kind!='FETCH_DIM_W':raise Unsupported('Unreadable append access')
@@ -292,12 +361,22 @@ class Decoder:
                     'send_indices':site['send_indices']})
                 self.emit_call(r,expr)
             elif kind=='ASSIGN':
-                lhs=self.val(a); rhs=self.val(b)
-                if isinstance(rhs,list):rhs=b' . '.join(rhs) if rhs else b"''"
-                stmt=lhs+b' = '+rhs
-                self.lines.append(stmt+b';')
-                self.put(r,b'('+stmt+b')')
-                self.last_assignment=(stmt,spot(r))
+                if self._is_foreach_binding(a,b):
+                    # The binding of the loop variable; the foreach construct
+                    # carries it, so no separate statement is emitted.
+                    lhs=self.val(a)
+                    self.val(b)
+                    state=self.context['foreach']
+                    state['variable']=lhs
+                    state['stage']='bound'
+                    self.put(r,FOREACH_VALUE)
+                else:
+                    lhs=self.val(a); rhs=self.val(b)
+                    if isinstance(rhs,list):rhs=b' . '.join(rhs) if rhs else b"''"
+                    stmt=lhs+b' = '+rhs
+                    self.lines.append(stmt+b';')
+                    self.put(r,b'('+stmt+b')')
+                    self.last_assignment=(stmt,spot(r))
             elif kind=='ASSIGN_CONCAT':
                 lhs=self.val(a);rhs=self.val(b)
                 stmt=lhs+b' .= '+rhs
@@ -307,7 +386,64 @@ class Decoder:
                 self.lines.append(b'print '+self.val(a)+b';')
                 self.put(r,b'1')
             elif kind=='FREE':
-                self.val(a)
+                state=self.context.get('foreach')
+                if state and spot(a)==state.get('element_slot'):
+                    # The freed value is the foreach element; it has no value
+                    # outside the construct and produces no statement.
+                    pass
+                else:
+                    self.val(a)
+            elif kind=='SWITCH_FREE':
+                # Releases a foreach iterator or a switch temporary.  It
+                # produces no statement and no value, so the operand is only
+                # checked for its shape and never resolved.
+                if a['type'] not in (2,4):
+                    raise Unsupported('Unexpected SWITCH_FREE operand')
+            elif kind=='FE_RESET':
+                # foreach: the array that is iterated.
+                expr=self.val(a)
+                self.put(r,expr)
+                counter=self.context.get('foreach_counter',0)
+                self.context['foreach_counter']=counter+1
+                self.context['foreach']={'id':counter,'array':expr,
+                                         'iterator_slot':spot(r),'stage':'reset'}
+            elif kind=='FE_FETCH':
+                # foreach: fetch the next element.  The element has no PHP
+                # expression outside the foreach construct.  The iterator is
+                # read from the construct state, because the reset may live in
+                # the previous basic block.
+                state=self.context.get('foreach')
+                if not state or state.get('stage')!='reset':
+                    raise Unsupported('foreach fetch without a reset')
+                if spot(a)!=state.get('iterator_slot'):
+                    raise Unsupported('foreach fetch reads a foreign iterator')
+                self.put(r,FOREACH_VALUE)
+                state['stage']='fetch'
+                state['element_slot']=spot(r)
+                if self.branch is not None:raise Unsupported('Multiple branches in segment')
+                self.branch=('FE_FETCH',b'',self.dest(b))
+            elif kind=='FETCH_DIM_TMP_VAR':
+                # foreach by reference: the element is bound as a reference.
+                state=self.context.get('foreach')
+                if not state or state.get('stage')!='fetch':
+                    raise Unsupported('foreach binding outside a foreach fetch')
+                if spot(a)!=state.get('element_slot'):
+                    raise Unsupported('foreach binding reads a foreign slot')
+                if b['type']!=1 or b.get('constant',{}).get('kind')!='integer' or b['constant'].get('value')!=0:
+                    raise Unsupported('Unexpected foreach binding dimension')
+                self.put(r,FOREACH_VALUE)
+                state['stage']='binding'
+                state['binding_slot']=spot(r)
+                state['by_ref']=True
+            elif kind=='ASSIGN' and self._is_foreach_binding(a,b):
+                # The binding of the loop variable; the foreach construct
+                # carries it, so no separate statement is emitted.
+                lhs=self.val(a)
+                self.val(b)
+                state=self.context['foreach']
+                state['variable']=lhs
+                state['stage']='bound'
+                self.put(r,FOREACH_VALUE)
             elif kind=='PRE_INC':
                 rhs=self.val(a)
                 self.lines.append(b'++'+rhs+b';')
@@ -356,6 +492,11 @@ class Decoder:
             raise Unsupported(str(exc)) from exc
         if self.silence_slot is not None:raise Unsupported('Silence region crosses block boundary')
         statements=[line for line in self.lines if line is not None]
+        if any(FOREACH_VALUE in line for line in statements):
+            # The value of a foreach element only exists inside the foreach
+            # construct.  A leaked sentinel means the construct was not
+            # recognised, and the block is refused instead of guessed.
+            raise Unsupported('Foreach element value used outside the foreach construct')
         sources=[src for line,src in zip(self.lines,self.line_sources) if line is not None]
         return Segment(statements,self.branch,self.covered,self.last_assignment,
                        dict(self.fired_rules),list(self.encoder_calls),sources)

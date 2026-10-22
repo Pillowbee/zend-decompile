@@ -16,6 +16,7 @@
   "full_candidates": [
     "basket.php",
     "course_get.php",
+    "fun_all.php",
     "get_wares.php",
     "gr_wares1.php",
     "header_index(1).php",
@@ -24,13 +25,7 @@
     "orders_admin.php",
     "user.php"
   ],
-  "unsupported": [
-    {
-      "file": "fun_all.php",
-      "exception": "Unsupported",
-      "reason": "Cannot restore out_link: structured: out_link block B016: Unresolved temporary (2, 0, 0); state fallback: Unresolved temporary (2, 0, 0)"
-    }
-  ],
+  "unsupported": [],
   "not_encoded": [
     {
       "file": "header_admin.php",
@@ -74,6 +69,10 @@
     "user.php": {
       "code_sha256": "ede44e430b92e31559785ccac8141571882066e71ef50a747a146af888c663c0",
       "audit_sha256": "50b17c4fcf6f2a355ea0d66f54ddd6bb182a2a66c13a8d4a9504a3a5c7d721dc"
+    },
+    "fun_all.php": {
+      "code_sha256": "07d60cfca20dfcede7789e4395c32e58a36399c2f2004dd6115bd40303ef6033",
+      "audit_sha256": "29f340e4de5b2682ba0855e2cbbda4e4b8ffd28e6b4e941c9252e67059fbe1cc"
     }
   },
   "dictionary_sha256": "e20528db8cd90b6e11deeafd572cb176fdeb905f932104687bae58aedd028cf2",

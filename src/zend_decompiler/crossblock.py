@@ -101,6 +101,12 @@ def join_proofs(ops:list[dict], cv:dict[int,bytes], mapping:dict) -> dict[int,di
                 consumed.append(cursor)
                 cursor-=1
                 continue
+            if name(cursor)=='FETCH_R' and slot(fetch['result'])==slot(node) and fetch['op1']['type']==16:
+                # A plain read of a compiled variable is pure.
+                values[key]=parser.val(fetch['op1'])
+                consumed.append(cursor)
+                cursor-=1
+                continue
             if name(cursor) in CALL_END_NAMES and slot(fetch['result'])==slot(node):
                 # A call result may be compared directly.  The call is decoded
                 # as one closed segment, so the argument order is preserved.

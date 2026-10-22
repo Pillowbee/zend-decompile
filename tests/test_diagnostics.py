@@ -23,17 +23,15 @@ class Diagnostics23(unittest.TestCase):
         self.assertEqual(user.audit['rule_usage'].get('BOOL_NOT',0),0)
 
     def test_exact_failure_instruction_and_opcode_window(self):
-        # fun_all.php now fails on the control flow that is still unmodelled:
-        # the FE_RESET/FE_FETCH pair of the foreach.  The audit must name the
-        # exact instructions instead of a vague message.
+        # Every encoded sample of the corpus is restored now.  The diagnostic
+        # of an exact failure is covered by the tampered input in
+        # tests/test_crossblock_calls.py and by tests/test_encoder_calls.py.
         result=restore_result(ROOT/'sample_inputs/fun_all.php',D,M)
-        self.assertEqual(result.status,'unsupported')
-        self.assertIsNone(result.code)
-        failure=result.audit['failure']
-        self.assertEqual(failure['index_precision'],'exact_unmodeled_control_flow_instructions')
-        self.assertEqual(failure['unmodeled_control_flow'],
-                         [{'index':63,'native_opcode':77},{'index':64,'native_opcode':78}])
-        self.assertIn('out_price',failure['message'])
+        self.assertEqual(result.status,'candidate_generated',result.reason)
+        self.assertIsNotNone(result.code)
+        self.assertNotIn('failure',result.audit)
+        self.assertEqual(result.audit['mapped_instructions'],
+                         result.audit['serialized_instructions'])
         # The disputed native keys stay 'unknown' in the native map even where
         # the Encoder-level call form is recognised and restored.
         r=restore_result(ROOT/'sample_inputs/links_fun(1).php',D,M)

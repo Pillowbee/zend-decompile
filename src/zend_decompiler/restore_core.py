@@ -16,6 +16,7 @@ from .prefix_restore import Decoder, Unsupported, sym
 from .structure import Emitter, build_graph, insist, StructureError
 from .state import state_emit
 from .encoder_calls import declared_callees
+from .prefix_restore import _foreach_facts, _merge_foreach_facts
 
 def function_parameters(group: dict) -> list[bytes]:
     ops = group['opcodes']
@@ -47,25 +48,31 @@ def build_group(group: dict, mapping: dict, name: str, symbols=None, callees=Non
     blocks = []
     used_rules=Counter()
     encoder_calls=[]
+    context = {}
     for b in cfg['basic_blocks']:
-        d = Decoder(ops, cvs, mapping, symbols, callees)
+        d = Decoder(ops, cvs, mapping, symbols, callees, context)
         if b['first'] in proofs:
             proof = proofs[b['first']]
             d.defs[tuple(proof['slot'])] = bytes.fromhex(proof['expression_hex'])
+        before = dict(context.get('foreach') or {})
         try:
             res = d.run(b['first'], b['last'])
         except Unsupported as e:
             raise Unsupported(f'{name} block {b["id"]} opcode #{d.current_index}: {e}') from e
+        after = context.get('foreach') or {}
+        facts = _foreach_facts(before, after)
         used_rules.update(res.fired_rules or {})
         encoder_calls.extend(res.encoder_calls or [])
         blocks.append({
             'id': b['id'], 'first': b['first'], 'last': b['last'],
             'statements': [line.decode('cp1251') for line in res.statements],
             'statement_sources': list(res.statement_sources or []),
+            'foreach': facts or None,
             'branch': None if res.branch is None else {'opcode': res.branch[0],
                 'condition': res.branch[1].decode('cp1251'), 'target': res.branch[2]},
             'successors': b['successors']
         })
+    _merge_foreach_facts(blocks)
     data = {'source': name, 'total':len(ops), 'blocks':blocks,
             'proven_short_circuit_joins':list(proofs.values())}
     kept, graph, folded, removed = build_graph(data)
@@ -82,6 +89,11 @@ def build_group(group: dict, mapping: dict, name: str, symbols=None, callees=Non
     audit['name'] = name
     audit['decoder_rule_usage'] = dict(sorted(used_rules.items()))
     audit['encoder_call_sites'] = encoder_calls
+    unique_foreach={}
+    for b in blocks:
+        facts=b.get('foreach')
+        if facts: unique_foreach.setdefault(facts.get('id'),facts)
+    audit['foreach_constructs']=[unique_foreach[key] for key in sorted(unique_foreach)]
     audit['source_cfg_blocks'] = len(blocks)
     audit['decoder'] = 'empirical_mapping_php52'
     audit['unknown_opcodes'] = unresolved

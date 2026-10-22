@@ -21,13 +21,15 @@ JMPZ_EX=46
 JMPNZ_EX=47
 RETURN=62
 EXIT=79
+FE_RESET=77
+FE_FETCH=78
 HANDLE_EXCEPTION=149
 BRANCHES={JMP,JMPZ,JMPNZ,JMPZNZ,JMPZ_EX,JMPNZ_EX}
 TERMINALS={RETURN,EXIT,HANDLE_EXCEPTION}
 # Native PHP 5.2 handlers show non-fallthrough control flow for these
 # instructions, but the Encoder operand/target semantics are unverified.
 # Never silently interpret them as straight-line instructions.
-UNMODELED_CONTROL_FLOW={50,51,77,78,107,108}
+UNMODELED_CONTROL_FLOW={50,51,107,108}
 
 
 def code_string(raw_hex: str, encoding: str = 'cp1251') -> str:
@@ -68,6 +70,11 @@ def branch_destinations(op: dict, count: int) -> list[tuple[int,str]]:
         dest=[(read_jump_target(op['op2'],idx,num),'nonzero'),(idx+1,'zero')]
     elif num==JMPZNZ:
         dest=[(read_jump_target(op['op2'],idx,num),'operand2'),(op['extended_value'],'extended')]
+    elif num==FE_FETCH:
+        # A foreach fetch continues into the loop body and leaves the loop when
+        # the array is exhausted.  The native handler carries the exit target
+        # in op2; the fallthrough is the body.
+        dest=[(read_jump_target(op['op2'],idx,num),'zero'),(idx+1,'nonzero')]
     elif num in TERMINALS:
         dest=[]
     else:
@@ -91,7 +98,7 @@ def cfg_for_group(name: str, group: dict) -> dict:
     unknown=[x['index'] for x in ops if x['decoded_opcode'] is None]
     for op in ops:
         num=op['decoded_opcode'];i=op['index']
-        if num in BRANCHES:
+        if num in BRANCHES or num==FE_FETCH:
             jump_count+=1
             for d,_ in branch_destinations(op,n):
                 if d<n:leaders.add(d)

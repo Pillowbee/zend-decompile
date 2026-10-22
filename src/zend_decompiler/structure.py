@@ -118,7 +118,7 @@ def find_loops(graph, blocks):
             loops[h]={'nodes':nodes,'latches':{p}}
     for h,rec in loops.items():
         block=blocks[h]
-        insist(block.get('branch') is not None and block['branch']['opcode'] in ('JMPZ','JMPNZ','JMPZNZ'),
+        insist(block.get('branch') is not None and block['branch']['opcode'] in ('JMPZ','JMPNZ','JMPZNZ','FE_FETCH'),
                'Loop header has unknown branch '+h)
         pos={e['kind']:e['block'] for e in block['successors']}
         insist(set(pos) in ({'zero','nonzero'},{'operand2','extended'}), 'Loop branch direction unsupported: '+h)
@@ -126,8 +126,11 @@ def find_loops(graph, blocks):
         outside=[e for e in block['successors'] if e['block'] not in rec['nodes']]
         insist(len(inside)==len(outside)==1,'Noncanonical loop: '+h)
         insist((inside[0]['kind'], outside[0]['kind']) in (('nonzero','zero'),('extended','operand2')), 'Loop condition polarity unusual: '+h)
-        insist(len(rec['latches'])==1,'Multiple latches unsupported: '+h)
+        # Several latches may jump back to the header; the traversal stops at
+        # the header, so every one of them ends the iteration.
+        insist(rec['latches'],'Loop without a latch: '+h)
         rec['body']=inside[0]['block'];rec['after']=outside[0]['block']
+        rec['kind']='foreach' if block['branch']['opcode']=='FE_FETCH' else 'while'
     return loops
 
 
@@ -163,6 +166,20 @@ class Emitter:
             if node in self.loops:
                 loop=self.loops[node]
                 cond=branch['condition']
+                if loop.get('kind')=='foreach':
+                    facts=b.get('foreach') or {}
+                    insist(facts.get('array') and facts.get('variable'),
+                           'Foreach without an array or a bound variable: '+node)
+                    target=('&' if facts.get('by_ref') else '')+facts['variable']
+                    self.emit_statements(b,level)
+                    self.emit(level,'foreach ('+facts['array']+' as '+target+') {')
+                    self.structure.append({'construct':'foreach','header':node,
+                                           'body':loop['body'],'after':loop['after'],
+                                           'array':facts['array'],'variable':facts['variable'],
+                                           'by_ref':bool(facts.get('by_ref'))})
+                    self.region(loop['body'],node,level+1)
+                    self.emit(level,'}')
+                    node=loop['after'];continue
                 if cond.startswith('(') and cond.endswith(')'):
                     raw=cond[1:-1]
                 else:raw=cond

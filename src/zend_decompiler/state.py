@@ -9,7 +9,7 @@ from __future__ import annotations
 from .cfg import cfg_for_group
 from .crossblock import join_proofs
 from .calibrate import choose_opcode
-from .prefix_restore import Decoder, Unsupported
+from .prefix_restore import Decoder, Unsupported, _foreach_facts
 from .structure import build_graph, insist
 from collections import Counter
 
@@ -27,21 +27,26 @@ def recover_blocks(group, mapping, name, symbols=None, callees=None):
     blocks=[]
     used_rules=Counter()
     encoder_calls=[]
+    context={}
     for block in cfg['basic_blocks']:
-        decoder=Decoder(ops,cvs,mapping,symbols,callees)
+        decoder=Decoder(ops,cvs,mapping,symbols,callees,context)
         if block['first'] in proofs:
             p=proofs[block['first']]
             decoder.defs[tuple(p['slot'])]=bytes.fromhex(p['expression_hex'])
+        before=dict(context.get('foreach') or {})
         try:
             segment=decoder.run(block['first'],block['last'])
         except Unsupported as exc:
             raise Unsupported(f'{name} block {block["id"]} opcode #{decoder.current_index}: {exc}') from exc
+        after=context.get('foreach') or {}
+        facts=_foreach_facts(before,after)
         used_rules.update(segment.fired_rules or {})
         encoder_calls.extend(segment.encoder_calls or [])
         blocks.append({
             'id':block['id'],'first':block['first'],'last':block['last'],
             'statements':[s.decode('cp1251') for s in segment.statements],
             'statement_sources':list(segment.statement_sources or []),
+            'foreach':facts or None,
             'branch':None if segment.branch is None else {
                 'opcode':segment.branch[0],
                 'condition':segment.branch[1].decode('cp1251'),
@@ -80,6 +85,10 @@ def _unique_state_variable(cvs):
 
 def state_emit(group,mapping,name,symbols=None,callees=None):
     blocks,proofs,cvs,used_rules,encoder_calls=recover_blocks(group,mapping,name,symbols,callees)
+    # The dispatch loop cannot express a foreach construct; such a group is
+    # refused instead of being emitted in a distorted form.
+    if any((block.get('foreach') or {}) for block in blocks):
+        raise Unsupported('Foreach cannot be expressed by the state machine')
     kept, graph, folded, removed=build_graph({
         'blocks':blocks,'proven_short_circuit_joins':list(proofs.values())})
     labels=sorted(kept,key=lambda b:kept[b]['first'])
