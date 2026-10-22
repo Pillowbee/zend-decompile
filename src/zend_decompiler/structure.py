@@ -41,6 +41,9 @@ def build_graph(data):
         acceptable={proof['expression'],proof.get('rendered_term','')}
         insist(join['branch']['condition'] in acceptable, 'Proof and join disagree')
         insist(lead['last']==proof['shortcut_indices'][0], 'Unexpected short-circuit lead')
+        if proof.get('nested_dimension_reads'):
+            insist(lead['first']==start and not lead['statements'],
+                   'Dimension reads cannot be moved past statements')
         shortcut_kind='nonzero' if lead['branch']['opcode']=='JMPNZ_EX' else 'zero'
         # The shortcut edge may lead to the join itself or to a statement free
         # block in front of it that falls through into the join.

@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """Conservative, proof-carrying reconstruction of short-circuit boolean joins.
 
-Supports only side-effect-free CV/constant comparisons and BOOL, followed by
-JMPNZ_EX/JMPZ_EX chains with an explicit shared target. Other expressions
-are left unresolved rather than guessed. Does NOT execute the PHP source.
+Supports CV/constant comparisons and a bounded, confirmed form of two nested
+dimension-read chains, followed by JMPNZ_EX/JMPZ_EX joins with checked targets.
+Other expressions are left unresolved rather than guessed. Does NOT execute PHP.
 """
 from __future__ import annotations
 import json
@@ -14,6 +14,7 @@ from .calibrate import choose_opcode
 from .prefix_restore import Decoder, Unsupported, spot
 from .cfg import cfg_for_group
 from .encoder_calls import declared_callees
+from .readonly_dataflow import _validated_evidence, read_definitions
 
 COMPARISONS={
     'IS_EQUAL':b' == ', 'IS_NOT_EQUAL':b' != ',
@@ -60,7 +61,7 @@ def proof_seeds_by_block(proofs:dict[int,dict], blocks:list[dict]) -> dict[int,d
     for join,proof in proofs.items():
         block=next((b for b in blocks if b['first']<=join<=b['last']),None)
         if block is None:raise Unsupported('Short-circuit join has no CFG block')
-        if proof.get('nested') and block['first']!=join:
+        if (proof.get('nested') or proof.get('nested_dimension_reads')) and block['first']!=join:
             raise Unsupported('Nested short-circuit join is not at a block entry')
         values={tuple(term['slot']):bytes.fromhex(term['value_hex'])
                 for term in proof.get('term_slots',[])}
@@ -96,6 +97,108 @@ def join_proofs(ops:list[dict], cv:dict[int,bytes], mapping:dict) -> dict[int,di
             return None
     def slot(node):
         return spot(node)
+    def nested_dimension_join(join:int, evidence:dict) -> dict:
+        """Prove the observed two-read AND form without moving a dimension read.
+
+        Only CV bases/keys, one exact nine-instruction diamond, confirmed native
+        handlers, and closed reaching definitions are accepted. A dimension read
+        may be observable, so each term is rendered in its original branch.
+        """
+        start=join-8
+        if start<0 or [name(i) for i in range(start,join+1)]!=[
+                'FETCH_DIM_R','FETCH_DIM_R','IS_NOT_EQUAL','JMPZ_EX',
+                'FETCH_DIM_R','FETCH_DIM_R','IS_NOT_EQUAL','BOOL','JMPZ']:
+            raise Unsupported('Different dimension condition')
+        for i in range(start,join+1):
+            op=ops[i];key=f'{i%8}:{op["encoded_opcode"]}'
+            observed=evidence.get(key)
+            if (observed is None or observed.get('status')!='confirmed' or
+                    observed.get('opcode')!=op.get('decoded_opcode') or
+                    mapping['opcodes'].get(key)!=op.get('decoded_opcode') or
+                    op['extended_value']!=0):
+                raise Unsupported('Dimension condition lacks confirmed opcode')
+        first,outer,compare,shortcut,second,outer2,compare2,wrapper,final=(
+            ops[i] for i in range(start,join+1))
+        def same(left,right):
+            return left==right
+        def read_pair(inner,container,comparison):
+            if (inner['op1']['type']!=16 or inner['op2']['type']!=16 or
+                    inner['result']['type']!=4 or container['op1']['type']!=16 or
+                    container['op2']['type']!=4 or container['result']['type']!=4 or
+                    not same(container['op2'],inner['result']) or
+                    comparison['op1']['type']!=4 or
+                    not same(comparison['op1'],container['result']) or
+                    comparison['op2']['type']!=1 or
+                    comparison['op2']['constant']['kind']!='string' or
+                    comparison['result']['type']!=2):
+                raise Unsupported('Unproven dimension read operands')
+        read_pair(first,outer,compare)
+        read_pair(second,outer2,compare2)
+        if (not same(first['op1'],second['op1']) or
+                not same(first['op2'],second['op2']) or
+                not same(outer['op1'],outer2['op1']) or
+                same(compare['op2'],compare2['op2']) or
+                shortcut['op1']['type']!=2 or shortcut['result']['type']!=2 or
+                not same(shortcut['op1'],compare['result']) or
+                not same(shortcut['result'],compare['result']) or
+                shortcut['op2']!={'type':8,'word0':join,'word1':1} or
+                wrapper['op1']['type']!=2 or wrapper['result']['type']!=2 or
+                not same(wrapper['op1'],compare2['result']) or
+                not same(wrapper['result'],shortcut['result']) or
+                final['op1']['type']!=2 or
+                not same(final['op1'],shortcut['result']) or
+                final['result']['type']!=8 or final['op2']['type']!=8 or
+                final['op2']['word1']!=1 or
+                final['op2']['word0'] in range(start,join+1)):
+            raise Unsupported('Unproven dimension join slots or target')
+        # The shortcut must skip exactly the second read. No other path may
+        # enter the second term or its join from outside this diamond.
+        checked=[dict(op,decoded_opcode=choose_opcode(op,mapping)) for op in ops]
+        group={'opcodes':checked,'compiled_vars':[],'loop_records':[]}
+        cfg=cfg_for_group('<dimension join>',group)
+        by_first={b['first']:b for b in cfg['basic_blocks']}
+        lead=by_first.get(start);middle=by_first.get(start+4);tail=by_first.get(join)
+        if (lead is None or middle is None or tail is None or
+                not all(b['reachable'] for b in (lead,middle,tail)) or
+                lead['last']!=start+3 or middle['last']!=join-1 or
+                tail['last']!=join or middle['predecessors']!=[lead['id']] or
+                set(tail['predecessors'])!={lead['id'],middle['id']} or
+                {(e['kind'],e['block']) for e in lead['successors']}!=
+                    {('zero',tail['id']),('nonzero',middle['id'])} or
+                [(e['kind'],e['block']) for e in middle['successors']]!=
+                    [('fallthrough',tail['id'])]):
+            raise Unsupported('Dimension join has another entry or branch')
+        analysis=read_definitions(group,title='<dimension join>')
+        if analysis['status']!='analyzed_syntactically':
+            raise Unsupported('Dimension join lacks reaching-definition proof')
+        expected={(start+1,'op2'):{start},(start+2,'op1'):{start+1},
+                  (start+3,'op1'):{start+2},(start+5,'op2'):{start+4},
+                  (start+6,'op1'):{start+5},(start+7,'op1'):{start+6},
+                  (join,'op1'):{start+3,start+7}}
+        seen=set();producers=set(range(start,join))
+        for use in analysis['temporary_uses']:
+            definitions=set(use['reaching_definition_indices'])
+            if not definitions & producers:continue
+            key=(use['instruction_index'],use['operand'])
+            if key not in expected or definitions!=expected[key]:
+                raise Unsupported('Dimension read has an external consumer')
+            seen.add(key)
+        if seen!=set(expected):
+            raise Unsupported('Dimension join has missing producer links')
+        left=render_range(ops,cv,mapping,start,start+2,slot(compare['result']))
+        right=render_range(ops,cv,mapping,start+4,start+6,slot(compare2['result']))
+        rendered=render_range(ops,cv,mapping,start+4,start+7,slot(wrapper['result']))
+        expression=b'('+left+b' && '+right+b')'
+        return {'join_index':join,'slot':list(slot(final['op1'])),'mode':'AND',
+                'expression_hex':expression.hex(),
+                'expression':expression.decode('cp1251','backslashreplace'),
+                'comparison_count':2,'source_indices':list(range(start,join+1)),
+                'shortcut_indices':[start+3],'call_sites':[],
+                'term_slots':[{'slot':list(slot(wrapper['result'])),
+                               'value_hex':rendered.hex()}],
+                'rendered_term':rendered.decode('cp1251','backslashreplace'),
+                'fallthrough':join+1,'branch_target':final['op2']['word0'],
+                'conditional_opcode':'JMPZ','nested_dimension_reads':True}
     def term_ending_at(index:int, expected):
         """Prove a pure comparison, optionally preceded by single-dimension
         FETCH_DIM_R operands. Require strict adjacency and matching TEMP slots.
@@ -235,6 +338,17 @@ def join_proofs(ops:list[dict], cv:dict[int,bytes], mapping:dict) -> dict[int,di
                          'branch_target':final['op2']['word0'],
                          'conditional_opcode':name(join)}
         except (Unsupported, IndexError, KeyError, TypeError):
+            continue
+    # Keep the effectful two-level reads in their original conditional order.
+    # The general comparison proof deliberately rejects this operand shape.
+    evidence=None
+    for join in range(8,len(ops)):
+        if join in found or name(join)!='JMPZ' or name(join-8)!='FETCH_DIM_R':
+            continue
+        try:
+            if evidence is None:evidence=_validated_evidence(OPCODE_MAP)
+            found[join]=nested_dimension_join(join,evidence)
+        except (Unsupported, ValueError, IndexError, KeyError, TypeError):
             continue
     # A bounded nested form has two OR terms separated by one AND term.
     # The outer JMPZ_EX instructions skip the entire remaining condition;
