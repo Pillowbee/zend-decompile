@@ -23,8 +23,8 @@ class Diagnostics23(unittest.TestCase):
         self.assertEqual(user.audit['rule_usage'].get('BOOL_NOT',0),0)
 
     def test_exact_failure_instruction_and_opcode_window(self):
-        expectations={'links_fun(1).php':('<main>',12), 'fun_all.php':('out_link',16)}
-        for file,(group,index) in expectations.items():
+        expectations={'links_fun(1).php':('<main>',14,12), 'fun_all.php':('out_link',16,16)}
+        for file,(group,index,block_start) in expectations.items():
             with self.subTest(file=file):
                 result=restore_result(ROOT/'sample_inputs'/file,D,M)
                 self.assertEqual(result.status,'unsupported')
@@ -32,11 +32,15 @@ class Diagnostics23(unittest.TestCase):
                 failure=result.audit['failure']
                 self.assertEqual(failure['opcode_index'],index)
                 self.assertEqual(failure['index_precision'],'exact_decoder_instruction_on_exception')
-                self.assertEqual(failure['block_start_opcode_index'],index)
+                self.assertEqual(failure['block_start_opcode_index'],block_start)
                 self.assertEqual(failure['block_window']['group'],group)
                 self.assertEqual(failure['block_window']['index'],index)
         r=restore_result(ROOT/'sample_inputs/links_fun(1).php',D,M)
-        self.assertEqual(r.audit['failure']['block_window']['window'][-1]['confidence'],'unknown')
+        window=r.audit['failure']['block_window']['window']
+        disputed=next(item for item in window if item['key']=='6:226')
+        self.assertEqual(disputed['index'],14)
+        self.assertEqual(disputed['confidence'],'unknown')
+        self.assertIn('Unsupported opcode #14 140',r.audit['failure']['message'])
 
     def test_source_confidence_never_promoted_without_evidence(self):
         r=restore_result(ROOT/'sample_inputs/fun_all.php',D,M)
