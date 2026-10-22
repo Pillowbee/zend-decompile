@@ -17,3 +17,6 @@ dist/
 /output/
 /outputs/
 /research/_generated/
+
+# Protected local corpus of the owner: real encoded artifacts, never published.
+/sample_inputs/pipeshop/
