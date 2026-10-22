@@ -99,6 +99,29 @@ def _merge_foreach_facts(blocks: list) -> None:
         block['foreach'] = merged
 
 
+def foreach_markers(ops: list, mapping: dict | None = None) -> set:
+    """Instruction indices that bind the element of a foreach.
+
+    The native opcode of that instruction is not established: the optimizer
+    replaces it with a NOP in the native op_array.  It is therefore
+    recognised structurally - it follows a fetch and reads its result - and
+    never by an opcode number.
+    """
+    markers=set()
+    for index,op in enumerate(ops):
+        opcode=op.get('decoded_opcode')
+        if opcode is None and mapping is not None:
+            opcode=choose_opcode(op,mapping)
+        if opcode!=78:continue   # FE_FETCH
+        if index+1>=len(ops):continue
+        nxt=ops[index+1]
+        if nxt['op1'].get('type') not in (2,4):continue
+        if nxt['result'].get('type')!=4:continue
+        if spot(nxt['op1'])!=spot(op['result']):continue
+        markers.add(nxt['index'])
+    return markers
+
+
 @dataclass
 class Segment:
     statements: list[bytes]
@@ -196,6 +219,24 @@ class Decoder:
             return False
         return spot(rhs_node) in (state.get('element_slot'),state.get('binding_slot'))
 
+    def _is_foreach_marker(self,op_node,result_node) -> bool:
+        """True for the instruction that binds the element of a foreach.
+
+        The native opcode of that instruction is not established: the
+        optimizer replaces it with a NOP in the native op_array.  It is
+        therefore recognised by its data flow - it reads the element of the
+        current fetch and produces a writable container - and never by an
+        opcode number.
+        """
+        state=self.context.get('foreach')
+        if not state or state.get('stage')!='fetch':
+            return False
+        if op_node.get('type') not in (2,4):
+            return False
+        if result_node.get('type')!=4:
+            return False
+        return spot(op_node)==state.get('element_slot')
+
     def emit_call(self,result_node,expr):
         """Emit a call expression and keep it available as a side effect."""
         if self.silence_slot is not None:
@@ -215,9 +256,20 @@ class Decoder:
             op=self.ops[idx]
             self.current_index=idx
             if op['index']!=idx:raise Unsupported('Index mismatch')
-            kind=self.kind(op)
             a,b,r=op['op1'],op['op2'],op['result']
             self.covered.append(idx)
+            if self._is_foreach_marker(a,r):
+                # The binding of the foreach element is recognised by its data
+                # flow, not by an opcode number: the native opcode of this
+                # instruction is not established.
+                state=self.context['foreach']
+                self.put(r,FOREACH_VALUE)
+                state['stage']='binding'
+                state['binding_slot']=spot(r)
+                state['by_ref']=True
+                self.fired_rules['FOREACH_BINDING']+=1
+                continue
+            kind=self.kind(op)
             if kind=='RECV':
                 # RECV declares a positional parameter in the function signature;
                 # it does not produce a runtime statement in the function body.
@@ -422,19 +474,6 @@ class Decoder:
                 state['element_slot']=spot(r)
                 if self.branch is not None:raise Unsupported('Multiple branches in segment')
                 self.branch=('FE_FETCH',b'',self.dest(b))
-            elif kind=='FETCH_DIM_TMP_VAR':
-                # foreach by reference: the element is bound as a reference.
-                state=self.context.get('foreach')
-                if not state or state.get('stage')!='fetch':
-                    raise Unsupported('foreach binding outside a foreach fetch')
-                if spot(a)!=state.get('element_slot'):
-                    raise Unsupported('foreach binding reads a foreign slot')
-                if b['type']!=1 or b.get('constant',{}).get('kind')!='integer' or b['constant'].get('value')!=0:
-                    raise Unsupported('Unexpected foreach binding dimension')
-                self.put(r,FOREACH_VALUE)
-                state['stage']='binding'
-                state['binding_slot']=spot(r)
-                state['by_ref']=True
             elif kind=='ASSIGN' and self._is_foreach_binding(a,b):
                 # The binding of the loop variable; the foreach construct
                 # carries it, so no separate statement is emitted.

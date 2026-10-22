@@ -1,21 +1,21 @@
 {
   "confidence_policy": "Require verified native-to-encoded alignment and primary source before marking confirmed",
   "evidence_file": "opcode_evidence.json",
-  "evidence_sha256": "eae9bc0a14197235a8a28344915f1689de61031e86641398136ae1aba223af92",
+  "evidence_sha256": "be168f73b59410b79294711fc03c08ecf0e969238e136037a8b5773c5648bc76",
   "format_variant": "SSG Team serialized research v6 / cyclic opcode key (instruction index mod 8, encoded byte)",
   "hypotheses": {
     "issues": [
       {
         "identifier": "140",
-        "observation": "Empirical mapping includes native number 140 but several call argument contexts do not match DECLARE_INHERITED_CLASS. Native enum nomenclature does not prove encoded meaning.",
+        "observation": "The empirical mapping includes native number 140, but the call contexts do not match DECLARE_INHERITED_CLASS.  The encoder level meaning of these positions is a call to a function declared in the same file, addressed by an index into header_symbols; the native number stays unresolved.",
         "resolution_requirement": "Obtain authoritative PHP 5.2.17 opcode definitions and demonstrate per-instruction operand+line alignment on same encoded fixture using compile-only probe; do not remap by context.",
         "status": "unresolved",
         "type": "native_opcode_number_vs_encoded_context"
       },
       {
         "identifier": "1:199",
-        "observation": "Observed foreach-adjacent in out_price opcode #65 and uc_rus opcode #17.",
-        "resolution_requirement": "Independent decode of exactly these encoded records and aligned native trace from same protected artifact, without executing it.",
+        "observation": "The key stays unmapped.  A compile-only native trace of the same files shows the corresponding native instruction replaced by a NOP, so the native opcode number of this position is not established.  On the encoder level the instruction is the by reference binding of a foreach element, recognised by its data flow.",
+        "resolution_requirement": "Independent evidence for the native opcode of this position; until then the instruction is recognised by structure and never by a number.",
         "status": "unknown",
         "type": "unknown_encoded_key"
       },
@@ -29,7 +29,7 @@
     ]
   },
   "mapping_file": "opcode_map.json",
-  "mapping_sha256": "a70dbf7d66e5ee2277bc5411426ae75d66f4c60b72530d70d94c789a31051b0b",
+  "mapping_sha256": "47b6a28df16db7fd695bcb0ea7e429e123d3afd9273349b1a39146367b8baea0",
   "own_probe_files": "corpus/compile_only_dumps/*.normalized.json (own PHP source only; no encoded mapping evidence)",
   "php_target": "5.2.17",
   "provenance": "Empirical encoded sample alignment; NOT independently proven mapping for every key",

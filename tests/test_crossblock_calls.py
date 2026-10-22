@@ -191,7 +191,7 @@ class ExactFailureDiagnosticTests(unittest.TestCase):
             self.assertIsNone(result.code)
             failure = result.audit['failure']
             self.assertEqual(failure['opcode_index'], 63)
-            self.assertEqual(failure['unknown_opcodes'], [63, 64])
+            self.assertEqual(failure['unknown_opcodes'], [63, 64, 65])
             self.assertEqual(failure['index_precision'], 'exact_unknown_opcode_indices')
             self.assertEqual(failure['block_window']['group'], 'out_price')
             self.assertEqual(failure['block_window']['index'], 63)

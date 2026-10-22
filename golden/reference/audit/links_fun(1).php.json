@@ -39,6 +39,7 @@
           ]
         }
       ],
+      "foreach_constructs": [],
       "source_cfg_blocks": 3,
       "decoder": "empirical_mapping_php52",
       "unknown_opcodes": [],
@@ -90,6 +91,7 @@
       "production_ready": false,
       "name": "path_ln_groups",
       "encoder_call_sites": [],
+      "foreach_constructs": [],
       "source_cfg_blocks": 10,
       "decoder": "empirical_mapping_php52",
       "unknown_opcodes": [],
@@ -129,6 +131,7 @@
       "production_ready": false,
       "name": "count_ln",
       "encoder_call_sites": [],
+      "foreach_constructs": [],
       "source_cfg_blocks": 7,
       "decoder": "empirical_mapping_php52",
       "unknown_opcodes": [],
@@ -163,6 +166,7 @@
           ]
         }
       ],
+      "foreach_constructs": [],
       "source_cfg_blocks": 2,
       "decoder": "empirical_mapping_php52",
       "unknown_opcodes": [],
@@ -201,6 +205,7 @@
       "production_ready": false,
       "name": "link_is_present",
       "encoder_call_sites": [],
+      "foreach_constructs": [],
       "source_cfg_blocks": 7,
       "decoder": "empirical_mapping_php52",
       "unknown_opcodes": [],
@@ -258,6 +263,7 @@
       "production_ready": false,
       "name": "send_mail",
       "encoder_call_sites": [],
+      "foreach_constructs": [],
       "source_cfg_blocks": 15,
       "decoder": "empirical_mapping_php52",
       "unknown_opcodes": [],

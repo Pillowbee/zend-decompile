@@ -135,14 +135,10 @@ def choose_opcode(op:dict,mapping:dict) -> int|None:
     k=f'{op["index"]%8}:{op["encoded_opcode"]}'
     if k in mapping.get('conditional_send_keys',[]):
         return 65 if op['op1']['type']==1 else 66
-    value=mapping['opcodes'].get(k)
-    if value is not None:
-        return value
-    # The empirical map has no entry for this position.  The encoder opcode
-    # position rule may still predict one, but only when the operand shape
-    # fits the PHP 5.2 handler of the predicted opcode.
-    from .opcode_position import opcode_for
-    return opcode_for(op)
+    # The empirical map is authoritative.  A key that it does not contain
+    # stays unmapped: the encoder opcode position rule was measured on a
+    # second protected corpus and is not reliable enough to decode from.
+    return mapping['opcodes'].get(k)
 
 
 def main():

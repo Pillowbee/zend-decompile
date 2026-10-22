@@ -1,5 +1,5 @@
 <?php
-/* EXPERIMENTAL Zend recovery v20. Verify before use. */
+/* EXPERIMENTAL Zend recovery v29. Verify before use. */
 include 'editing/config.php';
 include 'include/functions/off_hack.php';
 include 'include/functions/sql_connect.php';

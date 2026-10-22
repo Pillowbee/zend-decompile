@@ -33,19 +33,14 @@ class SafetyTests(unittest.TestCase):
         self.assertIsNone(r.code)
 
     def test_known_unresolved_foreach_windows(self):
-        # The encoder opcode position rule resolves the previously unknown
-        # foreach-adjacent key 1:199 to native 98 (FETCH_DIM_TMP_VAR).  The
-        # native evidence for that key stays unknown, so the confidence of the
-        # disputed positions is unchanged and no window is left unmapped.
+        # The binding of a foreach element has no established native opcode,
+        # so the two positions stay unmapped.  The encoder opcode position rule
+        # predicts nothing: it is not reliable enough to decode from.
         r=restore_result(S/'fun_all.php',D,M)
-        self.assertEqual((r.audit['mapped_instructions'],r.audit['serialized_instructions']),(1631,1631))
-        self.assertEqual(r.audit['unknown_windows'],[])
+        self.assertEqual((r.audit['mapped_instructions'],r.audit['serialized_instructions']),(1629,1631))
         self.assertEqual(r.audit['confidence_counts']['unknown'],18)
         predicted=r.audit['opcode_position_rule']['predicted_positions']
-        self.assertEqual([(p['group'],p['index'],p['encoded_key'],p['predicted_opcode'])
-                          for p in predicted],
-                         [('out_price',65,'1:199',98),('uc_rus',17,'1:199',98)])
-        self.assertTrue(all(p['source']=='encoder_opcode_position_rule' for p in predicted))
+        self.assertEqual(predicted,[])
 
     def test_atomic_write_rejects_overwrite_and_invalid_pair(self):
         with tempfile.TemporaryDirectory() as folder:

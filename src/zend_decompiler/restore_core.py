@@ -12,7 +12,7 @@ from .serial_parser import decompress_encoded, parse_binary
 from .calibrate import choose_opcode
 from .cfg import cfg_for_group
 from .crossblock import join_proofs
-from .prefix_restore import Decoder, Unsupported, sym
+from .prefix_restore import Decoder, Unsupported, sym, foreach_markers
 from .structure import Emitter, build_graph, insist, StructureError
 from .state import state_emit
 from .encoder_calls import declared_callees
@@ -40,7 +40,9 @@ def build_group(group: dict, mapping: dict, name: str, symbols=None, callees=Non
     for op in ops:
         op['decoded_opcode'] = choose_opcode(op, mapping)
         op['_decoded_name'] = mapping['names'].get(str(op['decoded_opcode']))
-    unresolved = [op['index'] for op in ops if op['decoded_opcode'] is None]
+    markers = foreach_markers(ops)
+    unresolved = [op['index'] for op in ops
+                  if op['decoded_opcode'] is None and op['index'] not in markers]
     insist(not unresolved, f'{name}: unknown opcodes at {unresolved[:15]}')
     cvs = {v['index']: bytes.fromhex(v['name_hex']) for v in group['compiled_vars']}
     cfg = cfg_for_group(name, group)

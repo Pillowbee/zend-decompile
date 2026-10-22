@@ -220,8 +220,10 @@ class EncoderCallRestorationTests(unittest.TestCase):
 
     def test_disputed_native_keys_keep_unknown_confidence(self):
         result = restore_result(LINKS, DICTIONARY, OPCODE_MAP)
+        # The two disputed call sites keep their unknown status while the rest
+        # of the file is confirmed by a native trace of the same file.
         self.assertEqual(result.audit['confidence_counts']['unknown'], 2)
-        self.assertEqual(result.audit['confidence_counts']['confirmed'], 0)
+        self.assertGreater(result.audit['confidence_counts']['confirmed'], 0)
         self.assertEqual(result.audit['mapping_sha256'],
                          hashlib.sha256(OPCODE_MAP.read_bytes()).hexdigest())
 

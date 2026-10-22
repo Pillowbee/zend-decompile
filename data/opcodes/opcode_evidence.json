@@ -1,139 +1,177 @@
 {
   "entries": {
+    "0:101": {
+      "observations": 1,
+      "opcode": 54,
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
+    },
     "0:107": {
+      "observations": 307,
       "opcode": 59,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "0:108": {
+      "observations": 304,
       "opcode": 70,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "0:11": {
+      "observations": 9,
       "opcode": 106,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "0:128": {
+      "observations": 70,
       "opcode": 17,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "0:13": {
+      "observations": 384,
       "opcode": 38,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "0:131": {
+      "observations": 32,
       "opcode": 62,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "0:141": {
+      "observations": 206,
       "opcode": 61,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "0:159": {
+      "observations": 48,
       "opcode": 18,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "0:16": {
+      "observations": 167,
       "opcode": 55,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "0:161": {
+      "observations": 122,
       "opcode": 43,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "0:170": {
+      "observations": 127,
       "opcode": 56,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "0:175": {
+      "observations": 253,
       "opcode": 66,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "0:176": {
+      "observations": 2,
       "opcode": 47,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "0:184": {
+      "observations": 7,
       "opcode": 45,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "0:185": {
+      "observations": 7,
       "opcode": 46,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "0:188": {
+      "observations": 12,
       "opcode": 39,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "0:19": {
+      "observations": 4,
       "opcode": 2,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "0:196": {
+      "observations": 21,
       "opcode": 34,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "0:199": {
+      "observations": 7,
       "opcode": 99,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "0:205": {
+      "observations": 96,
       "opcode": 65,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "0:206": {
+      "observations": 15,
       "opcode": 83,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "0:214": {
+      "observations": 3,
       "opcode": 71,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "0:219": {
+      "observations": 77,
       "opcode": 8,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "0:227": {
+      "observations": 11,
       "opcode": 52,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "0:236": {
+      "observations": 7,
       "opcode": 72,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "0:24": {
       "opcode": 78,
       "reason": "Empirical mapping; independent per-key source trace unavailable.",
       "status": "inferred"
     },
+    "0:240": {
+      "observations": 2,
+      "opcode": 77,
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
+    },
     "0:243": {
+      "observations": 198,
       "opcode": 92,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "0:26": {
       "opcode": 140,
@@ -141,164 +179,232 @@
       "status": "unknown"
     },
     "0:3": {
+      "observations": 10,
       "opcode": 93,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "0:36": {
+      "observations": 13,
       "opcode": 19,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "0:38": {
+      "observations": 146,
       "opcode": 81,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
+    },
+    "0:40": {
+      "observations": 8,
+      "opcode": 1,
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "0:42": {
+      "observations": 555,
       "opcode": 40,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "0:43": {
+      "observations": 49,
       "opcode": 63,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "0:54": {
+      "observations": 3,
       "opcode": 3,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "0:56": {
+      "observations": 18,
       "opcode": 30,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "0:61": {
+      "observations": 1,
       "opcode": 80,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "0:65": {
+      "observations": 2,
       "opcode": 49,
-      "reason": "Opcode 49 foreach-adjacent ambiguity not resolved.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "0:66": {
+      "observations": 280,
       "opcode": 41,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "0:75": {
+      "observations": 85,
       "opcode": 53,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "0:8": {
+      "observations": 1,
       "opcode": 20,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
+    },
+    "0:84": {
+      "observations": 1,
+      "opcode": 58,
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "0:9": {
+      "observations": 20,
       "opcode": 73,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "0:90": {
+      "observations": 88,
       "opcode": 42,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "0:98": {
+      "observations": 24,
       "opcode": 84,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "1:101": {
+      "observations": 81,
       "opcode": 53,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
+    },
+    "1:107": {
+      "observations": 2,
+      "opcode": 58,
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "1:111": {
+      "observations": 75,
       "opcode": 8,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "1:119": {
+      "observations": 15,
       "opcode": 30,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "1:121": {
+      "observations": 117,
       "opcode": 56,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "1:131": {
+      "observations": 291,
       "opcode": 61,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "1:136": {
+      "observations": 2,
       "opcode": 4,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "1:146": {
+      "observations": 4,
       "opcode": 3,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
+    },
+    "1:15": {
+      "observations": 4,
+      "opcode": 93,
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "1:153": {
+      "observations": 1,
       "opcode": 20,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "1:159": {
+      "observations": 69,
       "opcode": 17,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
+    },
+    "1:16": {
+      "observations": 2,
+      "opcode": 54,
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "1:161": {
+      "observations": 95,
       "opcode": 42,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "1:164": {
+      "observations": 243,
       "opcode": 59,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "1:170": {
+      "observations": 188,
       "opcode": 55,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "1:172": {
+      "observations": 12,
       "opcode": 34,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "1:175": {
+      "observations": 91,
       "opcode": 65,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "1:176": {
+      "observations": 6,
       "opcode": 46,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
+    },
+    "1:185": {
+      "observations": 10,
+      "opcode": 45,
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "1:188": {
+      "observations": 351,
       "opcode": 38,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "1:19": {
+      "observations": 4,
       "opcode": 1,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "1:199": {
       "opcode": null,
@@ -306,74 +412,118 @@
       "status": "unknown"
     },
     "1:203": {
+      "observations": 209,
       "opcode": 66,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "1:214": {
+      "observations": 280,
       "opcode": 70,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "1:228": {
+      "observations": 16,
       "opcode": 84,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "1:229": {
+      "observations": 156,
       "opcode": 81,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "1:236": {
+      "observations": 2,
       "opcode": 71,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
+    },
+    "1:238": {
+      "observations": 3,
+      "opcode": 99,
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
+    },
+    "1:239": {
+      "observations": 2,
+      "opcode": 47,
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "1:253": {
+      "observations": 134,
       "opcode": 43,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "1:3": {
+      "observations": 284,
       "opcode": 92,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "1:30": {
+      "observations": 44,
       "opcode": 73,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "1:36": {
+      "observations": 46,
       "opcode": 18,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
+    },
+    "1:38": {
+      "observations": 1,
+      "opcode": 80,
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "1:42": {
+      "observations": 13,
       "opcode": 39,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "1:43": {
+      "observations": 47,
       "opcode": 62,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "1:54": {
+      "observations": 3,
       "opcode": 2,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
+    },
+    "1:55": {
+      "observations": 1,
+      "opcode": 13,
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "1:59": {
+      "observations": 19,
       "opcode": 63,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
+    },
+    "1:60": {
+      "observations": 4,
+      "opcode": 106,
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "1:66": {
+      "observations": 492,
       "opcode": 40,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "1:7": {
       "opcode": 140,
@@ -381,129 +531,184 @@
       "status": "unknown"
     },
     "1:75": {
+      "observations": 11,
       "opcode": 52,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "1:8": {
+      "observations": 9,
       "opcode": 19,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
+    },
+    "1:80": {
+      "observations": 1,
+      "opcode": 74,
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "1:9": {
+      "observations": 8,
       "opcode": 72,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "1:90": {
+      "observations": 304,
       "opcode": 41,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
+    },
+    "1:94": {
+      "observations": 1,
+      "opcode": 49,
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "1:98": {
+      "observations": 28,
       "opcode": 83,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
+    },
+    "2:1": {
+      "observations": 4,
+      "opcode": 13,
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "2:101": {
+      "observations": 8,
       "opcode": 52,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "2:106": {
+      "observations": 283,
       "opcode": 66,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "2:121": {
+      "observations": 174,
       "opcode": 55,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "2:136": {
+      "observations": 5,
       "opcode": 3,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "2:138": {
+      "observations": 10,
       "opcode": 93,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "2:141": {
+      "observations": 230,
       "opcode": 59,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "2:146": {
+      "observations": 7,
       "opcode": 2,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "2:15": {
+      "observations": 215,
       "opcode": 92,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "2:153": {
+      "observations": 12,
       "opcode": 19,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "2:16": {
+      "observations": 73,
       "opcode": 53,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "2:161": {
+      "observations": 293,
       "opcode": 41,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "2:164": {
+      "observations": 2,
       "opcode": 58,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "2:170": {
+      "observations": 1,
       "opcode": 54,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "2:176": {
+      "observations": 9,
       "opcode": 45,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "2:184": {
+      "observations": 126,
       "opcode": 43,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
+    },
+    "2:192": {
+      "observations": 2,
+      "opcode": 4,
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
+    },
+    "2:197": {
+      "observations": 1,
+      "opcode": 49,
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "2:203": {
+      "observations": 94,
       "opcode": 65,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "2:205": {
+      "observations": 8,
       "opcode": 63,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "2:206": {
+      "observations": 156,
       "opcode": 81,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "2:228": {
+      "observations": 15,
       "opcode": 83,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "2:229": {
+      "observations": 5,
       "opcode": 80,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "2:230": {
       "opcode": 140,
@@ -511,174 +716,238 @@
       "status": "unknown"
     },
     "2:231": {
+      "observations": 17,
       "opcode": 84,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "2:235": {
+      "observations": 14,
       "opcode": 30,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "2:236": {
+      "observations": 304,
       "opcode": 70,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "2:239": {
+      "observations": 6,
       "opcode": 46,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
+    },
+    "2:251": {
+      "observations": 1,
+      "opcode": 74,
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "2:253": {
+      "observations": 82,
       "opcode": 42,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "2:30": {
+      "observations": 8,
       "opcode": 72,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "2:35": {
+      "observations": 67,
       "opcode": 8,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "2:36": {
+      "observations": 65,
       "opcode": 17,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
+    },
+    "2:37": {
+      "observations": 5,
+      "opcode": 106,
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "2:42": {
+      "observations": 346,
       "opcode": 38,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "2:43": {
+      "observations": 235,
       "opcode": 61,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "2:5": {
+      "observations": 5,
       "opcode": 99,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "2:54": {
+      "observations": 7,
       "opcode": 1,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "2:59": {
+      "observations": 54,
       "opcode": 62,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "2:65": {
+      "observations": 13,
       "opcode": 47,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "2:66": {
+      "observations": 26,
       "opcode": 39,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "2:79": {
+      "observations": 18,
       "opcode": 34,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "2:8": {
+      "observations": 67,
       "opcode": 18,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "2:80": {
+      "observations": 32,
       "opcode": 73,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "2:82": {
+      "observations": 4,
       "opcode": 20,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "2:84": {
+      "observations": 137,
       "opcode": 56,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
+    },
+    "2:9": {
+      "observations": 4,
+      "opcode": 71,
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "2:90": {
+      "observations": 491,
       "opcode": 40,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "3:10": {
+      "observations": 2,
       "opcode": 20,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "3:106": {
+      "observations": 87,
       "opcode": 65,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "3:107": {
+      "observations": 125,
       "opcode": 56,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
+    },
+    "3:121": {
+      "observations": 2,
+      "opcode": 54,
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "3:122": {
+      "observations": 8,
       "opcode": 93,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "3:126": {
+      "observations": 4,
       "opcode": 13,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "3:131": {
+      "observations": 208,
       "opcode": 59,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "3:135": {
+      "observations": 9,
       "opcode": 30,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "3:136": {
+      "observations": 6,
       "opcode": 2,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "3:138": {
+      "observations": 308,
       "opcode": 92,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "3:139": {
+      "observations": 221,
       "opcode": 66,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
+    },
+    "3:141": {
+      "observations": 1,
+      "opcode": 58,
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "3:146": {
+      "observations": 4,
       "opcode": 1,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "3:153": {
+      "observations": 57,
       "opcode": 18,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "3:16": {
+      "observations": 9,
       "opcode": 52,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "3:160": {
       "opcode": 140,
@@ -686,249 +955,376 @@
       "status": "unknown"
     },
     "3:161": {
+      "observations": 512,
       "opcode": 40,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
+    },
+    "3:162": {
+      "observations": 3,
+      "opcode": 106,
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
+    },
+    "3:164": {
+      "observations": 1,
+      "opcode": 57,
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "3:170": {
+      "observations": 66,
       "opcode": 53,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "3:173": {
+      "observations": 59,
       "opcode": 8,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "3:175": {
+      "observations": 4,
       "opcode": 63,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "3:184": {
+      "observations": 91,
       "opcode": 42,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "3:185": {
+      "observations": 156,
       "opcode": 43,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "3:192": {
+      "observations": 2,
       "opcode": 3,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "3:205": {
+      "observations": 37,
       "opcode": 62,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
+    },
+    "3:206": {
+      "observations": 2,
+      "opcode": 80,
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "3:220": {
+      "observations": 15,
       "opcode": 34,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
+    },
+    "3:227": {
+      "observations": 1,
+      "opcode": 49,
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "3:231": {
+      "observations": 19,
       "opcode": 83,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "3:239": {
+      "observations": 6,
       "opcode": 45,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
+    },
+    "3:240": {
+      "observations": 1,
+      "opcode": 74,
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "3:251": {
+      "observations": 26,
       "opcode": 73,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
+    },
+    "3:252": {
+      "observations": 2,
+      "opcode": 99,
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "3:253": {
+      "observations": 305,
       "opcode": 41,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "3:30": {
+      "observations": 4,
       "opcode": 71,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "3:59": {
+      "observations": 212,
       "opcode": 61,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "3:65": {
+      "observations": 14,
       "opcode": 46,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "3:66": {
+      "observations": 361,
       "opcode": 38,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "3:68": {
+      "observations": 13,
       "opcode": 84,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "3:8": {
+      "observations": 74,
       "opcode": 17,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "3:80": {
+      "observations": 8,
       "opcode": 72,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
+    },
+    "3:82": {
+      "observations": 10,
+      "opcode": 19,
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
+    },
+    "3:83": {
+      "observations": 1,
+      "opcode": 4,
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "3:84": {
+      "observations": 185,
       "opcode": 55,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "3:9": {
+      "observations": 293,
       "opcode": 70,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "3:90": {
+      "observations": 15,
       "opcode": 39,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "3:94": {
+      "observations": 2,
       "opcode": 47,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "3:98": {
+      "observations": 161,
       "opcode": 81,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "4:10": {
+      "observations": 10,
       "opcode": 19,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "4:107": {
+      "observations": 168,
       "opcode": 55,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "4:108": {
+      "observations": 308,
       "opcode": 66,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "4:121": {
+      "observations": 86,
       "opcode": 53,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "4:122": {
+      "observations": 199,
       "opcode": 92,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
+    },
+    "4:128": {
+      "observations": 1,
+      "opcode": 13,
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "4:13": {
+      "observations": 15,
       "opcode": 34,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
+    },
+    "4:136": {
+      "observations": 5,
+      "opcode": 1,
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "4:139": {
+      "observations": 75,
       "opcode": 65,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
+    },
+    "4:141": {
+      "observations": 2,
+      "opcode": 57,
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "4:153": {
+      "observations": 71,
       "opcode": 17,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "4:161": {
+      "observations": 19,
       "opcode": 39,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "4:164": {
+      "observations": 125,
       "opcode": 56,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "4:168": {
+      "observations": 3,
       "opcode": 99,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "4:170": {
+      "observations": 18,
       "opcode": 52,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "4:175": {
+      "observations": 34,
       "opcode": 62,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "4:176": {
+      "observations": 142,
       "opcode": 43,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "4:184": {
+      "observations": 304,
       "opcode": 41,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "4:185": {
+      "observations": 76,
       "opcode": 42,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "4:187": {
+      "observations": 12,
       "opcode": 93,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "4:192": {
+      "observations": 3,
       "opcode": 2,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "4:196": {
+      "observations": 10,
       "opcode": 30,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
+    },
+    "4:197": {
+      "observations": 2,
+      "opcode": 47,
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "4:203": {
+      "observations": 3,
       "opcode": 63,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "4:205": {
+      "observations": 233,
       "opcode": 61,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
+    },
+    "4:206": {
+      "observations": 2,
+      "opcode": 79,
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "4:219": {
+      "observations": 3,
       "opcode": 4,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "4:228": {
+      "observations": 156,
       "opcode": 81,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "4:240": {
+      "observations": 28,
       "opcode": 73,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "4:250": {
       "opcode": 140,
@@ -936,159 +1332,226 @@
       "status": "unknown"
     },
     "4:251": {
+      "observations": 6,
       "opcode": 72,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "4:253": {
+      "observations": 489,
       "opcode": 40,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
+    },
+    "4:26": {
+      "observations": 4,
+      "opcode": 106,
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "4:30": {
+      "observations": 305,
       "opcode": 70,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
+    },
+    "4:38": {
+      "observations": 1,
+      "opcode": 77,
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "4:43": {
+      "observations": 219,
       "opcode": 59,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "4:52": {
+      "observations": 19,
       "opcode": 84,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
+    },
+    "4:65": {
+      "observations": 7,
+      "opcode": 45,
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "4:68": {
+      "observations": 15,
       "opcode": 83,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "4:76": {
+      "observations": 59,
       "opcode": 8,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "4:80": {
+      "observations": 2,
       "opcode": 71,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "4:82": {
+      "observations": 60,
       "opcode": 18,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "4:83": {
+      "observations": 4,
       "opcode": 3,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "4:84": {
+      "observations": 4,
       "opcode": 54,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "4:90": {
+      "observations": 369,
       "opcode": 38,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "4:94": {
+      "observations": 13,
       "opcode": 46,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "5:10": {
+      "observations": 50,
       "opcode": 18,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
+    },
+    "5:102": {
+      "observations": 1,
+      "opcode": 20,
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "5:108": {
+      "observations": 102,
       "opcode": 65,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
+    },
+    "5:111": {
+      "observations": 1,
+      "opcode": 4,
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "5:121": {
+      "observations": 19,
       "opcode": 52,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "5:131": {
+      "observations": 1,
       "opcode": 57,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "5:141": {
+      "observations": 127,
       "opcode": 56,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
+    },
+    "5:159": {
+      "observations": 3,
+      "opcode": 13,
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "5:161": {
+      "observations": 365,
       "opcode": 38,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "5:164": {
+      "observations": 184,
       "opcode": 55,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "5:172": {
+      "observations": 17,
       "opcode": 30,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "5:175": {
+      "observations": 218,
       "opcode": 61,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "5:176": {
+      "observations": 99,
       "opcode": 42,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "5:184": {
+      "observations": 500,
       "opcode": 40,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "5:185": {
+      "observations": 285,
       "opcode": 41,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "5:187": {
+      "observations": 273,
       "opcode": 92,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "5:188": {
+      "observations": 17,
       "opcode": 34,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "5:192": {
+      "observations": 10,
       "opcode": 1,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "5:197": {
+      "observations": 12,
       "opcode": 46,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "5:203": {
+      "observations": 46,
       "opcode": 62,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "5:214": {
+      "observations": 201,
       "opcode": 66,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "5:216": {
       "opcode": 140,
@@ -1096,324 +1559,459 @@
       "status": "unknown"
     },
     "5:217": {
+      "observations": 18,
       "opcode": 84,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "5:219": {
+      "observations": 2,
       "opcode": 3,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "5:227": {
+      "observations": 9,
       "opcode": 47,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "5:228": {
+      "observations": 5,
       "opcode": 80,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "5:23": {
+      "observations": 14,
       "opcode": 93,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "5:231": {
+      "observations": 148,
       "opcode": 81,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "5:239": {
+      "observations": 144,
       "opcode": 43,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "5:24": {
+      "observations": 17,
       "opcode": 73,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "5:240": {
+      "observations": 6,
       "opcode": 72,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "5:251": {
+      "observations": 3,
       "opcode": 71,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "5:253": {
+      "observations": 12,
       "opcode": 39,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
+    },
+    "5:43": {
+      "observations": 1,
+      "opcode": 58,
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
+    },
+    "5:51": {
+      "observations": 3,
+      "opcode": 99,
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "5:52": {
+      "observations": 18,
       "opcode": 83,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "5:59": {
+      "observations": 226,
       "opcode": 59,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
+    },
+    "5:7": {
+      "observations": 2,
+      "opcode": 106,
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "5:74": {
+      "observations": 50,
       "opcode": 8,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "5:80": {
+      "observations": 304,
       "opcode": 70,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "5:82": {
+      "observations": 49,
       "opcode": 17,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "5:83": {
+      "observations": 3,
       "opcode": 2,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "5:84": {
+      "observations": 77,
       "opcode": 53,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "5:94": {
+      "observations": 8,
       "opcode": 45,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "5:96": {
+      "observations": 10,
       "opcode": 19,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
+    },
+    "5:98": {
+      "observations": 2,
+      "opcode": 79,
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "6:10": {
+      "observations": 76,
       "opcode": 17,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "6:102": {
+      "observations": 10,
       "opcode": 19,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "6:106": {
+      "observations": 34,
       "opcode": 62,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "6:107": {
+      "observations": 73,
       "opcode": 53,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "6:111": {
+      "observations": 2,
       "opcode": 3,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "6:131": {
+      "observations": 140,
       "opcode": 56,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "6:141": {
+      "observations": 181,
       "opcode": 55,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "6:16": {
+      "observations": 2,
       "opcode": 49,
-      "reason": "Opcode 49 foreach-adjacent ambiguity not resolved.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
+    },
+    "6:164": {
+      "observations": 4,
+      "opcode": 54,
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "6:176": {
+      "observations": 308,
       "opcode": 41,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "6:180": {
+      "observations": 16,
       "opcode": 73,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "6:184": {
+      "observations": 17,
       "opcode": 39,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "6:185": {
+      "observations": 480,
       "opcode": 40,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "6:197": {
+      "observations": 9,
       "opcode": 45,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "6:199": {
+      "observations": 9,
       "opcode": 93,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "6:203": {
+      "observations": 226,
       "opcode": 61,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "6:205": {
+      "observations": 219,
       "opcode": 59,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
+    },
+    "6:206": {
+      "observations": 2,
+      "opcode": 77,
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "6:214": {
+      "observations": 93,
       "opcode": 65,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "6:217": {
+      "observations": 10,
       "opcode": 83,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "6:219": {
+      "observations": 3,
       "opcode": 2,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "6:226": {
       "opcode": 140,
       "reason": "Opcode 140 conflicts with expected function-call argument context; PHP 5.2 symbolic name alone does not establish semantic meaning.",
       "status": "unknown"
     },
+    "6:227": {
+      "observations": 8,
+      "opcode": 46,
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
+    },
     "6:23": {
+      "observations": 197,
       "opcode": 92,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
+    },
+    "6:230": {
+      "observations": 2,
+      "opcode": 106,
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
+    },
+    "6:231": {
+      "observations": 4,
+      "opcode": 80,
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "6:236": {
+      "observations": 281,
       "opcode": 66,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "6:239": {
+      "observations": 89,
       "opcode": 42,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "6:24": {
+      "observations": 6,
       "opcode": 72,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "6:240": {
+      "observations": 5,
       "opcode": 71,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "6:249": {
+      "observations": 23,
       "opcode": 84,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "6:251": {
+      "observations": 285,
       "opcode": 70,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "6:253": {
+      "observations": 357,
       "opcode": 38,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
+    },
+    "6:35": {
+      "observations": 1,
+      "opcode": 4,
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "6:42": {
+      "observations": 30,
       "opcode": 34,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
+    },
+    "6:43": {
+      "observations": 3,
+      "opcode": 57,
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "6:53": {
+      "observations": 2,
       "opcode": 20,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "6:55": {
+      "observations": 59,
       "opcode": 8,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "6:65": {
+      "observations": 131,
       "opcode": 43,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "6:68": {
+      "observations": 165,
       "opcode": 81,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "6:79": {
+      "observations": 10,
       "opcode": 30,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "6:83": {
+      "observations": 4,
       "opcode": 1,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "6:84": {
+      "observations": 9,
       "opcode": 52,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "6:96": {
+      "observations": 41,
       "opcode": 18,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "6:99": {
+      "observations": 3,
       "opcode": 99,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "7:1": {
+      "observations": 61,
       "opcode": 8,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "7:101": {
+      "observations": 6,
       "opcode": 47,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "7:102": {
+      "observations": 35,
       "opcode": 18,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "7:106": {
+      "observations": 239,
       "opcode": 61,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "7:107": {
+      "observations": 21,
       "opcode": 52,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
+    },
+    "7:11": {
+      "observations": 5,
+      "opcode": 99,
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "7:111": {
+      "observations": 6,
       "opcode": 2,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "7:125": {
       "opcode": 140,
@@ -1421,157 +2019,247 @@
       "status": "unknown"
     },
     "7:131": {
+      "observations": 189,
       "opcode": 55,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "7:139": {
+      "observations": 42,
       "opcode": 62,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "7:141": {
+      "observations": 3,
       "opcode": 54,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
+    },
+    "7:160": {
+      "observations": 3,
+      "opcode": 106,
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "7:164": {
+      "observations": 65,
       "opcode": 53,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "7:167": {
+      "observations": 13,
       "opcode": 84,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
+    },
+    "7:170": {
+      "observations": 1,
+      "opcode": 49,
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
+    },
+    "7:173": {
+      "observations": 3,
+      "opcode": 4,
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "7:175": {
+      "observations": 208,
       "opcode": 59,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "7:176": {
+      "observations": 458,
       "opcode": 40,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "7:180": {
+      "observations": 8,
       "opcode": 72,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "7:184": {
+      "observations": 365,
       "opcode": 38,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "7:185": {
+      "observations": 9,
       "opcode": 39,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "7:199": {
+      "observations": 254,
       "opcode": 92,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
+    },
+    "7:205": {
+      "observations": 1,
+      "opcode": 58,
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "7:219": {
+      "observations": 6,
       "opcode": 1,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "7:220": {
+      "observations": 18,
       "opcode": 30,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "7:227": {
+      "observations": 8,
       "opcode": 45,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
+    },
+    "7:231": {
+      "observations": 1,
+      "opcode": 79,
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "7:236": {
+      "observations": 91,
       "opcode": 65,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
+    },
+    "7:238": {
+      "observations": 7,
+      "opcode": 93,
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "7:239": {
+      "observations": 304,
       "opcode": 41,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
+    },
+    "7:24": {
+      "observations": 2,
+      "opcode": 71,
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "7:240": {
+      "observations": 308,
       "opcode": 70,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "7:249": {
+      "observations": 15,
       "opcode": 83,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "7:35": {
+      "observations": 7,
       "opcode": 3,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "7:43": {
+      "observations": 122,
       "opcode": 56,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "7:52": {
+      "observations": 170,
       "opcode": 81,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "7:53": {
+      "observations": 9,
       "opcode": 19,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
+    },
+    "7:59": {
+      "observations": 1,
+      "opcode": 57,
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "7:61": {
+      "observations": 17,
       "opcode": 73,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "7:65": {
+      "observations": 102,
       "opcode": 42,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "7:66": {
+      "observations": 17,
       "opcode": 34,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "7:68": {
+      "observations": 3,
       "opcode": 80,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
+    },
+    "7:75": {
+      "observations": 4,
+      "opcode": 46,
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
+    },
+    "7:8": {
+      "observations": 2,
+      "opcode": 13,
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "7:9": {
+      "observations": 202,
       "opcode": 66,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "7:94": {
+      "observations": 125,
       "opcode": 43,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "7:96": {
+      "observations": 65,
       "opcode": 17,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     },
     "7:98": {
+      "observations": 3,
       "opcode": 77,
-      "reason": "Empirical mapping; independent per-key source trace unavailable.",
-      "status": "inferred"
+      "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
+      "status": "confirmed"
     }
   },
-  "mapping_sha256": "a70dbf7d66e5ee2277bc5411426ae75d66f4c60b72530d70d94c789a31051b0b",
+  "mapping_sha256": "47b6a28df16db7fd695bcb0ea7e429e123d3afd9273349b1a39146367b8baea0",
   "provenance": {
     "format": "zend-encoder-serialized-research-v6",
     "reference_source_verified": false,

@@ -15,6 +15,7 @@ from .assets import DICTIONARY, OPCODE_MAP
 from .calibrate import choose_opcode
 from .cfg import cfg_for_group
 from .readonly_dataflow import _validated_evidence
+from .prefix_restore import foreach_markers
 from .serial_parser import FormatError, decompress_encoded, parse_binary
 
 # Exact raw keys historically mapped to 140; do not extrapolate to other keys.
@@ -89,11 +90,16 @@ def analyze_parsed(parsed: dict, mapping: dict, evidence: dict) -> dict:
         if not disputed:
             continue
         # Separate, untrusted *views*, never changes to the parsed instructions.
+        # The binding of a foreach element has no native opcode, but the
+        # decoder recognises it by its data flow, so the same rule is used
+        # here to keep this check comparable with the decoder.
+        markers = foreach_markers(ops, mapping)
         cfg_ops = [{**op, 'decoded_opcode': (None if _key(op) in DISPUTED_KEYS else
                                              _native(op, mapping))}
                    for op in ops]
         other_unknown = [op['index'] for op in cfg_ops
-                         if op['decoded_opcode'] is None and _key(op) not in DISPUTED_KEYS]
+                         if op['decoded_opcode'] is None and _key(op) not in DISPUTED_KEYS
+                         and op['index'] not in markers]
         cfg = None
         cfg_problem = None
         if other_unknown:

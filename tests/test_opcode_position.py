@@ -1,12 +1,14 @@
-"""Encoder opcode position rule: consistency, predictions and refusals.
+"""The encoder opcode position rule is a regularity, not a decoder.
 
-The rule predicts a native opcode for positions the empirical map does not
-contain.  It must never contradict the empirical map, never override a map
-entry, and never predict an opcode whose PHP 5.2 handler does not accept the
-observed operand shape.
+The rule `native_opcode = base[encoded_byte] - (instruction index mod 8)`
+reproduces the empirical opcode map exactly.  On a second protected corpus it
+predicted wrongly in a noticeable share of the unseen keys, and the operand
+shape guard did not catch every wrong prediction, so the rule is never used
+to decode an instruction the map does not contain.
 """
 from __future__ import annotations
 
+import hashlib
 import json
 import sys
 import unittest
@@ -15,132 +17,76 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / 'src'))
 from zend_decompiler.assets import (DICTIONARY, ENCODER_OPCODE_BASE, ENCODER_OPCODE_EVIDENCE,
-                                    OPCODE_MAP)
+                                    ENCODER_OPCODE_METADATA, OPCODE_MAP)
 from zend_decompiler.calibrate import choose_opcode
 from zend_decompiler.engine import restore_result
-from zend_decompiler.opcode_position import (PositionRuleError, base_for, evidence_document,
-                                             opcode_for, predict, rule_document,
-                                             shape_compatible, verify_against_map)
-from zend_decompiler.serial_parser import decompress_encoded, parse_binary
+from zend_decompiler.opcode_position import (base_for, consistency_report, predict,
+                                            rule_document, verify_against_map)
 
 MAPPING = json.loads(OPCODE_MAP.read_text(encoding='utf-8'))
 
 
-def op(index: int, byte: int, op1_type: int = 2, op2_type: int = 1,
-       result_type: int = 4) -> dict:
-    node = lambda t: {'type': t, 'word0': 0, 'word1': 0}
-    return {'index': index, 'encoded_opcode': byte, 'op1': node(op1_type),
-            'op2': node(op2_type), 'result': node(result_type), 'extended_value': 0}
+class PositionRuleDataTests(unittest.TestCase):
+    def test_rule_contradicts_the_extended_empirical_map(self):
+        # The rule was fitted on the first 313 keys of the map.  The map was
+        # later extended with keys confirmed by a native trace, and four of
+        # them contradict the rule.  That is why it is never used to decode.
+        report = consistency_report(MAPPING)
+        self.assertEqual(report['contradiction_count'], 4)
+        self.assertEqual(sorted(item['key'] for item in report['contradictions']),
+                         ['4:26', '5:7', '6:230', '7:160'])
+        # Eight keys use bytes that were never observed in the first corpus.
+        self.assertEqual(len(report['uncovered_keys']), 8)
+        with self.assertRaises(Exception):
+            verify_against_map(MAPPING)
 
-
-class PositionRuleConsistencyTests(unittest.TestCase):
-    def test_rule_reproduces_every_key_of_the_empirical_map(self):
-        summary = verify_against_map(MAPPING)
-        self.assertEqual(summary['contradictions'], 0)
-        self.assertEqual(summary['checked_keys'], len(MAPPING['opcodes']))
-        self.assertEqual(summary['uncovered_keys'], [])
-        for key, mapped in MAPPING['opcodes'].items():
-            position, byte = key.split(':')
-            with self.subTest(key=key):
-                self.assertEqual(base_for(int(byte)) - int(position), mapped)
-
-    def test_rule_matches_the_archived_handler_trace_audit(self):
-        document = evidence_document()
-        cross = document['independent_cross_check']
-        self.assertEqual(cross['contradictions'], [])
-        self.assertGreater(cross['single_candidate_keys_matched'], 250)
-        for entry in cross['multi_candidate_keys']:
-            self.assertTrue(entry['predicted_in_candidates'], entry)
-        # The key without any archived candidate is the one the rule predicts.
-        without = [e['key'] for e in cross['keys_without_archived_candidate']]
-        self.assertEqual(without, ['1:199'])
-
-    def test_map_entries_are_never_overridden(self):
-        mapping = {'opcodes': {'1:199': 77}, 'names': MAPPING['names'],
-                   'conditional_send_keys': []}
-        # The map entry wins even where the rule would predict something else.
-        self.assertEqual(choose_opcode(op(1, 199), mapping), 77)
-
-    def test_contradiction_with_the_map_is_refused(self):
-        broken = {'opcodes': dict(MAPPING['opcodes']), 'names': MAPPING['names']}
-        broken['opcodes']['0:13'] = broken['opcodes']['0:13'] + 1
-        with self.assertRaises(PositionRuleError):
-            verify_against_map(broken)
-
-    def test_rule_document_is_protected_by_its_own_checksums(self):
-        meta = json.loads((ENCODER_OPCODE_BASE.with_name(
-            ENCODER_OPCODE_BASE.name + '.meta.json')).read_text(encoding='utf-8'))
-        import hashlib
+    def test_rule_file_is_protected_by_its_own_checksums(self):
+        meta = json.loads(ENCODER_OPCODE_METADATA.read_text(encoding='utf-8'))
+        self.assertEqual(meta['mapping_file'], ENCODER_OPCODE_BASE.name)
         self.assertEqual(meta['mapping_sha256'],
                          hashlib.sha256(ENCODER_OPCODE_BASE.read_bytes()).hexdigest())
         evidence = ENCODER_OPCODE_BASE.with_name(meta['evidence_file'])
         self.assertEqual(meta['evidence_sha256'],
                          hashlib.sha256(evidence.read_bytes()).hexdigest())
-        self.assertEqual(meta['status'], 'inferred')
+        document = json.loads(ENCODER_OPCODE_BASE.read_text(encoding='utf-8'))
+        self.assertEqual(document['mapping_sha256'],
+                         hashlib.sha256(OPCODE_MAP.read_bytes()).hexdigest())
+
+    def test_rule_is_recorded_as_measured_but_not_used(self):
+        document = rule_document()
+        self.assertEqual(document['status'],
+                         'contradicted by the extended empirical map; research record only')
+        accuracy = document['measured_accuracy']
+        self.assertEqual(accuracy['status'], 'measured, not used for decoding')
+        self.assertGreater(accuracy['predictions_wrong'], 0)
+        self.assertGreater(accuracy['wrong_predictions_accepted_by_the_operand_shape_guard'], 0)
+        self.assertEqual(accuracy['predictions_correct'] + accuracy['predictions_wrong'],
+                         accuracy['predictions'])
+        evidence = json.loads(ENCODER_OPCODE_EVIDENCE.read_text(encoding='utf-8'))
+        self.assertEqual(evidence['measured_accuracy']['status'], accuracy['status'])
 
 
-class PositionRulePredictionTests(unittest.TestCase):
-    def test_unknown_foreach_key_is_predicted_as_fetch_dim_tmp_var(self):
-        # 1:199 -> base 99 - position 1 = 98 = ZEND_FETCH_DIM_TMP_VAR.
+class PositionRuleIsNotADecoderTests(unittest.TestCase):
+    def test_a_key_outside_the_map_stays_unmapped(self):
+        # 1:199 has no entry in the empirical map and must not be decoded from
+        # the position rule, because the rule predicts wrongly in some cases.
+        self.assertNotIn('1:199', MAPPING['opcodes'])
+        instruction = {'index': 1, 'encoded_opcode': 199, 'op1': {'type': 2, 'word0': 1, 'word1': 0},
+                       'op2': {'type': 1, 'constant': {'kind': 'integer', 'value': 0}},
+                       'result': {'type': 4, 'word0': 2, 'word1': 0}}
+        self.assertIsNone(choose_opcode(instruction, MAPPING))
+        # The rule would have predicted a number; the decoder ignores it.
+        self.assertEqual(predict(instruction), 98)
+
+    def test_the_audit_reports_no_predicted_positions(self):
+        result = restore_result(ROOT / 'sample_inputs' / 'fun_all.php', DICTIONARY, OPCODE_MAP)
+        self.assertEqual(result.status, 'candidate_generated', result.reason)
+        rule = result.audit.get('opcode_position_rule') or {}
+        self.assertEqual(rule.get('predicted_positions', []), [])
+
+    def test_the_base_table_is_still_available_for_analysis(self):
         self.assertEqual(base_for(199), 99)
-        predicted = op(1, 199)
-        self.assertEqual(predict(predicted), 98)
-        self.assertEqual(opcode_for(predicted), 98)
-        self.assertTrue(shape_compatible(predicted, 98))
-
-    def test_prediction_is_refused_when_the_operand_shape_does_not_fit(self):
-        # FETCH_DIM_TMP_VAR accepts CONST|TMP for op1 and CONST for op2.
-        self.assertFalse(shape_compatible(op(1, 199, op1_type=16), 98))
-        self.assertFalse(shape_compatible(op(1, 199, op2_type=2), 98))
-        self.assertIsNone(opcode_for(op(1, 199, op1_type=16)))
-        self.assertIsNone(opcode_for(op(1, 199, op2_type=2)))
-
-    def test_unknown_byte_is_not_predicted(self):
         self.assertIsNone(base_for(252))
-        self.assertIsNone(opcode_for(op(3, 2)))
-
-    def test_negative_prediction_is_refused(self):
-        # Base 2 at position 7 would give a negative opcode number.
-        self.assertEqual(base_for(19), 2)
-        self.assertIsNone(predict(op(7, 19)))
-        self.assertIsNone(opcode_for(op(7, 19)))
-
-    def test_prediction_without_handler_signature_is_refused(self):
-        # Opcode 137 has no handler in the saved PHP 5.2 header.
-        self.assertFalse(shape_compatible(op(0, 250), 137))
-
-
-class PositionRuleInTheDecoderTests(unittest.TestCase):
-    def test_audit_reports_the_predicted_positions(self):
-        result = restore_result(ROOT / 'sample_inputs' / 'fun_all.php', DICTIONARY, OPCODE_MAP)
-        rule = result.audit['opcode_position_rule']
-        self.assertEqual(rule['status'], 'inferred')
-        self.assertEqual([(p['group'], p['index'], p['encoded_key'], p['predicted_opcode'])
-                          for p in rule['predicted_positions']],
-                         [('out_price', 65, '1:199', 98), ('uc_rus', 17, '1:199', 98)])
-        self.assertEqual(result.audit['mapped_instructions'],
-                         result.audit['serialized_instructions'])
-
-    def test_native_evidence_for_the_predicted_key_stays_unknown(self):
-        evidence = json.loads(
-            (OPCODE_MAP.with_name('opcode_evidence.json')).read_text(encoding='utf-8'))
-        self.assertEqual(evidence['entries']['1:199']['status'], 'unknown')
-        self.assertIsNone(evidence['entries']['1:199']['opcode'])
-        result = restore_result(ROOT / 'sample_inputs' / 'fun_all.php', DICTIONARY, OPCODE_MAP)
-        self.assertEqual(result.audit['confidence_counts']['confirmed'], 0)
-
-    def test_position_rule_does_not_change_the_known_keys(self):
-        streams = decompress_encoded(ROOT / 'sample_inputs' / 'fun_all.php',
-                                     DICTIONARY.read_bytes())
-        parsed = parse_binary(streams[0][1])
-        for group in [parsed['main']] + list(parsed['functions']):
-            for instruction in group['opcodes']:
-                key = f"{instruction['index'] % 8}:{instruction['encoded_opcode']}"
-                if key not in MAPPING['opcodes']:
-                    continue
-                with self.subTest(key=key):
-                    self.assertEqual(choose_opcode(instruction, MAPPING),
-                                     MAPPING['opcodes'][key])
 
 
 if __name__ == '__main__':

@@ -9,7 +9,7 @@ from __future__ import annotations
 from .cfg import cfg_for_group
 from .crossblock import join_proofs
 from .calibrate import choose_opcode
-from .prefix_restore import Decoder, Unsupported, _foreach_facts
+from .prefix_restore import Decoder, Unsupported, _foreach_facts, foreach_markers
 from .structure import build_graph, insist
 from collections import Counter
 
@@ -19,7 +19,9 @@ def recover_blocks(group, mapping, name, symbols=None, callees=None):
     for op in ops:
         op['decoded_opcode']=choose_opcode(op,mapping)
         op['_decoded_name']=mapping['names'].get(str(op['decoded_opcode']))
-    unresolved=[op['index'] for op in ops if op['decoded_opcode'] is None]
+    markers=foreach_markers(ops)
+    unresolved=[op['index'] for op in ops
+                if op['decoded_opcode'] is None and op['index'] not in markers]
     insist(not unresolved, f'unknown opcodes at {unresolved[:12]}')
     cvs={x['index']:bytes.fromhex(x['name_hex']) for x in group['compiled_vars']}
     cfg=cfg_for_group(name,group)

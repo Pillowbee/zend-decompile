@@ -58,7 +58,12 @@ def join_proofs(ops:list[dict], cv:dict[int,bytes], mapping:dict) -> dict[int,di
     """Return verified join summaries keyed by the consuming JMPZ/JMPNZ index."""
     parser=Decoder(ops,cv,mapping)
     def name(index):
-        return parser.kind(ops[index])
+        # An instruction without a known native opcode cannot take part in a
+        # proven short circuit; it is skipped instead of failing the group.
+        try:
+            return parser.kind(ops[index])
+        except Unsupported:
+            return None
     def slot(node):
         return spot(node)
     def term_ending_at(index:int, expected):

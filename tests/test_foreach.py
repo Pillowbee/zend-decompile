@@ -100,7 +100,9 @@ class ForeachFailClosedTests(unittest.TestCase):
         decoder = self._decoder(group)
         with self.assertRaises(Unsupported) as caught:
             decoder.run(17, 17)
-        self.assertIn('foreach binding outside a foreach fetch', str(caught.exception))
+        # Outside a fetch the instruction has no known native opcode and no
+        # recognised structure, so the block is refused.
+        self.assertIn('Unknown opcode', str(caught.exception))
 
     def test_a_fetch_of_a_foreign_iterator_is_refused(self):
         group = group_of(self.parsed, 'uc_rus')

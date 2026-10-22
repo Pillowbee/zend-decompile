@@ -38,7 +38,7 @@ class DataLayoutTests(unittest.TestCase):
         meta=json.loads(ENCODER_OPCODE_METADATA.read_text(encoding='utf-8'))
         self.assertEqual(meta['mapping_file'], ENCODER_OPCODE_BASE.name)
         self.assertEqual(meta['evidence_file'], 'encoder_opcode_evidence.json')
-        self.assertEqual(meta['status'], 'inferred')
+        self.assertEqual(meta['status'], 'contradicted')
         self.assertEqual(meta['mapping_sha256'],
                          hashlib.sha256(ENCODER_OPCODE_BASE.read_bytes()).hexdigest())
         evidence=ENCODER_OPCODE_BASE.with_name(meta['evidence_file'])

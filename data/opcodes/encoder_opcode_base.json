@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "kind": "ENCODER_OPCODE_POSITION_RULE",
-  "status": "inferred",
+  "status": "contradicted by the extended empirical map; research record only",
   "rule": "native_opcode = base[encoded_byte] - (instruction_index mod 8)",
   "rule_formula": "native_opcode = base - (index % 8)",
   "raw_key_format": "instruction index mod 8, encoded byte",
@@ -117,5 +117,25 @@
   },
   "evidence_file": "encoder_opcode_evidence.json",
   "mapping_file": "opcode_map.json",
-  "mapping_sha256": "a70dbf7d66e5ee2277bc5411426ae75d66f4c60b72530d70d94c789a31051b0b"
+  "mapping_sha256": "47b6a28df16db7fd695bcb0ea7e429e123d3afd9273349b1a39146367b8baea0",
+  "measured_accuracy": {
+    "status": "measured, not used for decoding",
+    "second_corpus_keys_observed": 372,
+    "new_keys": 68,
+    "predictions": 58,
+    "predictions_correct": 52,
+    "predictions_wrong": 6,
+    "wrong_predictions_caught_by_the_operand_shape_guard": 11,
+    "wrong_predictions_accepted_by_the_operand_shape_guard": 5,
+    "note": "The rule reproduces the empirical map exactly, but on a second protected corpus it predicted wrongly in 6 of 58 cases and the operand shape guard did not catch all of them.  The rule is therefore kept as a documented regularity of the map and is never used to decode an instruction the map does not contain."
+  },
+  "contradiction_with_the_empirical_map": {
+    "keys": [
+      "4:26",
+      "5:7",
+      "6:230",
+      "7:160"
+    ],
+    "note": "The rule was derived from the first 313 keys of the empirical map and reproduced all of them.  The map was later extended with 64 keys confirmed by a native trace of a second protected corpus, and four of the new keys contradict the rule.  The rule is therefore never used to decode an instruction the map does not contain."
+  }
 }

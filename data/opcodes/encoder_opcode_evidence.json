@@ -1,8 +1,8 @@
 {
   "schema_version": 1,
   "kind": "ENCODER_OPCODE_POSITION_RULE_EVIDENCE",
-  "status": "inferred",
-  "status_policy": "The rule is an empirical model fitted on the empirical opcode map. It is not an independent native proof; a predicted opcode must still be compatible with the operand shape of its PHP 5.2 handler before it is decoded.",
+  "status": "contradicted by the extended empirical map; research record only",
+  "status_policy": "The rule is an empirical regularity of the empirical map.  It predicts wrongly on a second protected corpus and is therefore never used to decode.",
   "derivation": {
     "source": "data/opcodes/opcode_map.json",
     "source_sha256": "a70dbf7d66e5ee2277bc5411426ae75d66f4c60b72530d70d94c789a31051b0b",
@@ -114,5 +114,25 @@
     "Only bytes present in the byte base table can be predicted.",
     "A negative prediction is refused instead of wrapped around.",
     "The native semantics of a predicted opcode is not established by the rule itself."
-  ]
+  ],
+  "measured_accuracy": {
+    "status": "measured, not used for decoding",
+    "second_corpus_keys_observed": 372,
+    "new_keys": 68,
+    "predictions": 58,
+    "predictions_correct": 52,
+    "predictions_wrong": 6,
+    "wrong_predictions_caught_by_the_operand_shape_guard": 11,
+    "wrong_predictions_accepted_by_the_operand_shape_guard": 5,
+    "note": "The rule reproduces the empirical map exactly, but on a second protected corpus it predicted wrongly in 6 of 58 cases and the operand shape guard did not catch all of them.  The rule is therefore kept as a documented regularity of the map and is never used to decode an instruction the map does not contain."
+  },
+  "contradiction_with_the_empirical_map": {
+    "keys": [
+      "4:26",
+      "5:7",
+      "6:230",
+      "7:160"
+    ],
+    "note": "The rule was derived from the first 313 keys of the empirical map and reproduced all of them.  The map was later extended with 64 keys confirmed by a native trace of a second protected corpus, and four of the new keys contradict the rule.  The rule is therefore never used to decode an instruction the map does not contain."
+  }
 }

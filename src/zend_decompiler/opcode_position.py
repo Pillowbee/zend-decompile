@@ -41,9 +41,31 @@ def _rule_document() -> dict:
     metadata = json.loads(ENCODER_OPCODE_METADATA.read_text(encoding='utf-8'))
     if metadata.get('mapping_file') != ENCODER_OPCODE_BASE.name:
         raise PositionRuleError('Position rule metadata names a different rule file')
-    # The rule is only usable while it still reproduces the empirical map.
-    verify_against_map(json.loads(OPCODE_MAP.read_text(encoding='utf-8')))
     return document
+
+
+def consistency_report(mapping: dict) -> dict:
+    """Compare the rule with a mapping; contradictions are reported, not raised.
+
+    The rule is an analysis record only.  It contradicts the extended
+    empirical map, which is why it is never used to decode.
+    """
+    bases = _rule_document().get('byte_bases', {})
+    contradictions = []
+    checked = 0
+    uncovered = []
+    for key, mapped in mapping.get('opcodes', {}).items():
+        position, byte = key.split(':')
+        base = bases.get(byte)
+        if base is None:
+            uncovered.append(key)
+            continue
+        checked += 1
+        predicted = base - int(position)
+        if predicted != mapped:
+            contradictions.append({'key': key, 'mapped': mapped, 'predicted': predicted})
+    return {'checked_keys': checked, 'uncovered_keys': sorted(uncovered),
+            'contradictions': contradictions, 'contradiction_count': len(contradictions)}
 
 
 @lru_cache(maxsize=1)

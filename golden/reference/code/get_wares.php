@@ -1,5 +1,5 @@
 <?php
-/* EXPERIMENTAL Zend recovery v20. Verify before use. */
+/* EXPERIMENTAL Zend recovery v29. Verify before use. */
 $sql = 'SELECT id_wares, name_wares, descript_wares,  belong_groups, new, sellout, amount, description, price, price_old, visibility
 FROM wares WHERE ' . $string_where . ' ORDER BY ' . $string_order . ' LIMIT ' . $page_wares . ', ' . $lines_wares;
 $sth = mysql_query($sql, $connect_mysql);

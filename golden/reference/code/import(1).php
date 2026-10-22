@@ -1,5 +1,5 @@
 <?php
-/* EXPERIMENTAL Zend recovery v20. Verify before use. */
+/* EXPERIMENTAL Zend recovery v29. Verify before use. */
 check_database($key, $key1, $connect_mysql, $db_name);
 if ((right_set_admin($REMOTE_USER, 'import') == 0)) {
     include 'include/rights_txt/viewing_pages.php';
