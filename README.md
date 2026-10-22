@@ -27,6 +27,9 @@ corpus/, schemas/          исследовательский корпус и JS
 research/fragments/       12 уникальных экспериментальных PHP-фрагментов
 research/diagnostics/     сохранённые read-only частичные разборы
   phpinfo.html             предоставленный владельцем снимок окружения PHP 5.2.17
+  handler_map_probe.c      экспериментальная compile-only диагностика Zend VM
+  op_base_probe.c          адресная привязка op_array для локальной диагностики
+  trace_*.gdb             экспериментальные сценарии перехвата Zend VM
 results/                  независимые исторические исследовательские артефакты
 reference_headers_php52_candidate/  Заголовки семейства PHP 5.2 (точная сборка не подтверждена)
 docs/PROJECT_STATUS.md     действующее техническое состояние и roadmap
