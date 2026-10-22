@@ -86,6 +86,63 @@ def proof_seeds_by_block(proofs:dict[int,dict], blocks:list[dict]) -> dict[int,d
     return seeds
 
 
+def prove_cv_or_join(ops:list[dict], cv:dict[int,bytes], mapping:dict,
+                     join:int) -> dict:
+    """Prove the exact CV || CV diamond consumed by a following branch.
+
+    Only the two reads and the shortcut are folded. Earlier statements in
+    the lead block stay in place, and the temporary must be overwritten
+    immediately after the consuming branch.
+    """
+    if join<2 or join+1>=len(ops):
+        raise Unsupported('CV OR join is out of range')
+    first,second,final=ops[join-2:join+1]
+    def kind(op):
+        return mapping['names'].get(str(choose_opcode(op,mapping)))
+    if [kind(op) for op in (first,second,final)]!=['JMPNZ_EX','BOOL','JMPZ']:
+        raise Unsupported('Different CV OR condition')
+    if (first['op1']['type']!=16 or second['op1']['type']!=16 or
+            first['op1']['word0'] not in cv or second['op1']['word0'] not in cv or
+            first['result']['type']!=2 or second['result']!=first['result'] or
+            final['op1']!=first['result'] or final['result']['type']!=8 or
+            first['op2']!={'type':8,'word0':join,'word1':1} or
+            final['op2']['type']!=8 or final['op2']['word1']!=1 or
+            final['op2']['word0']<=join or
+            ops[join+1]['result']!=first['result'] or
+            any(op['extended_value']!=0 for op in (first,second,final))):
+        raise Unsupported('CV OR operands, slots or targets differ')
+    checked=[dict(op,decoded_opcode=choose_opcode(op,mapping)) for op in ops]
+    cfg=cfg_for_group('<CV OR join>',{'opcodes':checked,'compiled_vars':[],
+                                    'loop_records':[]})
+    lead=next((b for b in cfg['basic_blocks'] if b['last']==join-2),None)
+    middle=next((b for b in cfg['basic_blocks'] if b['first']==join-1),None)
+    tail=next((b for b in cfg['basic_blocks'] if b['first']==join),None)
+    if (not all((lead,middle,tail)) or
+            not all(b['reachable'] for b in (lead,middle,tail)) or
+            middle['last']!=join-1 or tail['last']!=join or
+            middle['predecessors']!=[lead['id']] or
+            set(tail['predecessors'])!={lead['id'],middle['id']} or
+            {(e['kind'],e['block']) for e in lead['successors']}!=
+                {('nonzero',tail['id']),('zero',middle['id'])} or
+            middle['successors']!=[{'block':tail['id'],'kind':'fallthrough',
+                                    'target_instruction':join}]):
+        raise Unsupported('CV OR diamond has another entry or edge')
+    left=b'$'+cv[first['op1']['word0']]
+    right=b'$'+cv[second['op1']['word0']]
+    expression=b'('+left+b' || '+right+b')'
+    wrapped=b'((bool) '+right+b')'
+    return {'join_index':join,'slot':list(spot(first['result'])),'mode':'OR',
+            'expression_hex':expression.hex(),
+            'expression':expression.decode('cp1251','backslashreplace'),
+            'comparison_count':2,'source_indices':[join-2,join-1,join],
+            'shortcut_indices':[join-2],'call_sites':[],
+            'term_slots':[{'slot':list(spot(second['result'])),
+                           'value_hex':wrapped.hex()}],
+            'rendered_term':wrapped.decode('cp1251','backslashreplace'),
+            'fallthrough':join+1,'branch_target':final['op2']['word0'],
+            'conditional_opcode':'JMPZ'}
+
+
 def join_proofs(ops:list[dict], cv:dict[int,bytes], mapping:dict) -> dict[int,dict]:
     """Return verified join summaries keyed by the consuming JMPZ/JMPNZ index."""
     parser=Decoder(ops,cv,mapping)
@@ -509,7 +566,14 @@ def join_proofs(ops:list[dict], cv:dict[int,bytes], mapping:dict) -> dict[int,di
         return expression,cursor,consumed,calls,slots,rendered
 
     found={}
+    for join in range(2,len(ops)-1):
+        if name(join)=='JMPZ':
+            try:
+                found[join]=prove_cv_or_join(ops,cv,mapping,join)
+            except (Unsupported, IndexError, KeyError, TypeError, ValueError):
+                pass
     for join in range(len(ops)):
+        if join in found:continue
         final=ops[join]
         if name(join) not in ('JMPZ','JMPNZ','JMPZ_EX','JMPNZ_EX') or final['op1']['type'] not in (2,4):
             continue
@@ -676,6 +740,80 @@ def join_proofs(ops:list[dict], cv:dict[int,bytes], mapping:dict) -> dict[int,di
                               'value_hex':right['expression_hex']}],
                          'nested':True}
             del found[cursor]
+        except (Unsupported, IndexError, KeyError, TypeError, ValueError):
+            continue
+    # Two complete AND diamonds may be joined by one OR shortcut. Keep both
+    # copies of any reads: reducing (A && B) || (A && C) to A && (B || C)
+    # would change the number and timing of A's reads.
+    for join,right in list(found.items()):
+        try:
+            if (name(join)!='JMPZ' or right['mode']!='AND' or
+                    right['comparison_count']!=2 or right['call_sites'] or
+                    not right['source_indices'] or
+                    right['source_indices']!=list(range(right['source_indices'][0],join+1))):
+                continue
+            outer=right['source_indices'][0]-1
+            left=found.get(outer)
+            if (left is None or name(outer)!='JMPNZ_EX' or
+                    left['mode']!='AND' or left['comparison_count']!=2 or
+                    left['call_sites'] or
+                    left['source_indices']!=list(range(left['source_indices'][0],outer+1)) or
+                    ops[outer]['op2']!={'type':8,'word0':join,'word1':1} or
+                    ops[outer]['op1']!=ops[join]['op1'] or
+                    ops[outer]['result']!=ops[join]['op1'] or
+                    name(join-1)!='BOOL' or
+                    ops[join-1]['result']!=ops[join]['op1']):
+                continue
+            first=left['source_indices'][0]
+            middle=right['source_indices'][0]
+            group={'opcodes':[dict(op,decoded_opcode=choose_opcode(op,mapping))
+                              for op in ops], 'compiled_vars':[], 'loop_records':[]}
+            cfg=cfg_for_group('<AND OR join>',group)
+            by_first={b['first']:b for b in cfg['basic_blocks']}
+            lead=by_first.get(first);left_middle=by_first.get(left['shortcut_indices'][0]+1)
+            outer_block=by_first.get(outer);right_lead=by_first.get(middle)
+            right_middle=by_first.get(right['shortcut_indices'][0]+1)
+            right_wrapper=by_first.get(join-1);tail=by_first.get(join)
+            if (not all((lead,left_middle,outer_block,right_lead,
+                         right_middle,right_wrapper,tail)) or
+                    not all(b['reachable'] for b in (lead,left_middle,outer_block,
+                                                    right_lead,right_middle,right_wrapper,tail)) or
+                    lead['last']!=left['shortcut_indices'][0] or
+                    left_middle['last']!=outer-1 or outer_block['last']!=outer or
+                    right_lead['last']!=right['shortcut_indices'][0] or
+                    right_middle['last']!=join-2 or right_wrapper['last']!=join-1 or
+                    tail['last']!=join or
+                    left_middle['predecessors']!=[lead['id']] or
+                    set(outer_block['predecessors'])!={lead['id'],left_middle['id']} or
+                    right_lead['predecessors']!=[outer_block['id']] or
+                    right_middle['predecessors']!=[right_lead['id']] or
+                    set(right_wrapper['predecessors'])!={right_lead['id'],right_middle['id']} or
+                    set(tail['predecessors'])!={outer_block['id'],right_wrapper['id']} or
+                    {(e['kind'],e['block']) for e in lead['successors']}!=
+                        {('zero',outer_block['id']),('nonzero',left_middle['id'])} or
+                    {(e['kind'],e['block']) for e in right_lead['successors']}!=
+                        {('zero',right_wrapper['id']),('nonzero',right_middle['id'])} or
+                    {(e['kind'],e['block']) for e in outer_block['successors']}!=
+                        {('nonzero',tail['id']),('zero',right_lead['id'])}):
+                continue
+            expression=(b'('+bytes.fromhex(left['expression_hex'])+b' || '+
+                        bytes.fromhex(right['expression_hex'])+b')')
+            found[join]={**right,'mode':'OR','expression_hex':expression.hex(),
+                         'expression':expression.decode('cp1251','backslashreplace'),
+                         'comparison_count':4,
+                         'source_indices':list(range(first,join+1)),
+                         'shortcut_indices':sorted(left['shortcut_indices']+
+                                                   [outer]+right['shortcut_indices']),
+                         'term_slots':[],
+                         'rendered_term':expression.decode('cp1251','backslashreplace'),
+                         'block_seeds':[
+                             {'instruction_index':outer,'slot':left['slot'],
+                              'value_hex':left['expression_hex']},
+                             {'instruction_index':join-1,
+                              'slot':list(spot(ops[join-1]['op1'])),
+                              'value_hex':right['expression_hex']}],
+                         'nested':True}
+            del found[outer]
         except (Unsupported, IndexError, KeyError, TypeError, ValueError):
             continue
     # The bounded layouts below need a whole-interval truth-table proof.

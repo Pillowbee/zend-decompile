@@ -24,6 +24,7 @@ IDENT = re.compile(rb'^[A-Za-z_\x80-\xff][A-Za-z0-9_\x80-\xff]*$')
 # outside the foreach construct, so the value is marked instead of guessed.
 # Any statement that would leak the sentinel is refused.
 FOREACH_VALUE = b'__ZEND_FOREACH_VALUE__'
+CONSTRUCTOR_RETURN = b'__ZEND_CONSTRUCTOR_RETURN__'
 
 class Unsupported(Exception):
     pass
@@ -132,6 +133,7 @@ class Decoder:
         self.pending_calls={}
         self.consumed_call_slots=set()
         self.array_items={}
+        self.pending_new={}
         self.silence_slot=None
         self.silenced_calls=0
         self.fired_rules=Counter()
@@ -167,6 +169,8 @@ class Decoder:
             elif k in self.consumed_call_slots:
                 raise Unsupported('Multiple reads of inlined function-call temporary '+str(k))
             expr=self.defs[k]
+            if expr==CONSTRUCTOR_RETURN:
+                raise Unsupported('Constructor return value is not an object expression')
             return (b' . '.join(expr) if expr else b"''") if isinstance(expr,list) else expr
         raise Unsupported('Unexpected UNUSED operand')
 
@@ -377,6 +381,20 @@ class Decoder:
                     suffix=b'[]'
                 else:suffix=b'['+self.val(b)+b']'
                 self.put(r,self.val(a)+suffix)
+            elif kind in ('FETCH_OBJ_R','FETCH_OBJ_W'):
+                if a['type'] not in (4,16) or b['type']!=1 or b['constant']['kind']!='string':
+                    raise Unsupported('Unsupported object property access')
+                obj=self.val(a)
+                if not obj.startswith(b'$'):
+                    raise Unsupported('Object property base is not a variable')
+                self.put(r,obj+b'->'+sym(raw_string(b)))
+            elif kind=='NEW':
+                if a['type']!=1 or a['constant']['kind']!='string' or b['type']!=8 or r['type']!=4:
+                    raise Unsupported('Unsupported object creation')
+                key=spot(r)
+                if key in self.pending_new:
+                    raise Unsupported('Object slot reused before constructor call')
+                self.pending_new[key]=sym(raw_string(a))
             elif kind in ('ADD','SUB','MUL','DIV'):
                 operator={ 'ADD': b' + ', 'SUB': b' - ', 'MUL': b' * ', 'DIV': b' / ' }[kind]
                 self.put(r,b'('+self.val(a)+operator+self.val(b)+b')')
@@ -394,7 +412,17 @@ class Decoder:
                 self.silence_slot=None
                 self.silenced_calls=0
             elif kind=='INIT_FCALL_BY_NAME':
-                self.call_stack.append({'name':sym(raw_string(b)), 'args':[]})
+                name=sym(raw_string(b))
+                if a['type']==4:
+                    class_name=self.pending_new.pop(spot(a),None)
+                    if class_name!=name:
+                        raise Unsupported('Constructor does not match pending NEW')
+                    self.call_stack.append({'name':name,'args':[],
+                                            'constructor_receiver':a})
+                elif a['type']==8:
+                    self.call_stack.append({'name':name,'args':[]})
+                else:
+                    raise Unsupported('Unsupported initialized call receiver')
             elif kind=='FETCH_FUNC_ARG':
                 # PHP 5.2 (zend_vm_def.h): op1 is the name of the argument.  A
                 # constant names it directly, a compiled variable holds the
@@ -438,8 +466,14 @@ class Decoder:
                     if call['name'] != name:
                         raise Unsupported('Function-name mismatch')
                     args=call['args']
-                expr=name+b'('+b', '.join(args)+b')'
-                self.emit_call(r,expr)
+                if kind=='DO_FCALL_BY_NAME' and call.get('constructor_receiver') is not None:
+                    receiver=call['constructor_receiver']
+                    if spot(receiver)==spot(r):
+                        raise Unsupported('Constructor result aliases object slot')
+                    self.emit_call(receiver,b'new '+name+b'('+b', '.join(args)+b')')
+                    self.put(r,CONSTRUCTOR_RETURN)
+                else:
+                    self.emit_call(r,name+b'('+b', '.join(args)+b')')
             elif kind=='ENCODER_CALL':
                 # Encoder-level call: the callee is named by an index into the
                 # file symbol table, the argument count is the encoded
@@ -605,6 +639,7 @@ class Decoder:
             while len(self.line_sources)<len(self.lines):
                 self.line_sources.append(idx)
         if self.call_stack:raise Unsupported('Incomplete function calls')
+        if self.pending_new:raise Unsupported('NEW without constructor call in block')
         try:
             self.direct_call_args.require_empty()
         except CallProtocolError as exc:
