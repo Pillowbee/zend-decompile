@@ -9,7 +9,8 @@ from __future__ import annotations
 from .cfg import cfg_for_group
 from .crossblock import join_proofs
 from .calibrate import choose_opcode
-from .prefix_restore import Decoder, Unsupported, _foreach_facts, foreach_markers
+from .encoder_foreach import foreach_fetches, foreach_markers
+from .prefix_restore import Decoder, Unsupported, _foreach_facts
 from .structure import build_graph, insist
 from collections import Counter
 
@@ -20,20 +21,32 @@ def recover_blocks(group, mapping, name, symbols=None, callees=None):
         op['decoded_opcode']=choose_opcode(op,mapping)
         op['_decoded_name']=mapping['names'].get(str(op['decoded_opcode']))
     markers=foreach_markers(ops)
+    fetches=foreach_fetches(ops)
     unresolved=[op['index'] for op in ops
-                if op['decoded_opcode'] is None and op['index'] not in markers]
+                if op['decoded_opcode'] is None and op['index'] not in markers
+                and op['index'] not in fetches]
     insist(not unresolved, f'unknown opcodes at {unresolved[:12]}')
     cvs={x['index']:bytes.fromhex(x['name_hex']) for x in group['compiled_vars']}
     cfg=cfg_for_group(name,group)
     proofs=join_proofs(ops,cvs,mapping)
+    # A proven join may sit inside a block that starts earlier, so the proof
+    # is given to the block that contains the join.
+    proofs_by_block={}
+    for join_index,proof in proofs.items():
+        for block in cfg['basic_blocks']:
+            if block['first']<=join_index<=block['last']:
+                proofs_by_block[block['first']]=proof
+                break
     blocks=[]
     used_rules=Counter()
     encoder_calls=[]
     context={}
     for block in cfg['basic_blocks']:
         decoder=Decoder(ops,cvs,mapping,symbols,callees,context)
-        if block['first'] in proofs:
-            p=proofs[block['first']]
+        if block['first'] in proofs_by_block:
+            p=proofs_by_block[block['first']]
+            for term in p.get('term_slots',[]):
+                decoder.defs[tuple(term['slot'])]=bytes.fromhex(term['value_hex'])
             decoder.defs[tuple(p['slot'])]=bytes.fromhex(p['expression_hex'])
         before=dict(context.get('foreach') or {})
         try:
@@ -114,7 +127,7 @@ def state_emit(group,mapping,name,symbols=None,callees=None):
         elif len(succ)==2:
             br=b['branch']
             insist(br is not None, f'Condition missing at {label}')
-            if br['opcode'] in ('JMPZ','JMPNZ'):
+            if br['opcode'] in ('JMPZ','JMPNZ','JMPZ_EX','JMPNZ_EX'):
                 bykind={s['kind']:s['block'] for s in succ}
                 insist(set(bykind)=={'zero','nonzero'},f'Invalid branch kinds in {label}')
                 yes,no=bykind['nonzero'],bykind['zero']

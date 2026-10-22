@@ -30,14 +30,23 @@ def build_graph(data):
         indices=sorted(proof['source_indices'])
         start=min(indices)
         lead=next((b for b in original.values() if b['first'] <= start <= b['last']),None)
-        join=original[bypc[proof['join_index']]]
+        join=next((b for b in original.values()
+                   if b['first']<=proof['join_index']<=b['last']),None)
+        insist(join is not None,'Missing join block for the proven condition')
         insist(lead is not None and lead['first'] != join['first'], 'Missing lead for compound condition')
         insist(lead['branch']['opcode'] in ('JMPNZ_EX','JMPZ_EX'), 'No short-circuit at lead')
-        insist(join['branch']['opcode'] in ('JMPZ','JMPNZ'), 'Bad join opcode')
-        insist(join['branch']['condition']==proof['expression'], 'Proof and join disagree')
+        insist(join['branch']['opcode'] in ('JMPZ','JMPNZ','JMPZ_EX','JMPNZ_EX'), 'Bad join opcode')
+        # The condition of the join is either the proven composite or the
+        # rendering of its own term, when the block produces the value itself.
+        acceptable={proof['expression'],proof.get('rendered_term','')}
+        insist(join['branch']['condition'] in acceptable, 'Proof and join disagree')
         insist(lead['last']==proof['shortcut_indices'][0], 'Unexpected short-circuit lead')
         shortcut_kind='nonzero' if lead['branch']['opcode']=='JMPNZ_EX' else 'zero'
-        insist(any(s['kind']==shortcut_kind and s['block']==join['id'] for s in lead['successors']),
+        # The shortcut edge may lead to the join itself or to a statement free
+        # block in front of it that falls through into the join.
+        mids=[b for b in original.values() if lead['last']<b['first'] and b['last']<=join['last']]
+        reached={s['block'] for s in lead['successors'] if s['kind']==shortcut_kind}
+        insist(reached & ({join['id']}|{b['id'] for b in mids}),
                'Short-circuit edge does not reach the proven join')
         # A folded term may contain a call.  The call is inlined into the
         # condition, so it must live in the short-circuit block itself, and no
@@ -52,7 +61,6 @@ def build_graph(data):
             insist(all(source<call['index'] for source in sources),
                    'Short-circuit block emits statements after a folded call')
         # All intermediary blocks must be pure: no locally emitted statements.
-        mids=[b for b in original.values() if lead['last']<b['first'] and b['last']<=join['last']]
         insist(mids and join in mids, 'No blocks to fold')
         for mid in mids:
             insist(not mid['statements'], 'Nonempty block inside short-circuit: '+mid['id'])
@@ -61,6 +69,8 @@ def build_graph(data):
             insist(mid['id'] not in removed, 'Overlapping proof blocks')
             removed[mid['id']]=lead['id']
         lead['branch']=copy.deepcopy(join['branch'])
+        # The folded condition is the proven composite of the whole chain.
+        lead['branch']['condition']=proof['expression']
         lead['successors']=copy.deepcopy(join['successors'])
         lead['folded_proof_indices']=indices
         folded.append({'lead':lead['id'],'join':join['id'], 'removed':[m['id'] for m in mids],
@@ -87,7 +97,10 @@ def build_graph(data):
     exits=[b for b in kept.values() if not b['successors']]
     insist(bool(exits), 'Expected at least one reachable terminal block')
     for end in exits:
-        insist(end['statements'] and end['statements'][-1].startswith('return '),
+        # A terminal block ends with a return statement or with exit, which
+        # ends the script in PHP 5.2.
+        last=end['statements'][-1] if end['statements'] else ''
+        insist(last.startswith('return ') or last=='exit;',
                'Unproven terminal block: '+end['id'])
         graph.add_edge(end['id'],'EXIT')
     return kept,graph,folded,removed
@@ -198,7 +211,7 @@ class Emitter:
             if len(succ)==1:
                 node=succ[0]['block'];continue
             insist(len(succ)==2 and branch is not None,'Unsupported branch at '+node)
-            insist(branch['opcode'] in ('JMPZ','JMPNZ'), 'Unsupported branch opcode: '+repr(branch))
+            insist(branch['opcode'] in ('JMPZ','JMPNZ','JMPZ_EX','JMPNZ_EX'), 'Unsupported branch opcode: '+repr(branch))
             bykind={e['kind']:e['block'] for e in succ}
             insist(set(bykind)=={'zero','nonzero'}, 'Unknown branch polarities')
             join=self.ipdom[node]

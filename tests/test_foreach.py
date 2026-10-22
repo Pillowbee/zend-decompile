@@ -18,6 +18,7 @@ sys.path.insert(0, str(ROOT / 'src'))
 from zend_decompiler.assets import DICTIONARY, OPCODE_MAP
 from zend_decompiler.calibrate import choose_opcode
 from zend_decompiler.cfg import cfg_for_group
+from zend_decompiler.encoder_foreach import foreach_fetches, foreach_markers
 from zend_decompiler.engine import restore_result
 from zend_decompiler.prefix_restore import FOREACH_VALUE, Decoder, Unsupported
 from zend_decompiler.serial_parser import decompress_encoded, parse_binary
@@ -152,6 +153,91 @@ class VariableVariableTests(unittest.TestCase):
             self.assertIn('Complex FETCH_W unsupported', str(caught.exception))
         finally:
             ops[23]['op1'] = original
+
+
+class StructuralForeachFetchTests(unittest.TestCase):
+    """The fetch may have no established native opcode; it is recognised by shape."""
+
+    @staticmethod
+    def unused(value=0, marker=1):
+        return {'type': 8, 'word0': value, 'word1': marker}
+
+    @staticmethod
+    def temporary(number=0, kind=2):
+        return {'type': kind, 'word0': number, 'word1': 0}
+
+    @staticmethod
+    def compiled_variable(number=0):
+        return {'type': 16, 'word0': number, 'word1': 0}
+
+    def ops(self):
+        unused, temporary = self.unused, self.temporary
+        return [
+            {'index': 0, 'encoded_opcode': 100, 'line': 1, 'extended_value': 0,
+             'op1': self.compiled_variable(0), 'op2': unused(),
+             'result': temporary(0)},
+            {'index': 1, 'encoded_opcode': 101, 'line': 2, 'extended_value': 0,
+             'op1': temporary(0), 'op2': unused(4), 'result': temporary(1)},
+            {'index': 2, 'encoded_opcode': 102, 'line': 3, 'extended_value': 0,
+             'op1': temporary(1), 'op2': unused(),
+             'result': temporary(0, kind=4)},
+            {'index': 3, 'encoded_opcode': 103, 'line': 4, 'extended_value': 0,
+             'op1': self.compiled_variable(1), 'op2': temporary(0, kind=4),
+             'result': temporary(2)},
+        ]
+
+    @staticmethod
+    def mapping():
+        # Only the reset and the assignment are mapped; the fetch and the
+        # binding must be recognised without an opcode number.
+        return {'names': {'77': 'FE_RESET', '38': 'ASSIGN'},
+                'opcodes': {'0:100': 77, '3:103': 38}}
+
+    def decoder(self, ops, context=None):
+        return Decoder(ops, {0: b'arr', 1: b'v'}, self.mapping(),
+                       context=context if context is not None else {})
+
+    def test_fetch_and_binding_are_recognised_by_shape(self):
+        ops = self.ops()
+        self.assertEqual(foreach_fetches(ops, self.mapping()), {1})
+        self.assertEqual(foreach_markers(ops, self.mapping()), {2})
+        context = {}
+        segment = self.decoder(ops, context).run(0, 3)
+        self.assertEqual(segment.statements, [])
+        self.assertEqual(segment.branch, ('FE_FETCH', b'', 4))
+        self.assertEqual(context['foreach']['variable'], b'$v')
+        self.assertEqual(context['foreach']['stage'], 'bound')
+        self.assertEqual(segment.fired_rules.get('FOREACH_FETCH'), 1)
+        self.assertEqual(segment.fired_rules.get('FOREACH_BINDING'), 1)
+
+    def test_a_known_fetch_opcode_is_not_recognised_structurally(self):
+        ops = self.ops()
+        mapping = self.mapping()
+        mapping['opcodes']['1:101'] = 78
+        self.assertEqual(foreach_fetches(ops, mapping), set())
+
+    def test_a_fetch_of_a_foreign_iterator_is_not_recognised(self):
+        ops = self.ops()
+        ops[1]['op1'] = self.temporary(9)
+        with self.assertRaisesRegex(Unsupported, 'Unknown opcode #1'):
+            self.decoder(ops).run(0, 3)
+
+    def test_a_fetch_that_does_not_produce_a_temporary_is_not_recognised(self):
+        ops = self.ops()
+        ops[1]['result'] = self.temporary(1, kind=4)
+        with self.assertRaisesRegex(Unsupported, 'Unknown opcode #1'):
+            self.decoder(ops).run(0, 3)
+
+    def test_a_fetch_without_a_reset_is_not_recognised(self):
+        with self.assertRaisesRegex(Unsupported, 'Unknown opcode #1'):
+            self.decoder(self.ops()).run(1, 3)
+
+    def test_a_binding_without_a_fetch_is_not_recognised(self):
+        ops = self.ops()
+        decoder = self.decoder(ops)
+        decoder.run(0, 0)             # the reset
+        with self.assertRaisesRegex(Unsupported, 'Unknown opcode #2'):
+            decoder.run(2, 3)
 
 
 if __name__ == '__main__':

@@ -15,7 +15,7 @@ from .assets import DICTIONARY, OPCODE_MAP
 from .calibrate import choose_opcode
 from .cfg import cfg_for_group
 from .readonly_dataflow import _validated_evidence
-from .prefix_restore import foreach_markers
+from .encoder_foreach import foreach_markers
 from .serial_parser import FormatError, decompress_encoded, parse_binary
 
 # Exact raw keys historically mapped to 140; do not extrapolate to other keys.

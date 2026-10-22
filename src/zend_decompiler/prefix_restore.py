@@ -18,7 +18,7 @@ from .calibrate import choose_opcode
 from .call_protocol import CallProtocolError, DirectCallBuffer
 from . import encoder_calls
 
-IDENT = re.compile(rb'^[A-Za-z_][A-Za-z_0-9]*$')
+IDENT = re.compile(rb'^[A-Za-z_\x80-\xff][A-Za-z0-9_\x80-\xff]*$')
 
 # Sentinel for the element of a foreach.  The element has no PHP expression
 # outside the foreach construct, so the value is marked instead of guessed.
@@ -97,29 +97,6 @@ def _merge_foreach_facts(blocks: list) -> None:
         merged.update(arrays.get(facts['id'], {}))
         merged.update(variables.get(facts['id'], {}))
         block['foreach'] = merged
-
-
-def foreach_markers(ops: list, mapping: dict | None = None) -> set:
-    """Instruction indices that bind the element of a foreach.
-
-    The native opcode of that instruction is not established: the optimizer
-    replaces it with a NOP in the native op_array.  It is therefore
-    recognised structurally - it follows a fetch and reads its result - and
-    never by an opcode number.
-    """
-    markers=set()
-    for index,op in enumerate(ops):
-        opcode=op.get('decoded_opcode')
-        if opcode is None and mapping is not None:
-            opcode=choose_opcode(op,mapping)
-        if opcode!=78:continue   # FE_FETCH
-        if index+1>=len(ops):continue
-        nxt=ops[index+1]
-        if nxt['op1'].get('type') not in (2,4):continue
-        if nxt['result'].get('type')!=4:continue
-        if spot(nxt['op1'])!=spot(op['result']):continue
-        markers.add(nxt['index'])
-    return markers
 
 
 @dataclass
@@ -219,6 +196,27 @@ class Decoder:
             return False
         return spot(rhs_node) in (state.get('element_slot'),state.get('binding_slot'))
 
+    def _is_foreach_fetch(self,op,a,r) -> bool:
+        """True for the instruction that fetches the element of a foreach.
+
+        The native opcode of the fetch is not always established: the
+        optimizer rewrites the foreach and gives the instruction a generic
+        handler, so the handler address does not identify it.  It is
+        therefore recognised by its position in the construct - it follows the
+        reset, reads the iterator of that reset and produces a temporary -
+        and never by an opcode number.
+        """
+        if choose_opcode(op,self.map) is not None:
+            return False
+        state=self.context.get('foreach')
+        if not state or state.get('stage')!='reset':
+            return False
+        if a.get('type') not in (2,4):
+            return False
+        if r.get('type')!=2:
+            return False
+        return spot(a)==state.get('iterator_slot')
+
     def _is_foreach_marker(self,op_node,result_node) -> bool:
         """True for the instruction that binds the element of a foreach.
 
@@ -236,6 +234,27 @@ class Decoder:
         if result_node.get('type')!=4:
             return False
         return spot(op_node)==state.get('element_slot')
+
+    def array_element(self,value_node,offset_node):
+        """One array element with its offset, if the offset is given.
+
+        The PHP 5.2 semantics come from the saved header
+        reference_headers_php52_candidate/zend_vm_def.h: ADD_ARRAY_ELEMENT
+        takes the value in op1 and the offset in op2.  An unused offset
+        appends the value with the next index, a constant offset becomes the
+        key of the element, and INIT_ARRAY falls through to the same handler
+        with the operands of its first element.
+        """
+        value=self.val(value_node)
+        if offset_node['type']==8:      # IS_UNUSED: appended with the next index
+            return value
+        if offset_node['type']!=1:raise Unsupported('Unsupported array offset')
+        constant=offset_node['constant']
+        if constant['kind']=='integer':
+            return str(constant['value']).encode('ascii')+b' => '+value
+        if constant['kind']=='string':
+            return php_string(bytes.fromhex(constant['raw_hex']))+b' => '+value
+        raise Unsupported('Unsupported array offset kind')
 
     def emit_call(self,result_node,expr):
         """Emit a call expression and keep it available as a side effect."""
@@ -258,6 +277,17 @@ class Decoder:
             if op['index']!=idx:raise Unsupported('Index mismatch')
             a,b,r=op['op1'],op['op2'],op['result']
             self.covered.append(idx)
+            if self._is_foreach_fetch(op,a,r):
+                # The fetch of the element is recognised by its position in
+                # the construct, not by an opcode number.
+                state=self.context['foreach']
+                self.put(r,FOREACH_VALUE)
+                state['stage']='fetch'
+                state['element_slot']=spot(r)
+                if self.branch is not None:raise Unsupported('Multiple branches in segment')
+                self.branch=('FE_FETCH',b'',self.dest(b))
+                self.fired_rules['FOREACH_FETCH']+=1
+                continue
             if self._is_foreach_marker(a,r):
                 # The binding of the foreach element is recognised by its data
                 # flow, not by an opcode number: the native opcode of this
@@ -280,15 +310,25 @@ class Decoder:
             elif kind=='INIT_STRING':
                 self.put(r,[])
             elif kind=='INIT_ARRAY':
-                if b['type']!=8:raise Unsupported('Keyed INIT_ARRAY unsupported')
-                items=[] if a['type']==8 else [self.val(a)]
+                if op['extended_value']!=0:
+                    # A non-zero extended value marks an element taken by
+                    # reference; that form is not modelled.
+                    raise Unsupported('Array element by reference unsupported')
+                if a['type']==8:
+                    # An unused value means an empty array; the offset of the
+                    # first element is unused as well in that case.
+                    if b['type']!=8:raise Unsupported('Empty INIT_ARRAY with an offset')
+                    items=[]
+                else:
+                    items=[self.array_element(a,b)]
                 self.array_items[spot(r)]=items
                 self.put(r,b'array('+b', '.join(items)+b')')
             elif kind=='ADD_ARRAY_ELEMENT':
-                if b['type']!=8:raise Unsupported('Keyed ADD_ARRAY_ELEMENT unsupported')
+                if op['extended_value']!=0:
+                    raise Unsupported('Array element by reference unsupported')
                 key=spot(r)
                 if key not in self.array_items:raise Unsupported('Unmatched ADD_ARRAY_ELEMENT')
-                self.array_items[key].append(self.val(a))
+                self.array_items[key].append(self.array_element(a,b))
                 self.put(r,b'array('+b', '.join(self.array_items[key])+b')')
             elif kind in ('ADD_STRING','ADD_VAR','ADD_CHAR'):
                 pieces=self.defs.get(spot(a))
@@ -356,7 +396,16 @@ class Decoder:
             elif kind=='INIT_FCALL_BY_NAME':
                 self.call_stack.append({'name':sym(raw_string(b)), 'args':[]})
             elif kind=='FETCH_FUNC_ARG':
-                self.put(r,b'$'+sym(raw_string(a)))
+                # PHP 5.2 (zend_vm_def.h): op1 is the name of the argument.  A
+                # constant names it directly, a compiled variable holds the
+                # name dynamically, so the argument is the variable that the
+                # value of the compiled variable names.
+                if a['type']==1:
+                    self.put(r,b'$'+sym(raw_string(a)))
+                elif a['type']==16:
+                    self.put(r,b'${$'+sym(self.cv[a['word0']])+b'}')
+                else:
+                    raise Unsupported('Unsupported FETCH_FUNC_ARG operand')
             elif kind in ('SEND_VAR','SEND_VAL','SEND_VAR_NO_REF'):
                 argument=self.val(a)
                 if self.call_stack:
@@ -474,15 +523,6 @@ class Decoder:
                 state['element_slot']=spot(r)
                 if self.branch is not None:raise Unsupported('Multiple branches in segment')
                 self.branch=('FE_FETCH',b'',self.dest(b))
-            elif kind=='ASSIGN' and self._is_foreach_binding(a,b):
-                # The binding of the loop variable; the foreach construct
-                # carries it, so no separate statement is emitted.
-                lhs=self.val(a)
-                self.val(b)
-                state=self.context['foreach']
-                state['variable']=lhs
-                state['stage']='bound'
-                self.put(r,FOREACH_VALUE)
             elif kind=='PRE_INC':
                 rhs=self.val(a)
                 self.lines.append(b'++'+rhs+b';')
@@ -509,6 +549,31 @@ class Decoder:
                 self.branch=(kind,b'',self.dest(a))
             elif kind=='ECHO':
                 self.lines.append(b'echo '+self.val(a)+b';')
+            elif kind=='EXIT':
+                # PHP 5.2 (zend_vm_def.h): an unused operand is a bare exit, a
+                # constant operand is the exit status.  No native trace of the
+                # corpus establishes what a temporary or compiled-variable
+                # operand means here, so such a form is refused instead of
+                # being rendered as a bare exit.
+                if a['type']==8:
+                    self.lines.append(b'exit;')
+                elif a['type']==1 and a['constant']['kind']=='integer':
+                    self.lines.append(b'exit('+str(a['constant']['value']).encode('ascii')+b');')
+                elif a['type']==1 and a['constant']['kind']=='string':
+                    self.lines.append(b'exit('+php_string(bytes.fromhex(a['constant']['raw_hex']))+b');')
+                else:
+                    raise Unsupported('Unsupported EXIT operand')
+            elif kind=='UNSET_VAR':
+                # PHP 5.2 (zend_vm_def.h): op1 is the name of the variable as a
+                # string.  Only a compiled variable of the same group can be
+                # named safely, everything else is refused.
+                if a['type']!=1 or a['constant']['kind']!='string':
+                    raise Unsupported('Unexpected UNSET_VAR operand')
+                # The name is the variable of the source; it need not be a
+                # compiled variable of the group, PHP allows unset of a name
+                # that was never assigned.
+                name=sym(bytes.fromhex(a['constant']['raw_hex']))
+                self.lines.append(b'unset($'+name+b');')
             elif kind=='INCLUDE_OR_EVAL':
                 if b['type']!=8 or b['word1']!=1:
                     raise Unsupported('Unknown include flags')

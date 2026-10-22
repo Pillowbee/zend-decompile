@@ -11,6 +11,7 @@ import argparse
 import json
 from collections import deque
 from pathlib import Path
+from .encoder_foreach import foreach_fetches
 from .serial_parser import parse_binary, decompress_encoded, FormatError
 
 JMP=42
@@ -59,7 +60,7 @@ def read_jump_target(node: dict, index: int, op: int):
     return node['word0']
 
 
-def branch_destinations(op: dict, count: int) -> list[tuple[int,str]]:
+def branch_destinations(op: dict, count: int, fetches=frozenset()) -> list[tuple[int,str]]:
     """Meaning for JMPZNZ edges deliberately neutral until polarity is verified."""
     num=op['decoded_opcode'];idx=op['index']
     if num==JMP:
@@ -70,10 +71,11 @@ def branch_destinations(op: dict, count: int) -> list[tuple[int,str]]:
         dest=[(read_jump_target(op['op2'],idx,num),'nonzero'),(idx+1,'zero')]
     elif num==JMPZNZ:
         dest=[(read_jump_target(op['op2'],idx,num),'operand2'),(op['extended_value'],'extended')]
-    elif num==FE_FETCH:
+    elif num==FE_FETCH or (num is None and idx in fetches):
         # A foreach fetch continues into the loop body and leaves the loop when
         # the array is exhausted.  The native handler carries the exit target
-        # in op2; the fallthrough is the body.
+        # in op2; the fallthrough is the body.  A fetch whose native opcode is
+        # not established is recognised by its position in the construct.
         dest=[(read_jump_target(op['op2'],idx,num),'zero'),(idx+1,'nonzero')]
     elif num in TERMINALS:
         dest=[]
@@ -95,12 +97,13 @@ def cfg_for_group(name: str, group: dict) -> dict:
     if unsafe:
         raise FormatError(f'Unmodeled control-flow opcodes in {name}: {unsafe[:16]}')
     leaders={0};jump_count=0
-    unknown=[x['index'] for x in ops if x['decoded_opcode'] is None]
+    fetches=foreach_fetches(ops)
+    unknown=[x['index'] for x in ops if x['decoded_opcode'] is None and x['index'] not in fetches]
     for op in ops:
         num=op['decoded_opcode'];i=op['index']
-        if num in BRANCHES or num==FE_FETCH:
+        if num in BRANCHES or num==FE_FETCH or i in fetches:
             jump_count+=1
-            for d,_ in branch_destinations(op,n):
+            for d,_ in branch_destinations(op,n,fetches):
                 if d<n:leaders.add(d)
             if i+1<n:leaders.add(i+1)
         elif num in TERMINALS and i+1<n:
@@ -118,7 +121,7 @@ def cfg_for_group(name: str, group: dict) -> dict:
     edges=[]
     for block in blocks:
         op=ops[block['last']]
-        for target,kind in branch_destinations(op,n):
+        for target,kind in branch_destinations(op,n,fetches):
             to=instr_to_block.get(target,exit_id)
             block['successors'].append({'block':to,'kind':kind,'target_instruction':target})
             edges.append({'from':block['id'],'to':to,'kind':kind,'target_instruction':target})

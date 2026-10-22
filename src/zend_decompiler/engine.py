@@ -64,7 +64,7 @@ def inspect(source: Path, dictionary: Path, mapping: Path, *, window: int = 2, i
             raise FormatError('Opcode metadata evidence SHA256 mismatch')
         if evidence.get('mapping_sha256')!=_hash(mapping):
             raise FormatError('Opcode evidence SHA256 does not match provided mapping')
-    groups=[('<main>',parsed['main'])]+[(bytes.fromhex(x['name_hex']).decode('ascii'),x) for x in parsed['functions']]
+    groups=[('<main>',parsed['main'])]+[(bytes.fromhex(x['name_hex']).decode('cp1251'),x) for x in parsed['functions']]
     totals=Counter(); summaries=[]; encountered=Counter(); issues=[]; mapped_total=0
     predicted=[]
     for name,g in groups:
@@ -205,7 +205,7 @@ def restore_result(source: Path, dictionary: Path, mapping: Path, *, isolate_par
                 raw=decompress_encoded(source,dictionary.read_bytes())
                 if len(raw)==1:
                     parsed=parse_binary(raw[0][1])
-                    groups=[('<main>',parsed['main'])]+[(bytes.fromhex(x['name_hex']).decode('ascii'),x) for x in parsed['functions']]
+                    groups=[('<main>',parsed['main'])]+[(bytes.fromhex(x['name_hex']).decode('cp1251'),x) for x in parsed['functions']]
                     g=next((g for name,g in groups if name==group_name),None)
                     if g is not None:
                         mp=json.loads(mapping.read_text(encoding='utf-8'))

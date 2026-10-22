@@ -12,7 +12,8 @@ from .serial_parser import decompress_encoded, parse_binary
 from .calibrate import choose_opcode
 from .cfg import cfg_for_group
 from .crossblock import join_proofs
-from .prefix_restore import Decoder, Unsupported, sym, foreach_markers
+from .encoder_foreach import foreach_fetches, foreach_markers
+from .prefix_restore import Decoder, Unsupported, sym
 from .structure import Emitter, build_graph, insist, StructureError
 from .state import state_emit
 from .encoder_calls import declared_callees
@@ -41,20 +42,32 @@ def build_group(group: dict, mapping: dict, name: str, symbols=None, callees=Non
         op['decoded_opcode'] = choose_opcode(op, mapping)
         op['_decoded_name'] = mapping['names'].get(str(op['decoded_opcode']))
     markers = foreach_markers(ops)
+    fetches = foreach_fetches(ops)
     unresolved = [op['index'] for op in ops
-                  if op['decoded_opcode'] is None and op['index'] not in markers]
+                  if op['decoded_opcode'] is None and op['index'] not in markers
+                  and op['index'] not in fetches]
     insist(not unresolved, f'{name}: unknown opcodes at {unresolved[:15]}')
     cvs = {v['index']: bytes.fromhex(v['name_hex']) for v in group['compiled_vars']}
     cfg = cfg_for_group(name, group)
     proofs = join_proofs(ops, cvs, mapping)
+    # A proven join may sit inside a block that starts earlier, so the proof
+    # is given to the block that contains the join.
+    proofs_by_block = {}
+    for join_index, proof in proofs.items():
+        for b in cfg['basic_blocks']:
+            if b['first'] <= join_index <= b['last']:
+                proofs_by_block[b['first']] = proof
+                break
     blocks = []
     used_rules=Counter()
     encoder_calls=[]
     context = {}
     for b in cfg['basic_blocks']:
         d = Decoder(ops, cvs, mapping, symbols, callees, context)
-        if b['first'] in proofs:
-            proof = proofs[b['first']]
+        if b['first'] in proofs_by_block:
+            proof = proofs_by_block[b['first']]
+            for term in proof.get('term_slots', []):
+                d.defs[tuple(term['slot'])] = bytes.fromhex(term['value_hex'])
             d.defs[tuple(proof['slot'])] = bytes.fromhex(proof['expression_hex'])
         before = dict(context.get('foreach') or {})
         try:
@@ -107,13 +120,14 @@ def function_parameters_after_decode(group,mapping):
     for op in group['opcodes']:
         op['decoded_opcode']=choose_opcode(op,mapping)
         op['_decoded_name']=mapping['names'].get(str(op['decoded_opcode']))
-    return [p.decode('ascii') for p in function_parameters(group)]
+    # Names of the site are cp1251; a variable name may contain high bytes.
+    return [p.decode('cp1251') for p in function_parameters(group)]
 
 def restore(encoded,dictionary,mapping_file, *, version="v29", trace_rules=False):
     streams=decompress_encoded(encoded,dictionary.read_bytes())
     insist(len(streams)==1,'Multiple encoded streams unsupported')
     parsed=parse_binary(streams[0][1]);mapping=json.loads(mapping_file.read_text(encoding="utf-8"))
-    groups=[('<main>',parsed['main'])]+[(bytes.fromhex(f['name_hex']).decode('ascii'),f) for f in parsed['functions']]
+    groups=[('<main>',parsed['main'])]+[(bytes.fromhex(f['name_hex']).decode('cp1251'),f) for f in parsed['functions']]
     symbols=parsed.get('header_symbols',[])
     callees=declared_callees(parsed,mapping)
     body_parts=[];audit_groups=[]

@@ -74,13 +74,26 @@ def join_proofs(ops:list[dict], cv:dict[int,bytes], mapping:dict) -> dict[int,di
         """
         consumed=[]
         calls=[]
-        final=ops[index]
-        if name(index)=='BOOL':
-            if slot(final['result'])!=expected:
-                raise Unsupported('BOOL result slot changed')
-            expected=slot(final['op1'])
-            consumed.append(index)
-            index-=1
+        slots=[]          # (slot, value) of every slot the term passes through
+        peel=[]           # wrappers of the term, outermost first
+        # A condition may be wrapped in a boolean conversion and in a negation.
+        while index>=0:
+            wrapper=ops[index]
+            if name(index)=='BOOL' and slot(wrapper['result'])==expected:
+                peel.append((slot(wrapper['result']),False))
+                expected=slot(wrapper['op1'])
+                consumed.append(index)
+                index-=1
+                continue
+            if name(index)=='BOOL_NOT' and slot(wrapper['result'])==expected:
+                peel.append((slot(wrapper['result']),True))
+                expected=slot(wrapper['op1'])
+                consumed.append(index)
+                index-=1
+                continue
+            break
+        if index<0:
+            raise Unsupported('Condition has no comparison')
         op=ops[index]
         if name(index) not in COMPARISONS:
             raise Unsupported('Not a supported comparison')
@@ -122,28 +135,53 @@ def join_proofs(ops:list[dict], cv:dict[int,bytes], mapping:dict) -> dict[int,di
                 continue
             raise Unsupported('Unproven operand producer')
         expression=b'('+values['op1']+COMPARISONS[name(index)]+values['op2']+b')'
-        return expression,cursor,consumed,calls
+        # Every wrapper copies the value of the comparison into its own slot;
+        # a boolean conversion keeps the value and a negation inverts it.
+        # The slots are recorded in the order the decoder produces them, so
+        # a block that contains the join can be decoded with the same values.
+        base=expression
+        slots.append((slot(op['result']),base))
+        rendered=base
+        for wrapper_slot,is_not in reversed(peel):
+            rendered=(b'(!'+rendered+b')' if is_not
+                      else b'((bool) '+rendered+b')')
+            slots.append((wrapper_slot,rendered))
+        # A boolean conversion is the identity in a condition and each
+        # negation inverts the term, so only the parity matters.
+        negations=sum(1 for _wrapper_slot,is_not in peel if is_not)
+        expression=b'!'*(negations%2)+base
+        return expression,cursor,consumed,calls,slots,rendered
 
     found={}
     for join in range(len(ops)):
         final=ops[join]
-        if name(join) not in ('JMPZ','JMPNZ') or final['op1']['type'] not in (2,4):
+        if name(join) not in ('JMPZ','JMPNZ','JMPZ_EX','JMPNZ_EX') or final['op1']['type'] not in (2,4):
             continue
         result=slot(final['op1'])
         try:
-            last,cursor,included,calls=term_ending_at(join-1,result)
+            last,cursor,included,calls,term_slots,rendered=term_ending_at(join-1,result)
             terms=[last];proof_indices=included[:];shortcuts=[];mode=None
             call_sites=list(calls)
             while cursor>=0 and name(cursor) in ('JMPNZ_EX','JMPZ_EX'):
                 jump=ops[cursor];shortcut_kind=name(cursor)
-                if jump['op2']['type']!=8 or jump['op2']['word1']!=1 or jump['op2']['word0']!=join:
+                if jump['op2']['type']!=8 or jump['op2']['word1']!=1:
                     break
-                if slot(jump['result'])!=result or slot(jump['op1'])!=result:
+                target=jump['op2']['word0']
+                # The shortcut has to reach the join without a branch in
+                # between: the target may be the instruction in front of the
+                # join, the compiler may place the jump there.
+                if not (0<=target<=join):
+                    break
+                if any(name(i) in ('JMP','JMPZ','JMPNZ','JMPZNZ','JMPZ_EX','JMPNZ_EX')
+                       for i in range(target,join)):
+                    break
+                shortcut_slot=slot(jump['op1'])
+                if shortcut_slot is None:
                     break
                 if mode is not None and shortcut_kind!=mode:
                     break
                 mode=shortcut_kind
-                expr,cursor2,used,more_calls=term_ending_at(cursor-1,result)
+                expr,cursor2,used,more_calls,_slots,_rendered=term_ending_at(cursor-1,shortcut_slot)
                 terms.insert(0,expr)
                 proof_indices.extend(used+[cursor]);shortcuts.append(cursor)
                 call_sites.extend(more_calls)
@@ -160,6 +198,9 @@ def join_proofs(ops:list[dict], cv:dict[int,bytes], mapping:dict) -> dict[int,di
                          'source_indices':sorted(set(proof_indices+[join])),
                          'shortcut_indices':sorted(shortcuts),
                          'call_sites':call_sites,
+                         'term_slots':[{'slot':list(slot),'value_hex':value.hex()}
+                                       for slot,value in term_slots],
+                         'rendered_term':rendered.decode('cp1251','backslashreplace'),
                          'fallthrough':join+1,
                          'branch_target':final['op2']['word0'],
                          'conditional_opcode':name(join)}
