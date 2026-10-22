@@ -41,6 +41,7 @@ def recover_blocks(group, mapping, name, symbols=None, callees=None):
         blocks.append({
             'id':block['id'],'first':block['first'],'last':block['last'],
             'statements':[s.decode('cp1251') for s in segment.statements],
+            'statement_sources':list(segment.statement_sources or []),
             'branch':None if segment.branch is None else {
                 'opcode':segment.branch[0],
                 'condition':segment.branch[1].decode('cp1251'),

@@ -61,6 +61,7 @@ def build_group(group: dict, mapping: dict, name: str, symbols=None, callees=Non
         blocks.append({
             'id': b['id'], 'first': b['first'], 'last': b['last'],
             'statements': [line.decode('cp1251') for line in res.statements],
+            'statement_sources': list(res.statement_sources or []),
             'branch': None if res.branch is None else {'opcode': res.branch[0],
                 'condition': res.branch[1].decode('cp1251'), 'target': res.branch[2]},
             'successors': b['successors']

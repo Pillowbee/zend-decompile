@@ -64,6 +64,7 @@ class Segment:
     last_assignment: tuple[bytes,bytes] | None = None
     fired_rules: dict[str,int] | None = None
     encoder_calls: list | None = None
+    statement_sources: list[int] | None = None
 
 
 class Decoder:
@@ -91,6 +92,8 @@ class Decoder:
         self.fired_rules=Counter()
         self.current_index=None
         self.encoder_calls=[]
+        # Instruction index that produced every emitted statement.
+        self.line_sources=[]
 
     def kind(self,op):
         # Encoder call terminators are recognised on the Encoder level.  Their
@@ -343,13 +346,19 @@ class Decoder:
                 raise Unsupported('Unsupported opcode #'+str(idx)+' '+kind)
             # Count actual completed Decoder branches, not mere opcode occurrences.
             self.fired_rules[kind]+=1
+            # Every statement emitted by this instruction belongs to it.
+            while len(self.line_sources)<len(self.lines):
+                self.line_sources.append(idx)
         if self.call_stack:raise Unsupported('Incomplete function calls')
         try:
             self.direct_call_args.require_empty()
         except CallProtocolError as exc:
             raise Unsupported(str(exc)) from exc
         if self.silence_slot is not None:raise Unsupported('Silence region crosses block boundary')
-        return Segment([line for line in self.lines if line is not None],self.branch,self.covered,self.last_assignment,dict(self.fired_rules),list(self.encoder_calls))
+        statements=[line for line in self.lines if line is not None]
+        sources=[src for line,src in zip(self.lines,self.line_sources) if line is not None]
+        return Segment(statements,self.branch,self.covered,self.last_assignment,
+                       dict(self.fired_rules),list(self.encoder_calls),sources)
 
 
 def require_branch(seg,kind,dest):

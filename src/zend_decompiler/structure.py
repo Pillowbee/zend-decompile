@@ -39,6 +39,18 @@ def build_graph(data):
         shortcut_kind='nonzero' if lead['branch']['opcode']=='JMPNZ_EX' else 'zero'
         insist(any(s['kind']==shortcut_kind and s['block']==join['id'] for s in lead['successors']),
                'Short-circuit edge does not reach the proven join')
+        # A folded term may contain a call.  The call is inlined into the
+        # condition, so it must live in the short-circuit block itself, and no
+        # statement of that block may be emitted after the call; otherwise the
+        # evaluation order of the call would change.
+        for call in proof.get('call_sites',[]):
+            call_block=next((b for b in original.values()
+                             if b['first']<=call['index']<=b['last']),None)
+            insist(call_block is not None and call_block['id']==lead['id'],
+                   'Call in a folded term is outside the short-circuit block')
+            sources=lead.get('statement_sources') or []
+            insist(all(source<call['index'] for source in sources),
+                   'Short-circuit block emits statements after a folded call')
         # All intermediary blocks must be pure: no locally emitted statements.
         mids=[b for b in original.values() if lead['last']<b['first'] and b['last']<=join['last']]
         insist(mids and join in mids, 'No blocks to fold')

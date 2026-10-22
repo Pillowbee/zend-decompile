@@ -23,18 +23,17 @@ class Diagnostics23(unittest.TestCase):
         self.assertEqual(user.audit['rule_usage'].get('BOOL_NOT',0),0)
 
     def test_exact_failure_instruction_and_opcode_window(self):
-        expectations={'fun_all.php':('out_link',16,16)}
-        for file,(group,index,block_start) in expectations.items():
-            with self.subTest(file=file):
-                result=restore_result(ROOT/'sample_inputs'/file,D,M)
-                self.assertEqual(result.status,'unsupported')
-                self.assertIsNone(result.code)
-                failure=result.audit['failure']
-                self.assertEqual(failure['opcode_index'],index)
-                self.assertEqual(failure['index_precision'],'exact_decoder_instruction_on_exception')
-                self.assertEqual(failure['block_start_opcode_index'],block_start)
-                self.assertEqual(failure['block_window']['group'],group)
-                self.assertEqual(failure['block_window']['index'],index)
+        # fun_all.php now fails on the control flow that is still unmodelled:
+        # the FE_RESET/FE_FETCH pair of the foreach.  The audit must name the
+        # exact instructions instead of a vague message.
+        result=restore_result(ROOT/'sample_inputs/fun_all.php',D,M)
+        self.assertEqual(result.status,'unsupported')
+        self.assertIsNone(result.code)
+        failure=result.audit['failure']
+        self.assertEqual(failure['index_precision'],'exact_unmodeled_control_flow_instructions')
+        self.assertEqual(failure['unmodeled_control_flow'],
+                         [{'index':63,'native_opcode':77},{'index':64,'native_opcode':78}])
+        self.assertIn('out_price',failure['message'])
         # The disputed native keys stay 'unknown' in the native map even where
         # the Encoder-level call form is recognised and restored.
         r=restore_result(ROOT/'sample_inputs/links_fun(1).php',D,M)

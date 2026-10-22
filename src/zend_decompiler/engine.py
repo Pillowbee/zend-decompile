@@ -172,17 +172,34 @@ def restore_result(source: Path, dictionary: Path, mapping: Path, *, isolate_par
         # Structured failure instead of propagating malformed or unsupported streams.
         audit['status']='unsupported'
         audit['failure']={'type':type(exc).__name__,'message':str(exc)[:1200]}
-        match=re.search(r'(?:opcode\s*#|instruction\s*#|\bat\s*#|\[)(\d+)',str(exc),re.I)
+        message=str(exc)
+        # A control-flow refusal names the instructions that were not modelled.
+        unmodelled=re.findall(r'\((\d+),\s*(\d+)\)',message)
+        if unmodelled:
+            seen=[]
+            for index,opcode in unmodelled:
+                entry={'index':int(index),'native_opcode':int(opcode)}
+                if entry not in seen:seen.append(entry)
+            audit['failure']['unmodeled_control_flow']=seen
+            audit['failure']['index_precision']='exact_unmodeled_control_flow_instructions'
+        match=re.search(r'(?:opcode\s*#|instruction\s*#|\bat\s*#|\[)(\d+)',message,re.I)
         if match:
             audit['failure']['opcode_index']=int(match.group(1))
             audit['failure']['index_precision']='exact_decoder_instruction_on_exception'
+        # A group level refusal names the instructions it could not decode.
+        unknown=re.search(r'unknown opcodes at \[([\d,\s]+)\]',message)
+        if unknown:
+            indices=[int(x) for x in re.findall(r'\d+',unknown.group(1))]
+            audit['failure']['unknown_opcodes']=indices
+            if indices and audit['failure'].get('opcode_index') not in indices:
+                audit['failure']['opcode_index']=indices[0]
+            audit['failure']['index_precision']='exact_unknown_opcode_indices'
+        group_match=re.search(r'Cannot restore\s+([^:]+):',message)
+        group_name=group_match.group(1) if group_match else '<main>'
         # B012 is a CFG block ordinal, NOT opcode index 12.
-        anchor=re.search(r'block\s+(B\d+)',str(exc))
-        if anchor:
-            block_id=anchor.group(1)
-            audit['failure']['cfg_block']=block_id
-            group_match=re.search(r'Cannot restore\s+([^:]+):',str(exc))
-            group_name=group_match.group(1) if group_match else '<main>'
+        anchor=re.search(r'block\s+(B\d+)',message)
+        block_id=anchor.group(1) if anchor else None
+        if block_id or audit['failure'].get('opcode_index') is not None:
             try:
                 from .cfg import cfg_for_group
                 raw=decompress_encoded(source,dictionary.read_bytes())
@@ -195,7 +212,15 @@ def restore_result(source: Path, dictionary: Path, mapping: Path, *, isolate_par
                         for op in g['opcodes']:
                             op['decoded_opcode']=choose_opcode(op,mp)
                         cfg=cfg_for_group(group_name,g)
-                        block=next((b for b in cfg['basic_blocks'] if b['id']==block_id),None)
+                        block=None
+                        if block_id:
+                            block=next((b for b in cfg['basic_blocks'] if b['id']==block_id),None)
+                            audit['failure']['cfg_block']=block_id
+                        if block is None:
+                            index=audit['failure'].get('opcode_index')
+                            if index is not None:
+                                block=next((b for b in cfg['basic_blocks']
+                                            if b['first']<=index<=b['last']),None)
                         if block is not None:
                             idx=audit['failure'].get('opcode_index',block['first'])
                             if not block['first']<=idx<=block['last']:
