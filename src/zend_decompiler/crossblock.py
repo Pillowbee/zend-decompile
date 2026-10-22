@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Conservative, proof-carrying reconstruction of short-circuit boolean joins.
 
-Supports CV/constant comparisons, a bounded form of nested dimension reads,
-and a three-call AND chain with checked targets and call evaluation order.
+Supports CV/constant comparisons, bounded nested dimension reads, a
+three-call AND chain, and one assigned call in a checked loop condition.
 Other expressions are left unresolved rather than guessed. Does NOT execute PHP.
 """
 from __future__ import annotations
@@ -61,7 +61,8 @@ def proof_seeds_by_block(proofs:dict[int,dict], blocks:list[dict]) -> dict[int,d
     for join,proof in proofs.items():
         block=next((b for b in blocks if b['first']<=join<=b['last']),None)
         if block is None:raise Unsupported('Short-circuit join has no CFG block')
-        if (proof.get('nested') or proof.get('nested_dimension_reads')) and block['first']!=join:
+        if (proof.get('nested') or proof.get('nested_dimension_reads') or
+                proof.get('loop_assignment_join')) and block['first']!=join:
             raise Unsupported('Nested short-circuit join is not at a block entry')
         values={tuple(term['slot']):bytes.fromhex(term['value_hex'])
                 for term in proof.get('term_slots',[])}
@@ -320,6 +321,107 @@ def join_proofs(ops:list[dict], cv:dict[int,bytes], mapping:dict) -> dict[int,di
                 'rendered_term':expression.decode('cp1251','backslashreplace'),
                 'fallthrough':join+1,'branch_target':final['op2']['word0'],
                 'conditional_opcode':'JMPZ','effectful_call_chain':True}
+    def assigned_loop_and(join:int, evidence:dict) -> dict:
+        """Prove one assigned call and one comparison in a loop header."""
+        start=join-8
+        kinds=['INIT_FCALL_BY_NAME','FETCH_FUNC_ARG','SEND_VAR',
+               'DO_FCALL_BY_NAME','ASSIGN','JMPZ_EX',
+               'IS_NOT_EQUAL','BOOL','JMPZ']
+        if start<0 or [name(i) for i in range(start,join+1)]!=kinds:
+            raise Unsupported('Different assigned loop condition')
+        for i in range(start,join+1):
+            op=ops[i];key=f'{i%8}:{op["encoded_opcode"]}'
+            observed=evidence.get(key)
+            if (observed is None or observed.get('status')!='confirmed' or
+                    observed.get('opcode')!=op.get('decoded_opcode') or
+                    mapping['opcodes'].get(key)!=op.get('decoded_opcode')):
+                raise Unsupported('Assigned loop lacks confirmed opcode')
+        init,fetch,send,call,assign,shortcut,compare,wrapper,final=(
+            ops[i] for i in range(start,join+1))
+        if (init['op2']['type']!=1 or fetch['op1']['type']!=1 or
+                send['op1']!=fetch['result'] or
+                call['op1']!=init['op2'] or
+                call['result']['type']!=4 or
+                assign['op1']['type']!=16 or
+                assign['op2']!=call['result'] or
+                assign['result']['type']!=4 or
+                shortcut['op1']!=assign['result'] or
+                shortcut['result']['type']!=2 or
+                shortcut['op2']!={'type':8,'word0':join,'word1':1} or
+                compare['op1']['type']!=16 or compare['op2']['type']!=1 or
+                compare['op2']['constant']['kind']!='integer' or
+                compare['result']['type']!=2 or
+                wrapper['op1']!=compare['result'] or
+                wrapper['result']!=shortcut['result'] or
+                final['op1']!=shortcut['result'] or
+                final['op2']['type']!=8 or final['op2']['word1']!=1 or
+                final['op2']['word0']<=join or
+                any(op['extended_value']!=0 for op in
+                    (assign,shortcut,compare,wrapper,final))):
+            raise Unsupported('Assigned loop slots or targets disagree')
+        group={'opcodes':[dict(op,decoded_opcode=choose_opcode(op,mapping))
+                          for op in ops],'compiled_vars':[],'loop_records':[]}
+        cfg=cfg_for_group('<assigned loop>',group)
+        by_first={b['first']:b for b in cfg['basic_blocks']}
+        lead=by_first.get(start);middle=by_first.get(start+6)
+        tail=by_first.get(join);body=by_first.get(join+1)
+        after=by_first.get(final['op2']['word0'])
+        if (not all((lead,middle,tail,body,after)) or
+                not all(b['reachable'] for b in (lead,middle,tail,body)) or
+                lead['last']!=start+5 or middle['last']!=join-1 or
+                tail['last']!=join or body['last']!=final['op2']['word0']-1 or
+                name(body['last'])!='JMP' or
+                ops[body['last']]['op1']!=
+                    {'type':8,'word0':start,'word1':1} or
+                len(lead['predecessors'])!=2 or
+                body['id'] not in lead['predecessors'] or
+                middle['predecessors']!=[lead['id']] or
+                set(tail['predecessors'])!={lead['id'],middle['id']} or
+                body['predecessors']!=[tail['id']] or
+                {(e['kind'],e['block']) for e in lead['successors']}!=
+                    {('zero',tail['id']),('nonzero',middle['id'])} or
+                [(e['kind'],e['block']) for e in middle['successors']]!=
+                    [('fallthrough',tail['id'])] or
+                {(e['kind'],e['block']) for e in tail['successors']}!=
+                    {('zero',after['id']),('nonzero',body['id'])} or
+                [(e['kind'],e['block']) for e in body['successors']]!=
+                    [('always',lead['id'])] or
+                not any(e['from']==body['id'] and e['to']==lead['id']
+                        for e in cfg['back_edges'])):
+            raise Unsupported('Assigned loop CFG differs')
+        analysis=read_definitions(group,title='<assigned loop>')
+        if analysis['status']!='analyzed_syntactically':
+            raise Unsupported('Assigned loop lacks reaching definitions')
+        expected={(start+2,'op1'):{start+1},
+                  (start+4,'op2'):{start+3},
+                  (start+5,'op1'):{start+4},
+                  (start+7,'op1'):{start+6},
+                  (join,'op1'):{start+5,start+7}}
+        producers={start+1,start+3,start+4,start+5,start+6,start+7}
+        uses=[u for u in analysis['temporary_uses']
+              if set(u['reaching_definition_indices']) & producers]
+        if (len(uses)!=len(expected) or
+                {(u['instruction_index'],u['operand']):
+                 set(u['reaching_definition_indices']) for u in uses}!=expected):
+            raise Unsupported('Assigned loop has external TMP consumers')
+        assignment=render_range(ops,cv,mapping,start,start+4,
+                                slot(assign['result']))
+        right=render_range(ops,cv,mapping,start+6,start+7,
+                           slot(wrapper['result']))
+        expression=b'('+assignment+b' && '+right+b')'
+        return {'join_index':join,'slot':list(slot(final['op1'])),
+                'mode':'AND','expression_hex':expression.hex(),
+                'expression':expression.decode('cp1251','backslashreplace'),
+                'comparison_count':2,
+                'source_indices':list(range(start,join+1)),
+                'shortcut_indices':[start+5],
+                'call_sites':[{'first':start,'last':start+3,'index':start+3}],
+                'term_slots':[],
+                'rendered_term':expression.decode('cp1251','backslashreplace'),
+                'fallthrough':join+1,'branch_target':final['op2']['word0'],
+                'conditional_opcode':'JMPZ','loop_assignment_join':True,
+                'assignment_index':start+4,
+                'assignment_expression':assignment.decode('cp1251','backslashreplace')}
     def term_ending_at(index:int, expected):
         """Prove a pure comparison, optionally preceded by single-dimension
         FETCH_DIM_R operands. Require strict adjacency and matching TEMP slots.
@@ -477,6 +579,14 @@ def join_proofs(ops:list[dict], cv:dict[int,bytes], mapping:dict) -> dict[int,di
         try:
             if evidence is None:evidence=_validated_evidence(OPCODE_MAP)
             found[join]=three_call_and(join,evidence)
+        except (Unsupported, ValueError, IndexError, KeyError, TypeError):
+            continue
+    for join in range(8,len(ops)):
+        if join in found or name(join)!='JMPZ' or name(join-8)!='INIT_FCALL_BY_NAME':
+            continue
+        try:
+            if evidence is None:evidence=_validated_evidence(OPCODE_MAP)
+            found[join]=assigned_loop_and(join,evidence)
         except (Unsupported, ValueError, IndexError, KeyError, TypeError):
             continue
     # A bounded nested form has two OR terms separated by one AND term.

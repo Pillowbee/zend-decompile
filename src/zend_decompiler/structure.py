@@ -41,6 +41,17 @@ def build_graph(data):
         acceptable={proof['expression'],proof.get('rendered_term','')}
         insist(join['branch']['condition'] in acceptable, 'Proof and join disagree')
         insist(lead['last']==proof['shortcut_indices'][0], 'Unexpected short-circuit lead')
+        if proof.get('loop_assignment_join'):
+            assignment=proof['assignment_expression']
+            insist(lead['first']==start and
+                   lead['statement_sources']==[proof['assignment_index']] and
+                   lead['statements']==[assignment[1:-1]+';'] and
+                   lead['branch']['condition']==assignment,
+                   'Loop assignment cannot be transferred exactly once')
+            # The folded condition now performs this assignment on each visit
+            # to the loop header. Keeping its statement would call twice.
+            lead['statements']=[]
+            lead['statement_sources']=[]
         if proof.get('nested_dimension_reads'):
             insist(lead['first']==start and not lead['statements'],
                    'Dimension reads cannot be moved past statements')
