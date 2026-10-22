@@ -574,6 +574,21 @@ class Decoder:
                 # that was never assigned.
                 name=sym(bytes.fromhex(a['constant']['raw_hex']))
                 self.lines.append(b'unset($'+name+b');')
+            elif kind=='DECLARE_FUNCTION':
+                # The caller supplies a fully restored function body and the
+                # exact function-table key expected at this runtime position.
+                # A marker is expanded only after CFG structuring, preserving
+                # the declaration's conditional location.
+                declaration=(self.context.get('declarations') or {}).get(idx)
+                if (declaration is None or a['type']!=1 or b['type']!=1 or
+                        a['constant']['kind']!='string' or
+                        b['constant']['kind']!='string' or
+                        r!={'type':8,'word0':0,'word1':1} or
+                        op['extended_value']!=2 or
+                        bytes.fromhex(a['constant']['raw_hex'])!=declaration['key'] or
+                        bytes.fromhex(b['constant']['raw_hex'])!=declaration['name']):
+                    raise Unsupported('Unproved runtime function declaration')
+                self.lines.append(declaration['marker'])
             elif kind=='INCLUDE_OR_EVAL':
                 if b['type']!=8 or b['word1']!=1:
                     raise Unsupported('Unknown include flags')

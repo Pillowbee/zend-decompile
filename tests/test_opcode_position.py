@@ -35,8 +35,9 @@ class PositionRuleDataTests(unittest.TestCase):
         self.assertEqual(report['contradiction_count'], 4)
         self.assertEqual(sorted(item['key'] for item in report['contradictions']),
                          ['4:26', '5:7', '6:230', '7:160'])
-        # Eight keys use bytes that were never observed in the first corpus.
-        self.assertEqual(len(report['uncovered_keys']), 8)
+        # A newly traced conditional declaration adds byte 252, absent from
+        # the fitted base table; the rule remains research-only.
+        self.assertEqual(len(report['uncovered_keys']), 9)
         with self.assertRaises(Exception):
             verify_against_map(MAPPING)
 

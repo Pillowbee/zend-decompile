@@ -36,7 +36,8 @@ def function_parameters(group: dict) -> list[bytes]:
         params.append(b'$'+sym(cv[r['word0']]))
     return params
 
-def build_group(group: dict, mapping: dict, name: str, symbols=None, callees=None):
+def build_group(group: dict, mapping: dict, name: str, symbols=None, callees=None,
+                declarations=None):
     ops = group['opcodes']
     for op in ops:
         op['decoded_opcode'] = choose_opcode(op, mapping)
@@ -54,7 +55,7 @@ def build_group(group: dict, mapping: dict, name: str, symbols=None, callees=Non
     blocks = []
     used_rules=Counter()
     encoder_calls=[]
-    context = {}
+    context = {'declarations': declarations} if declarations else {}
     for b in cfg['basic_blocks']:
         d = Decoder(ops, cvs, mapping, symbols, callees, context)
         d.defs.update(seeds_by_block.get(b['first'], {}))
@@ -116,14 +117,42 @@ def restore(encoded,dictionary,mapping_file, *, version="v29", trace_rules=False
     streams=decompress_encoded(encoded,dictionary.read_bytes())
     insist(len(streams)==1,'Multiple encoded streams unsupported')
     parsed=parse_binary(streams[0][1]);mapping=json.loads(mapping_file.read_text(encoding="utf-8"))
+    if parsed['experimental_class_records']:
+        raise ValueError('Experimental class section has no proven PHP emitter')
     groups=[('<main>',parsed['main'])]+[(bytes.fromhex(f['name_hex']).decode('cp1251'),f) for f in parsed['functions']]
     symbols=parsed.get('header_symbols',[])
     callees=declared_callees(parsed,mapping)
+    runtime=[op for op in parsed['main']['opcodes']
+             if choose_opcode(op,mapping)==141]
+    declaration=None
+    cached_function=None
+    if runtime:
+        # Only the observed one-declaration/one-function layout has a
+        # position-preserving emitter.  Never hoist a conditional function.
+        insist(len(runtime)==len(parsed['functions'])==1,
+               'Unsupported runtime declaration table')
+        op=runtime[0]
+        function=parsed['functions'][0]
+        raw_name=bytes.fromhex(function['name_hex'])
+        name=sym(raw_name).decode('cp1251')
+        params=function_parameters_after_decode(function,mapping)
+        function_lines,function_audit=build_group(function,mapping,name,symbols,callees)
+        key=b'\0'+raw_name+encoded.name.encode('cp1251')+str(op['line']).encode('ascii')
+        marker=(b'__ZEND_RUNTIME_DECLARE_'+str(op['index']).encode('ascii')+b'__')
+        declaration={op['index']:{'key':key,'name':raw_name,'marker':marker}}
+        cached_function=(function_lines,function_audit,
+                         ['function '+name+'('+', '.join(params)+') {',
+                          *['    '+line for line in function_lines],'}'],
+                         marker.decode('ascii'))
     body_parts=[];audit_groups=[]
     for name,group in groups:
         params=[] if name=='<main>' else function_parameters_after_decode(group,mapping)
         try:
-            lines,audit=build_group(group,mapping,name,symbols,callees)
+            if cached_function is not None and name!='<main>':
+                lines,audit=cached_function[:2]
+            else:
+                lines,audit=build_group(group,mapping,name,symbols,callees,
+                                        declaration if name=='<main>' else None)
             audit['strategy']='structured_php'
         except (StructureError,Unsupported,ValueError) as exc:
             try:
@@ -134,8 +163,22 @@ def restore(encoded,dictionary,mapping_file, *, version="v29", trace_rules=False
         if not trace_rules:
             audit.pop('decoder_rule_usage',None)  # v20 golden audit schema is immutable.
         audit_groups.append(audit)
-        if name=='<main>':body_parts.extend(lines)
+        if name=='<main>':
+            if cached_function is None:
+                body_parts.extend(lines)
+            else:
+                marker=cached_function[3]
+                matches=[line for line in lines if line.strip()==marker]
+                insist(len(matches)==1,'Runtime declaration was not emitted exactly once')
+                for line in lines:
+                    if line.strip()!=marker:
+                        body_parts.append(line)
+                        continue
+                    indent=line[:len(line)-len(line.lstrip())]
+                    body_parts.extend(indent+piece for piece in cached_function[2])
         else:
+            if cached_function is not None:
+                continue
             insist(name.isidentifier(),f'Invalid function name {name!r}')
             body_parts.extend(['',f'function {name}('+', '.join(params)+') {',
                                *['    '+line for line in lines],'}'])

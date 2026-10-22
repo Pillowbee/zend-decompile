@@ -2257,9 +2257,21 @@
       "opcode": 77,
       "reason": "Compile-only native trace of the same file, aligned by source line and extended value; the handler address resolves to a single native opcode.",
       "status": "confirmed"
+    },
+    "2:252": {
+      "observations": 1,
+      "opcode": 141,
+      "reason": "Same-input compile-only native trace at the aligned position reports native opcode 141 and a unique handler for DECLARE_FUNCTION; operand constants identify the same function-table entry.",
+      "status": "confirmed"
+    },
+    "4:24": {
+      "observations": 1,
+      "opcode": 74,
+      "reason": "Same-input native trace uses the same unique handler as a confirmed UNSET_VAR in the same function; operand types and local fetch mode match, and the PHP 5.2 handler does not read the zeroed opcode field. Confirms the effective operation, not the exact original source text.",
+      "status": "confirmed"
     }
   },
-  "mapping_sha256": "47b6a28df16db7fd695bcb0ea7e429e123d3afd9273349b1a39146367b8baea0",
+  "mapping_sha256": "2a3c8f1ac92dc867461a4f282843621190061174abaf5eccb3fe04d37bbd36a7",
   "provenance": {
     "format": "zend-encoder-serialized-research-v6",
     "reference_source_verified": false,

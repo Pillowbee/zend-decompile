@@ -49,8 +49,9 @@ def _worker(path:Path,mem_mb:int) -> int:
     try:
         obj=parse_binary(path.read_bytes())
         result={'status':'parsed','format':obj['format'],
-                'group_count':1+len(obj['functions']),
-                'serialized_instructions':len(obj['main']['opcodes'])+sum(len(f['opcodes']) for f in obj['functions'])}
+                'group_count':1+len(obj['functions'])+len(obj['experimental_method_groups']),
+                'serialized_instructions':len(obj['main']['opcodes'])+sum(len(f['opcodes']) for f in obj['functions'])
+                                          +sum(len(f['opcodes']) for f in obj['experimental_method_groups'])}
     except (ValueError,IndexError,KeyError,UnicodeError,OverflowError,RecursionError,MemoryError) as exc:
         result={'status':'unsupported','reason':type(exc).__name__+': '+str(exc)[:300]}
     except Exception as exc:

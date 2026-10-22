@@ -1,7 +1,7 @@
 {
   "confidence_policy": "Require verified native-to-encoded alignment and primary source before marking confirmed",
   "evidence_file": "opcode_evidence.json",
-  "evidence_sha256": "be168f73b59410b79294711fc03c08ecf0e969238e136037a8b5773c5648bc76",
+  "evidence_sha256": "206d97b3722a1b870629d44af8c8eb5a732f616d5721f9a51001f11ce688f107",
   "format_variant": "SSG Team serialized research v6 / cyclic opcode key (instruction index mod 8, encoded byte)",
   "hypotheses": {
     "issues": [
@@ -29,7 +29,7 @@
     ]
   },
   "mapping_file": "opcode_map.json",
-  "mapping_sha256": "47b6a28df16db7fd695bcb0ea7e429e123d3afd9273349b1a39146367b8baea0",
+  "mapping_sha256": "2a3c8f1ac92dc867461a4f282843621190061174abaf5eccb3fe04d37bbd36a7",
   "own_probe_files": "corpus/compile_only_dumps/*.normalized.json (own PHP source only; no encoded mapping evidence)",
   "php_target": "5.2.17",
   "provenance": "Empirical encoded sample alignment; NOT independently proven mapping for every key",

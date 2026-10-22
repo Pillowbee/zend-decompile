@@ -65,6 +65,7 @@ def inspect(source: Path, dictionary: Path, mapping: Path, *, window: int = 2, i
         if evidence.get('mapping_sha256')!=_hash(mapping):
             raise FormatError('Opcode evidence SHA256 does not match provided mapping')
     groups=[('<main>',parsed['main'])]+[(bytes.fromhex(x['name_hex']).decode('cp1251'),x) for x in parsed['functions']]
+    groups += [(bytes.fromhex(x['name_hex']).decode('cp1251'),x) for x in parsed['experimental_method_groups']]
     totals=Counter(); summaries=[]; encountered=Counter(); issues=[]; mapped_total=0
     predicted=[]
     for name,g in groups:
@@ -105,6 +106,9 @@ def inspect(source: Path, dictionary: Path, mapping: Path, *, window: int = 2, i
         'opcode_mapping_confidence_fraction':totals['confirmed']/total if total else 1.0,
 
         'group_diagnostics':summaries,'unknown_windows':issues,
+        'experimental_class_section':{'present':bool(parsed['experimental_class_records']),
+                                      'records':len(parsed['experimental_class_records']),
+                                      'method_groups':len(parsed['experimental_method_groups'])},
         'opcode_name_counts':dict(sorted(encountered.items())),
         'opcode_position_rule':{
             'status':'inferred',

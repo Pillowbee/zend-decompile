@@ -117,7 +117,7 @@
   },
   "evidence_file": "encoder_opcode_evidence.json",
   "mapping_file": "opcode_map.json",
-  "mapping_sha256": "47b6a28df16db7fd695bcb0ea7e429e123d3afd9273349b1a39146367b8baea0",
+  "mapping_sha256": "2a3c8f1ac92dc867461a4f282843621190061174abaf5eccb3fe04d37bbd36a7",
   "measured_accuracy": {
     "status": "measured, not used for decoding",
     "second_corpus_keys_observed": 372,

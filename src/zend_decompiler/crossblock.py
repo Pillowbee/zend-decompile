@@ -678,6 +678,17 @@ def join_proofs(ops:list[dict], cv:dict[int,bytes], mapping:dict) -> dict[int,di
             del found[cursor]
         except (Unsupported, IndexError, KeyError, TypeError, ValueError):
             continue
+    # The bounded layouts below need a whole-interval truth-table proof.
+    # Discard narrower overlapping proofs only after the wider proof succeeds.
+    from .bounded_and import bounded_and_proofs
+    if evidence is None:
+        evidence = _validated_evidence(OPCODE_MAP)
+    for join, proof in bounded_and_proofs(ops, cv, mapping, evidence).items():
+        interval = set(proof['source_indices'])
+        for old in list(found):
+            if interval.intersection(found[old]['source_indices']):
+                del found[old]
+        found[join] = proof
     return found
 
 
