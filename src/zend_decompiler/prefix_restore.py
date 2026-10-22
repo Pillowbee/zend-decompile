@@ -87,7 +87,9 @@ class Decoder:
     def kind(self,op):
         k=choose_opcode(op,self.map)
         if k is None: raise Unsupported('Unknown opcode #'+str(op['index']))
-        return self.map['names'].get(str(k),str(k))
+        # In the saved PHP 5.2-family header, native opcode 4 is ZEND_DIV.
+        # This names the *native* operation only; the Encoder key remains inferred.
+        return self.map['names'].get(str(k), {4:'DIV'}.get(k,str(k)))
 
     def val(self,node):
         t=node['type']
@@ -186,8 +188,8 @@ class Decoder:
                     suffix=b'[]'
                 else:suffix=b'['+self.val(b)+b']'
                 self.put(r,self.val(a)+suffix)
-            elif kind in ('ADD','SUB','MUL'):
-                operator={ 'ADD': b' + ', 'SUB': b' - ', 'MUL': b' * ' }[kind]
+            elif kind in ('ADD','SUB','MUL','DIV'):
+                operator={ 'ADD': b' + ', 'SUB': b' - ', 'MUL': b' * ', 'DIV': b' / ' }[kind]
                 self.put(r,b'('+self.val(a)+operator+self.val(b)+b')')
             elif kind in ('IS_NOT_EQUAL','IS_EQUAL','IS_SMALLER','IS_SMALLER_OR_EQUAL'):
                 sign={'IS_NOT_EQUAL':b' != ', 'IS_EQUAL':b' == ','IS_SMALLER':b' < ', 'IS_SMALLER_OR_EQUAL':b' <= '}[kind]
