@@ -13,6 +13,7 @@ from .serial_parser import decompress_encoded, parse_binary
 from .calibrate import choose_opcode
 from .prefix_restore import Decoder, Unsupported, spot
 from .cfg import cfg_for_group
+from .encoder_calls import declared_callees
 
 COMPARISONS={
     'IS_EQUAL':b' == ', 'IS_NOT_EQUAL':b' != ',
@@ -110,14 +111,23 @@ def join_proofs(ops:list[dict], cv:dict[int,bytes], mapping:dict) -> dict[int,di
     return found
 
 
-def analyzed_source(source:Path,dict_path:Path,map_path:Path) -> tuple[dict,dict,dict,dict]:
+def analyzed_source(source:Path,dict_path:Path,map_path:Path) -> tuple[dict,dict,dict,dict,list,dict]:
+    """Parse one encoded file and analyse its main group.
+
+    Returns the group, the mapping, its CFG, the verified joins, the file
+    symbol table and the functions declared in the same file.  The last two
+    are required by the Encoder level call recognition.
+    """
     streams=decompress_encoded(source,dict_path.read_bytes())
     if len(streams)!=1:raise Unsupported('Expected one encoded stream')
     parsed=parse_binary(streams[0][1]);group=parsed['main']
     mapping=json.loads(map_path.read_text())
     for op in group['opcodes']:op['decoded_opcode']=choose_opcode(op,mapping)
     cvs={v['index']:bytes.fromhex(v['name_hex']) for v in group['compiled_vars']}
-    return group, mapping, cfg_for_group('main',group),join_proofs(group['opcodes'],cvs,mapping)
+    symbols=parsed.get('header_symbols',[])
+    callees=declared_callees(parsed,mapping)
+    return (group, mapping, cfg_for_group('main',group),
+            join_proofs(group['opcodes'],cvs,mapping), symbols, callees)
 
 if __name__=='__main__':
     import argparse
@@ -126,7 +136,7 @@ if __name__=='__main__':
     p.add_argument('--dictionary',type=Path,default=DICTIONARY)
     p.add_argument('--map',type=Path,default=OPCODE_MAP)
     p.add_argument('--out',type=Path,required=True)
-    a=p.parse_args();g,m,c,proofs=analyzed_source(a.source,a.dictionary,a.map)
+    a=p.parse_args();g,m,c,proofs,_,_=analyzed_source(a.source,a.dictionary,a.map)
     a.out.write_text(json.dumps({'file':a.source.name,'total_ops':len(g['opcodes']),
                                  'verified_short_circuit_joins':list(proofs.values())},indent=2,ensure_ascii=False)+'\n')
     print(f'Verified {len(proofs)} cross-block short-circuit joins')

@@ -23,7 +23,7 @@ class Diagnostics23(unittest.TestCase):
         self.assertEqual(user.audit['rule_usage'].get('BOOL_NOT',0),0)
 
     def test_exact_failure_instruction_and_opcode_window(self):
-        expectations={'links_fun(1).php':('<main>',14,12), 'fun_all.php':('out_link',16,16)}
+        expectations={'fun_all.php':('out_link',16,16)}
         for file,(group,index,block_start) in expectations.items():
             with self.subTest(file=file):
                 result=restore_result(ROOT/'sample_inputs'/file,D,M)
@@ -35,12 +35,15 @@ class Diagnostics23(unittest.TestCase):
                 self.assertEqual(failure['block_start_opcode_index'],block_start)
                 self.assertEqual(failure['block_window']['group'],group)
                 self.assertEqual(failure['block_window']['index'],index)
+        # The disputed native keys stay 'unknown' in the native map even where
+        # the Encoder-level call form is recognised and restored.
         r=restore_result(ROOT/'sample_inputs/links_fun(1).php',D,M)
-        window=r.audit['failure']['block_window']['window']
-        disputed=next(item for item in window if item['key']=='6:226')
-        self.assertEqual(disputed['index'],14)
-        self.assertEqual(disputed['confidence'],'unknown')
-        self.assertIn('Unsupported opcode #14 140',r.audit['failure']['message'])
+        self.assertEqual(r.status,'candidate_generated')
+        self.assertEqual(r.audit['confidence_counts']['unknown'],2)
+        self.assertEqual(r.audit['confidence_counts']['confirmed'],0)
+        self.assertEqual(r.audit['rule_usage']['ENCODER_CALL'],2)
+        self.assertEqual(r.audit['mapping_sha256'],
+                         hashlib.sha256(OPCODE_MAP.read_bytes()).hexdigest())
 
     def test_source_confidence_never_promoted_without_evidence(self):
         r=restore_result(ROOT/'sample_inputs/fun_all.php',D,M)

@@ -1,0 +1,18 @@
+{
+  "evidence_file": "encoder_call_evidence.json",
+  "evidence_sha256": "83f3de2e7db1a89f7a391bc55dc6cdcc8a5f5bbe0d3fa5eead26a1357231643a",
+  "format_variant": "SSG Team serialized research v6 / encoder call terminator (raw key + file symbol table)",
+  "limitations": [
+    "No native trace of the same protected artifact exists for these positions.",
+    "The native opcode number (140 vs 200) of these positions is not established.",
+    "Only calls to functions declared in the same file are recognised; external callees are refused.",
+    "Default arguments (RECV_INIT) make the signature unknown, so such callees are refused."
+  ],
+  "mapping_file": "encoder_call_map.json",
+  "mapping_sha256": "ffef36d39b91efd7bec73c97b89779ce0a8fc3a56a8cb69bb9691157b8df66b2",
+  "native_opcode_relation": "These raw keys are mapped to native 140 in opcode_map.json. The native number stays unresolved; encoder_call_map.json never rewrites opcode_map.json and never claims native semantics.",
+  "own_probe_files": "none; the encoder call form is not observable in the own PHP 5.2 compile-only corpus",
+  "scope": "Calls to functions declared in the same encoded file, addressed by an index into header_symbols.",
+  "status": "inferred",
+  "status_policy": "Require an independent decode of exactly these encoded records together with an aligned native trace of the same protected artifact before promoting this file to 'confirmed'."
+}

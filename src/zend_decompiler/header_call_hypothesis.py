@@ -111,7 +111,9 @@ def analyze_parsed(parsed: dict, mapping: dict, evidence: dict) -> dict:
                    'mapping_native_id_hypothesis': 140,
                    'evidence_status': evidence.get(key, {}).get('status', 'absent'),
                    'status': 'rejected', 'reason': None,
-                   'callee': None, 'argument_count': op['extended_value'],
+                   'callee': None, 'callee_signature': None,
+                   'argument_count': op['extended_value'],
+                   'cross_validated': False,
                    'send_indices': [], 'basic_block': None}
             rows.append(row)
 
@@ -155,10 +157,12 @@ def analyze_parsed(parsed: dict, mapping: dict, evidence: dict) -> dict:
             if signature is None:
                 reject('unverifiable_signature')
                 continue
+            row['callee_signature'] = signature
             argc = op['extended_value']
             if not isinstance(argc, int) or argc < 0 or argc != signature:
                 reject('arity_signature_mismatch')
                 continue
+            row['cross_validated'] = True
             if cfg is None:
                 reject(cfg_problem or 'cfg_unavailable', indeterminate=True)
                 continue
@@ -207,6 +211,13 @@ def analyze_parsed(parsed: dict, mapping: dict, evidence: dict) -> dict:
             'php_generated': False, 'semantic_equivalence_proven': False,
             'map_rewritten': False, 'disputed_opcode_promoted': False,
             'cfg_note': 'Basic-block check assumes disputed call-site is non-branching; not a verified CFG.',
+            'encoder_level_note': ('Since v29 the decoder recognises this call form on the Encoder level '
+                                   'only (file symbol table plus encoded argument count). The native '
+                                   'opcode number of these positions stays unresolved and the native '
+                                   'opcode map is not rewritten.'),
+            'cross_validation_note': ('cross_validated marks the two independent agreements: the symbol '
+                                      'index names a function declared in the same file and the encoded '
+                                      'argument count equals the callee RECV count.'),
             'observations': rows}
 
 

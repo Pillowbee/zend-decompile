@@ -20,6 +20,7 @@
     "gr_wares1.php",
     "header_index(1).php",
     "import(1).php",
+    "links_fun(1).php",
     "orders_admin.php",
     "user.php"
   ],
@@ -28,11 +29,6 @@
       "file": "fun_all.php",
       "exception": "Unsupported",
       "reason": "Cannot restore out_link: structured: out_link block B016: Unresolved temporary (2, 0, 0); state fallback: Unresolved temporary (2, 0, 0)"
-    },
-    {
-      "file": "links_fun(1).php",
-      "exception": "Unsupported",
-      "reason": "Cannot restore <main>: structured: <main> block B012: SEND without call; state fallback: SEND without call"
     }
   ],
   "not_encoded": [
@@ -66,6 +62,10 @@
     "import(1).php": {
       "code_sha256": "5155cd4d300c3052737de5a91fc935de0b1645e326c62e5b1a16d2aa73c36124",
       "audit_sha256": "367cc9dbdf1cf324067e30fda361ab59c3b10117765f6d9a77b7d49cec242833"
+    },
+    "links_fun(1).php": {
+      "code_sha256": "2773acfee03e35573c52e4aba1292a725d05a490f3044f11176ffdacf521a8a1",
+      "audit_sha256": "84c600c4741a49275bc71bda0f04ba04aad0ad266cbf546000590371ee3df229"
     },
     "orders_admin.php": {
       "code_sha256": "f7cf056ccc4df9c0ffbe6d33a70241f9b105a1096bda896721fcc9598e79123a",

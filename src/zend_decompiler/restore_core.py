@@ -15,6 +15,7 @@ from .crossblock import join_proofs
 from .prefix_restore import Decoder, Unsupported, sym
 from .structure import Emitter, build_graph, insist, StructureError
 from .state import state_emit
+from .encoder_calls import declared_callees
 
 def function_parameters(group: dict) -> list[bytes]:
     ops = group['opcodes']
@@ -33,7 +34,7 @@ def function_parameters(group: dict) -> list[bytes]:
         params.append(b'$'+sym(cv[r['word0']]))
     return params
 
-def build_group(group: dict, mapping: dict, name: str):
+def build_group(group: dict, mapping: dict, name: str, symbols=None, callees=None):
     ops = group['opcodes']
     for op in ops:
         op['decoded_opcode'] = choose_opcode(op, mapping)
@@ -45,8 +46,9 @@ def build_group(group: dict, mapping: dict, name: str):
     proofs = join_proofs(ops, cvs, mapping)
     blocks = []
     used_rules=Counter()
+    encoder_calls=[]
     for b in cfg['basic_blocks']:
-        d = Decoder(ops, cvs, mapping)
+        d = Decoder(ops, cvs, mapping, symbols, callees)
         if b['first'] in proofs:
             proof = proofs[b['first']]
             d.defs[tuple(proof['slot'])] = bytes.fromhex(proof['expression_hex'])
@@ -55,6 +57,7 @@ def build_group(group: dict, mapping: dict, name: str):
         except Unsupported as e:
             raise Unsupported(f'{name} block {b["id"]} opcode #{d.current_index}: {e}') from e
         used_rules.update(res.fired_rules or {})
+        encoder_calls.extend(res.encoder_calls or [])
         blocks.append({
             'id': b['id'], 'first': b['first'], 'last': b['last'],
             'statements': [line.decode('cp1251') for line in res.statements],
@@ -77,6 +80,7 @@ def build_group(group: dict, mapping: dict, name: str):
     body=lines[last_comment+1:]
     audit['name'] = name
     audit['decoder_rule_usage'] = dict(sorted(used_rules.items()))
+    audit['encoder_call_sites'] = encoder_calls
     audit['source_cfg_blocks'] = len(blocks)
     audit['decoder'] = 'empirical_mapping_php52'
     audit['unknown_opcodes'] = unresolved
@@ -90,20 +94,22 @@ def function_parameters_after_decode(group,mapping):
         op['_decoded_name']=mapping['names'].get(str(op['decoded_opcode']))
     return [p.decode('ascii') for p in function_parameters(group)]
 
-def restore(encoded,dictionary,mapping_file, *, version="v28", trace_rules=False):
+def restore(encoded,dictionary,mapping_file, *, version="v29", trace_rules=False):
     streams=decompress_encoded(encoded,dictionary.read_bytes())
     insist(len(streams)==1,'Multiple encoded streams unsupported')
     parsed=parse_binary(streams[0][1]);mapping=json.loads(mapping_file.read_text(encoding="utf-8"))
     groups=[('<main>',parsed['main'])]+[(bytes.fromhex(f['name_hex']).decode('ascii'),f) for f in parsed['functions']]
+    symbols=parsed.get('header_symbols',[])
+    callees=declared_callees(parsed,mapping)
     body_parts=[];audit_groups=[]
     for name,group in groups:
         params=[] if name=='<main>' else function_parameters_after_decode(group,mapping)
         try:
-            lines,audit=build_group(group,mapping,name)
+            lines,audit=build_group(group,mapping,name,symbols,callees)
             audit['strategy']='structured_php'
         except (StructureError,Unsupported,ValueError) as exc:
             try:
-                lines,audit=state_emit(group,mapping,name)
+                lines,audit=state_emit(group,mapping,name,symbols,callees)
                 audit['structured_failure']=str(exc)
             except (StructureError,Unsupported,ValueError) as fallback_exc:
                 raise Unsupported(f'Cannot restore {name}: structured: {exc}; state fallback: {fallback_exc}') from fallback_exc

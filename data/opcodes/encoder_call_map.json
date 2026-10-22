@@ -1,0 +1,43 @@
+{
+  "description": "Encoder-level recognition of a call to a function declared in the same file. This is NOT a native opcode map: the native opcode number of these positions stays unresolved.",
+  "kind": "encoder_call_terminator",
+  "status": "inferred",
+  "format_variant": "SSG Team serialized research v6 / cyclic raw key (instruction index mod 8, encoded byte)",
+  "raw_keys": [
+    "0:26",
+    "1:7",
+    "2:230",
+    "3:160",
+    "4:250",
+    "5:216",
+    "6:226",
+    "7:125"
+  ],
+  "operand_contract": {
+    "op1": "UNUSED(symbol_index, 1) - index into the file header_symbols table",
+    "op2": "UNUSED(0, 1)",
+    "result": "VAR(slot)",
+    "extended_value": "argument count of the call"
+  },
+  "send_contract": {
+    "count": "exactly argument_count SEND instructions immediately before the terminator",
+    "op2": "UNUSED(argument_position, 1), positions counted from 1",
+    "result": "UNUSED(0, 1)",
+    "extended_value": 60,
+    "extended_value_meaning": "native DO_FCALL, the call this SEND belongs to",
+    "operand_types": {
+      "SEND_VAL": [1, 2],
+      "SEND_VAR": [16],
+      "SEND_VAR_NO_REF": [16]
+    }
+  },
+  "callee_contract": {
+    "symbol_table": "header_symbols of the same encoded file",
+    "must_be_declared_in_file": true,
+    "identifier": "ASCII [A-Za-z_][A-Za-z0-9_]*",
+    "argument_count_must_equal": "number of leading RECV of the callee"
+  },
+  "native_opcode_note": "The same raw keys are mapped to native 140 in opcode_map.json. Native 140 is DECLARE_INHERITED_CLASS in PHP 5.2, which does not accept this operand shape; a compile-only capture of the pre-handler-assignment opcode field showed 200 at these positions. The native number therefore stays unresolved and is deliberately not used here.",
+  "provenance": "Cross-validated on the supplied corpus: 18 call sites resolve to a function declared in the same file and the encoded argument count equals the callee RECV count in 18 of 18 cases. No PHP file was executed to obtain this.",
+  "fail_closed": "Every rule is refused rather than guessed. A rejected call site keeps the whole file unsupported."
+}

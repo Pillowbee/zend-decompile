@@ -7,6 +7,7 @@ from .assets import OPCODE_MAP, DICTIONARY
 from .serial_parser import decompress_encoded,parse_binary
 from .calibrate import choose_opcode
 from .restore_core import build_group, function_parameters_after_decode
+from .encoder_calls import declared_callees
 from .state import state_emit
 from .engine import __version__
 
@@ -16,6 +17,8 @@ def research(source:Path, dictionary:Path, mapping_file:Path, out:Path):
     if len(streams)!=1:raise ValueError('Only single-stream samples supported')
     parsed=parse_binary(streams[0][1]);mapping=json.loads(mapping_file.read_text())
     groups=[('<main>',parsed['main'])]+[(bytes.fromhex(g['name_hex']).decode('ascii'),g) for g in parsed['functions']]
+    symbols=parsed.get('header_symbols',[])
+    callees=declared_callees(parsed,mapping)
     report={'version':'v'+__version__.split('.')[0],'source':source.name,'sha256':hashlib.sha256(source.read_bytes()).hexdigest(),
             'total_serialized_instructions':sum(len(x['opcodes']) for _,x in groups),
             'groups':[],'complete_source_generated':False,
@@ -34,11 +37,11 @@ def research(source:Path, dictionary:Path, mapping_file:Path, out:Path):
             try:
                 params=[] if name=='<main>' else function_parameters_after_decode(g,mapping)
                 try:
-                    body,audit=build_group(g,mapping,name)
+                    body,audit=build_group(g,mapping,name,symbols,callees)
                     row['strategy']='structured_php'
                 except Exception as structure_exc:
                     try:
-                        body,audit=state_emit(g,mapping,name)
+                        body,audit=state_emit(g,mapping,name,symbols,callees)
                         row['strategy']='explicit_php52_state_machine'
                         row['structured_failure']=str(structure_exc)
                     except Exception as fallback_exc:

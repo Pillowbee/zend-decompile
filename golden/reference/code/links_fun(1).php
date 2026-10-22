@@ -1,0 +1,195 @@
+<?php
+/* EXPERIMENTAL Zend recovery v29. Verify before use. */
+check_database($key, $key1, $connect_mysql, $db_name);
+if (($ok_record == 'Все правильно')) {
+    send_mail($url_mail, $id_link);
+}
+return 1;
+
+
+function path_ln_groups($number_groups) {
+    global $file;
+    global $page;
+    global $id_lngr;
+    global $link_n;
+    global $connect_mysql;
+    echo '<a href=';
+    out_link('index.php?link_n=' . $link_n);
+    echo '>ОБМЕН ССЫЛКАМИ&nbsp;></a>
+';
+    $n = 0;
+    while ($number_groups != 0) {
+        $statement = 'SELECT id_ln_groups, belong_ln_groups, name_ln_groups FROM link_groups WHERE id_ln_groups = \'' . $number_groups . '\'';
+        $sth = mysql_query($statement, $connect_mysql);
+        $aref = mysql_fetch_row($sth);
+        $id_belong_groups = $aref[0];
+        $number_groups = $aref[1];
+        $name_groups = $aref[2];
+        $array_name[$n] = $name_groups;
+        $array_number[$n] = $id_belong_groups;
+        ++$n;
+    }
+    if (($array_number[0] != '')) {
+        $n = 0;
+        $a_number = array_reverse($array_number);
+        $a_name = array_reverse($array_name);
+        while ($array_number[$n] != '') {
+            global $file;
+            global $n_page;
+            global $id_vendor;
+            global $sg_wares;
+            global $sg_desk;
+            if (($file != '')) {
+                $file_p = '&file=';
+            }
+            echo '<a style="text-decoration: none;" href=';
+            out_link('index.php?link_n=' . $link_n . '&id_lngr=' . $a_number[$n]);
+            echo '><h1><b>';
+            print $a_name[$n];
+            echo '</b><h1></a>&nbsp;>
+ ';
+            ++$n;
+        }
+    }
+    return NULL;
+    
+}
+
+function count_ln($id_ln_groups, $count_link) {
+    if (($id_ln_groups == '')) {
+        $id_ln_groups = 0;
+    }
+    $sql = 'SELECT id_ln_groups FROM link_groups WHERE belong_ln_groups = \'' . $id_ln_groups . '\'';
+    $sth = mysql_query($sql);
+    while ($array_hash = mysql_fetch_assoc($sth)) {
+        $str_temp1 = $array_hash['id_ln_groups'];
+        $str_temp2 .= ((($str_temp1 . ',') . count_ln($str_temp1, $count_link)) . ',');
+    }
+    $str_temp2 = str_replace(',,', ',', $str_temp2);
+    return $str_temp2;
+    
+}
+
+function count_ln_out($id_ln_groups) {
+    $str_temp2 = (count_ln($id_ln_groups, 0) . $id_ln_groups);
+    $sql = 'SELECT * FROM link WHERE belong_ln_groups IN (' . $str_temp2 . ') HAVING 1=1';
+    $sth = mysql_query($sql);
+    $count_ln_wares = mysql_num_rows($sth);
+    return $count_ln_wares;
+    
+}
+
+function link_is_present($url) {
+    global $supplier_url;
+    $url_file = ('http://' . $url);
+    $fp = @file($url_file);
+    if (is_array($fp)) {
+        $content_page = implode(' ', $fp);
+    }
+    if (stristr($content_page, ('<a href="http://' . $supplier_url))) {
+        $string = 'есть';
+    } else {
+        $string = 'нет';
+    }
+    return $string;
+    
+}
+
+function send_mail($url_mail, $id_link) {
+    global $supplier_url;
+    global $supplier_email;
+    global $supplier_name;
+    global $link_present;
+    $sql = 'SELECT date_link, name_link, descript_link, url_link, url_image, url_mail, referer_link, belong_ln_groups FROM link WHERE id_link = \'' . $id_link . '\'';
+    $sth = mysql_query($sql);
+    $array_hash = mysql_fetch_assoc($sth);
+    $param_public = (((((((((((((('--------------------
+ПАРАМЕТРЫ ПУБЛИКАЦИИ
+Дата заполнения формы: ' . $array_hash['date_link']) . '
+----------------------
+Название сайта: ') . $array_hash['name_link']) . '
+---------------
+URL сайта: http://') . $array_hash['url_link']) . '
+----------
+E-mael для уведомления: ') . $array_hash['url_mail']) . '
+-----------------------
+URL кнопки: http://') . $array_hash['url_image']) . '
+-----------
+URL страницы со ссылкой на сайт ' . $supplier_url . ': http://') . $array_hash['referer_link']) . '
+----------------------------------------------
+Краткое описание сайта: ') . $array_hash['descript_link']) . '
+-----------------------
+');
+    if (($url_mail != '')) {
+        if (file_exists((url_prefix() . 'old_search.php'))) {
+            $adress_link = (('http://' . $supplier_url . '/link_n/21/id_lngr/' . $array_hash['belong_ln_groups']) . '/');
+        } else {
+            $adress_link = ('http://' . $supplier_url . '/index.php?link_n=21&id_lngr=' . $array_hash['belong_ln_groups']);
+        }
+        if (($link_present == '0')) {
+            $filename = (url_prefix() . 'editing/links_text.php');
+            $handle = fopen($filename, 'r');
+            if ((filesize($filename) == '0')) {
+                $filesize = 1;
+            } else {
+                $filesize = filesize($filename);
+            }
+            $content_link_text = fread($handle, $filesize);
+            fclose($handle);
+            $mess = 'Ваша ссылка успешно добавлена в каталог сайта ' . $supplier_url . '
+но не активирована. То есть, значению тега \'a href=\' НЕ ПРИСВОЕНО значение вашего URL.
+Адрес: ' . $adress_link . '
+' . $param_public . '
+Активация ссылки будет выполнена после визуального контроля наличия на Вашем сайте ссылки на сайт ' . $supplier_url . '.
+
+Для активации Вашей ссылки, направьте на адрес ' . $supplier_email . ' письмо с указанием URL страницы где Вы разместили ссылку на ' . $supplier_url . '.
+Если в течении 7 дней с момента публикации Вашей ссылки на ' . $supplier_url . ' от Вас не
+поступит подтверждение с указанием места размещения ссылки на сайт ' . $supplier_url . ', ваша ссылка будет удалена.
+
+Код нашей ссылки:
+
+' . $content_link_text . '
+
+';
+        } else {
+            $mess = 'Ваша ссылка успешно активирована и доступна для просмотра и поиска в соответствующем разделе Каталога ссылок на сайте ' . $supplier_url . '.
+
+Не изменяйте без предупреждения место размещения ссылки на ' . $supplier_url . ', так как при его изменении ваша ссылка будет удалена из нашего каталога автоматически.
+Адрес: ' . $adress_link . '
+' . $param_public . '
+
+';
+        }
+        $headers = 'From: ' . $supplier_name . ' <' . $supplier_email . '>
+';
+        $headers .= 'X-Priority: 1
+';
+        $headers .= 'Content-Type: text/plain; charset=windows-1251
+';
+        $subject = 'Обмен ссылками с ' . $supplier_url;
+        mail($url_mail, $subject, $mess, $headers);
+        mail('support@buy-shop.ru', $subject, $mess, $headers);
+    }
+    if (($link_present == '0')) {
+        $actions_link = 'НЕ АКТИВНАЯ ссылка.
+Для ее активации необходимо зайти администраторский web интерфейс.';
+    } else {
+        $actions_link = 'активная ссылка.
+Ссылка активировалась автоматически.';
+    }
+    $mess = (('В каталог сайта ' . $supplier_url . ' добавлена ' . $actions_link . '
+Адрес: http://' . $supplier_url . '/admin/index.php?link_n=21&id_lngr=' . $array_hash['belong_ln_groups']) . '
+' . $param_public . '
+
+');
+    $headers = 'From: ' . $supplier_name . ' <' . $supplier_email . '>
+';
+    $headers .= 'X-Priority: 1
+';
+    $headers .= 'Content-Type: text/plain; charset=windows-1251
+';
+    $subject = 'В каталог сайта ' . $supplier_url . ' добавлена ссылка';
+    mail($supplier_email, $subject, $mess, $headers);
+    return NULL;
+    
+}

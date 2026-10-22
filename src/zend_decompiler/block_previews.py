@@ -11,13 +11,13 @@ from .prefix_restore import Decoder,Unsupported
 
 
 def run(src:Path, dictionary:Path, mapping:Path):
-    g,mp,cfg,proofs=analyzed_source(src,dictionary,mapping)
+    g,mp,cfg,proofs,symbols,callees=analyzed_source(src,dictionary,mapping)
     cvs={v['index']:bytes.fromhex(v['name_hex']) for v in g['compiled_vars']}
     blocks=[]
     for b in cfg['basic_blocks']:
         rec={'id':b['id'],'first':b['first'],'last':b['last'],'successors':b['successors'],
              'instruction_count':b['last']-b['first']+1}
-        d=Decoder(g['opcodes'],cvs,mp)
+        d=Decoder(g['opcodes'],cvs,mp,symbols,callees)
         if b['first'] in proofs:
             proof=proofs[b['first']]
             d.defs[tuple(proof['slot'])]=bytes.fromhex(proof['expression_hex'])

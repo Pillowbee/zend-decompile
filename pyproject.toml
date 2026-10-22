@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "zend-decompiler-experimental"
-version = "28.0.0"
+version = "29.0.0"
 description = "Fail-closed, empirical Zend Encoder PHP 5.2 candidate recovery research"
 requires-python = ">=3.10"
 dependencies = ["networkx>=2.8"]
@@ -21,4 +21,4 @@ include = ["zend_decompiler*"]
 
 [tool.setuptools.data-files]
 "share/zend-decompiler" = ["zend_verified_dictionary.bin"]
-"share/zend-decompiler/opcodes" = ["data/opcodes/opcode_map.json", "data/opcodes/opcode_evidence.json", "data/opcodes/opcode_map.json.meta.json"]
+"share/zend-decompiler/opcodes" = ["data/opcodes/opcode_map.json", "data/opcodes/opcode_evidence.json", "data/opcodes/opcode_map.json.meta.json", "data/opcodes/encoder_call_map.json", "data/opcodes/encoder_call_evidence.json", "data/opcodes/encoder_call_map.json.meta.json"]

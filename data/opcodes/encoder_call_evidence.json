@@ -1,0 +1,443 @@
+{
+  "entries": {
+    "fun_all.php/mail_hide#17": {
+      "argument_count": 0,
+      "callee": "url_prefix",
+      "callee_signature": 0,
+      "checks": {
+        "argc_matches_recv": true,
+        "callee_declared_in_file": true,
+        "send_run_contiguous": true,
+        "symbol_resolved": true
+      },
+      "cross_validated": true,
+      "encoded_key": "1:7",
+      "file": "fun_all.php",
+      "group": "mail_hide",
+      "index": 17,
+      "line": 532,
+      "reason": "Encoder call terminator resolved to a function declared in the same file; the encoded argument count equals the callee RECV count.",
+      "send_indices": [],
+      "status": "inferred",
+      "symbol_index": 2
+    },
+    "fun_all.php/mail_hide#30": {
+      "argument_count": 0,
+      "callee": "url_prefix",
+      "callee_signature": 0,
+      "checks": {
+        "argc_matches_recv": true,
+        "callee_declared_in_file": true,
+        "send_run_contiguous": true,
+        "symbol_resolved": true
+      },
+      "cross_validated": true,
+      "encoded_key": "6:226",
+      "file": "fun_all.php",
+      "group": "mail_hide",
+      "index": 30,
+      "line": 533,
+      "reason": "Encoder call terminator resolved to a function declared in the same file; the encoded argument count equals the callee RECV count.",
+      "send_indices": [],
+      "status": "inferred",
+      "symbol_index": 2
+    },
+    "fun_all.php/mail_hide#41": {
+      "argument_count": 0,
+      "callee": "url_prefix",
+      "callee_signature": 0,
+      "checks": {
+        "argc_matches_recv": true,
+        "callee_declared_in_file": true,
+        "send_run_contiguous": true,
+        "symbol_resolved": true
+      },
+      "cross_validated": true,
+      "encoded_key": "1:7",
+      "file": "fun_all.php",
+      "group": "mail_hide",
+      "index": 41,
+      "line": 540,
+      "reason": "Encoder call terminator resolved to a function declared in the same file; the encoded argument count equals the callee RECV count.",
+      "send_indices": [],
+      "status": "inferred",
+      "symbol_index": 2
+    },
+    "fun_all.php/minmax_price#48": {
+      "argument_count": 5,
+      "callee": "out_price",
+      "callee_signature": 5,
+      "checks": {
+        "argc_matches_recv": true,
+        "callee_declared_in_file": true,
+        "send_run_contiguous": true,
+        "symbol_resolved": true
+      },
+      "cross_validated": true,
+      "encoded_key": "0:26",
+      "file": "fun_all.php",
+      "group": "minmax_price",
+      "index": 48,
+      "line": 761,
+      "reason": "Encoder call terminator resolved to a function declared in the same file; the encoded argument count equals the callee RECV count.",
+      "send_indices": [
+        43,
+        44,
+        45,
+        46,
+        47
+      ],
+      "status": "inferred",
+      "symbol_index": 4
+    },
+    "fun_all.php/minmax_price#62": {
+      "argument_count": 5,
+      "callee": "out_price",
+      "callee_signature": 5,
+      "checks": {
+        "argc_matches_recv": true,
+        "callee_declared_in_file": true,
+        "send_run_contiguous": true,
+        "symbol_resolved": true
+      },
+      "cross_validated": true,
+      "encoded_key": "6:226",
+      "file": "fun_all.php",
+      "group": "minmax_price",
+      "index": 62,
+      "line": 767,
+      "reason": "Encoder call terminator resolved to a function declared in the same file; the encoded argument count equals the callee RECV count.",
+      "send_indices": [
+        57,
+        58,
+        59,
+        60,
+        61
+      ],
+      "status": "inferred",
+      "symbol_index": 4
+    },
+    "fun_all.php/minmax_price#74": {
+      "argument_count": 5,
+      "callee": "out_price",
+      "callee_signature": 5,
+      "checks": {
+        "argc_matches_recv": true,
+        "callee_declared_in_file": true,
+        "send_run_contiguous": true,
+        "symbol_resolved": true
+      },
+      "cross_validated": true,
+      "encoded_key": "2:230",
+      "file": "fun_all.php",
+      "group": "minmax_price",
+      "index": 74,
+      "line": 767,
+      "reason": "Encoder call terminator resolved to a function declared in the same file; the encoded argument count equals the callee RECV count.",
+      "send_indices": [
+        69,
+        70,
+        71,
+        72,
+        73
+      ],
+      "status": "inferred",
+      "symbol_index": 4
+    },
+    "fun_all.php/out_price#106": {
+      "argument_count": 3,
+      "callee": "currency_type",
+      "callee_signature": 3,
+      "checks": {
+        "argc_matches_recv": true,
+        "callee_declared_in_file": true,
+        "send_run_contiguous": true,
+        "symbol_resolved": true
+      },
+      "cross_validated": true,
+      "encoded_key": "2:230",
+      "file": "fun_all.php",
+      "group": "out_price",
+      "index": 106,
+      "line": 177,
+      "reason": "Encoder call terminator resolved to a function declared in the same file; the encoded argument count equals the callee RECV count.",
+      "send_indices": [
+        103,
+        104,
+        105
+      ],
+      "status": "inferred",
+      "symbol_index": 0
+    },
+    "fun_all.php/out_price#115": {
+      "argument_count": 3,
+      "callee": "currency_type",
+      "callee_signature": 3,
+      "checks": {
+        "argc_matches_recv": true,
+        "callee_declared_in_file": true,
+        "send_run_contiguous": true,
+        "symbol_resolved": true
+      },
+      "cross_validated": true,
+      "encoded_key": "3:160",
+      "file": "fun_all.php",
+      "group": "out_price",
+      "index": 115,
+      "line": 179,
+      "reason": "Encoder call terminator resolved to a function declared in the same file; the encoded argument count equals the callee RECV count.",
+      "send_indices": [
+        112,
+        113,
+        114
+      ],
+      "status": "inferred",
+      "symbol_index": 0
+    },
+    "fun_all.php/out_price#21": {
+      "argument_count": 3,
+      "callee": "currency_type",
+      "callee_signature": 3,
+      "checks": {
+        "argc_matches_recv": true,
+        "callee_declared_in_file": true,
+        "send_run_contiguous": true,
+        "symbol_resolved": true
+      },
+      "cross_validated": true,
+      "encoded_key": "5:216",
+      "file": "fun_all.php",
+      "group": "out_price",
+      "index": 21,
+      "line": 126,
+      "reason": "Encoder call terminator resolved to a function declared in the same file; the encoded argument count equals the callee RECV count.",
+      "send_indices": [
+        18,
+        19,
+        20
+      ],
+      "status": "inferred",
+      "symbol_index": 0
+    },
+    "fun_all.php/out_replace_files#32": {
+      "argument_count": 1,
+      "callee": "out_replace_teg",
+      "callee_signature": 1,
+      "checks": {
+        "argc_matches_recv": true,
+        "callee_declared_in_file": true,
+        "send_run_contiguous": true,
+        "symbol_resolved": true
+      },
+      "cross_validated": true,
+      "encoded_key": "0:26",
+      "file": "fun_all.php",
+      "group": "out_replace_files",
+      "index": 32,
+      "line": 692,
+      "reason": "Encoder call terminator resolved to a function declared in the same file; the encoded argument count equals the callee RECV count.",
+      "send_indices": [
+        31
+      ],
+      "status": "inferred",
+      "symbol_index": 3
+    },
+    "fun_all.php/out_replace_teg#71": {
+      "argument_count": 0,
+      "callee": "url_prefix",
+      "callee_signature": 0,
+      "checks": {
+        "argc_matches_recv": true,
+        "callee_declared_in_file": true,
+        "send_run_contiguous": true,
+        "symbol_resolved": true
+      },
+      "cross_validated": true,
+      "encoded_key": "7:125",
+      "file": "fun_all.php",
+      "group": "out_replace_teg",
+      "index": 71,
+      "line": 663,
+      "reason": "Encoder call terminator resolved to a function declared in the same file; the encoded argument count equals the callee RECV count.",
+      "send_indices": [],
+      "status": "inferred",
+      "symbol_index": 2
+    },
+    "fun_all.php/page_links_out#260": {
+      "argument_count": 1,
+      "callee": "out_link",
+      "callee_signature": 1,
+      "checks": {
+        "argc_matches_recv": true,
+        "callee_declared_in_file": true,
+        "send_run_contiguous": true,
+        "symbol_resolved": true
+      },
+      "cross_validated": true,
+      "encoded_key": "4:250",
+      "file": "fun_all.php",
+      "group": "page_links_out",
+      "index": 260,
+      "line": 366,
+      "reason": "Encoder call terminator resolved to a function declared in the same file; the encoded argument count equals the callee RECV count.",
+      "send_indices": [
+        259
+      ],
+      "status": "inferred",
+      "symbol_index": 1
+    },
+    "fun_all.php/page_links_out#287": {
+      "argument_count": 1,
+      "callee": "out_link",
+      "callee_signature": 1,
+      "checks": {
+        "argc_matches_recv": true,
+        "callee_declared_in_file": true,
+        "send_run_contiguous": true,
+        "symbol_resolved": true
+      },
+      "cross_validated": true,
+      "encoded_key": "7:125",
+      "file": "fun_all.php",
+      "group": "page_links_out",
+      "index": 287,
+      "line": 376,
+      "reason": "Encoder call terminator resolved to a function declared in the same file; the encoded argument count equals the callee RECV count.",
+      "send_indices": [
+        286
+      ],
+      "status": "inferred",
+      "symbol_index": 1
+    },
+    "fun_all.php/page_links_out#312": {
+      "argument_count": 1,
+      "callee": "out_link",
+      "callee_signature": 1,
+      "checks": {
+        "argc_matches_recv": true,
+        "callee_declared_in_file": true,
+        "send_run_contiguous": true,
+        "symbol_resolved": true
+      },
+      "cross_validated": true,
+      "encoded_key": "0:26",
+      "file": "fun_all.php",
+      "group": "page_links_out",
+      "index": 312,
+      "line": 391,
+      "reason": "Encoder call terminator resolved to a function declared in the same file; the encoded argument count equals the callee RECV count.",
+      "send_indices": [
+        311
+      ],
+      "status": "inferred",
+      "symbol_index": 1
+    },
+    "fun_all.php/path_groups#122": {
+      "argument_count": 1,
+      "callee": "out_link",
+      "callee_signature": 1,
+      "checks": {
+        "argc_matches_recv": true,
+        "callee_declared_in_file": true,
+        "send_run_contiguous": true,
+        "symbol_resolved": true
+      },
+      "cross_validated": true,
+      "encoded_key": "2:230",
+      "file": "fun_all.php",
+      "group": "path_groups",
+      "index": 122,
+      "line": 243,
+      "reason": "Encoder call terminator resolved to a function declared in the same file; the encoded argument count equals the callee RECV count.",
+      "send_indices": [
+        121
+      ],
+      "status": "inferred",
+      "symbol_index": 1
+    },
+    "fun_all.php/path_groups#26": {
+      "argument_count": 1,
+      "callee": "out_link",
+      "callee_signature": 1,
+      "checks": {
+        "argc_matches_recv": true,
+        "callee_declared_in_file": true,
+        "send_run_contiguous": true,
+        "symbol_resolved": true
+      },
+      "cross_validated": true,
+      "encoded_key": "2:230",
+      "file": "fun_all.php",
+      "group": "path_groups",
+      "index": 26,
+      "line": 208,
+      "reason": "Encoder call terminator resolved to a function declared in the same file; the encoded argument count equals the callee RECV count.",
+      "send_indices": [
+        25
+      ],
+      "status": "inferred",
+      "symbol_index": 1
+    },
+    "links_fun(1).php/<main>#14": {
+      "argument_count": 2,
+      "callee": "send_mail",
+      "callee_signature": 2,
+      "checks": {
+        "argc_matches_recv": true,
+        "callee_declared_in_file": true,
+        "send_run_contiguous": true,
+        "symbol_resolved": true
+      },
+      "cross_validated": true,
+      "encoded_key": "6:226",
+      "file": "links_fun(1).php",
+      "group": "<main>",
+      "index": 14,
+      "line": 231,
+      "reason": "Encoder call terminator resolved to a function declared in the same file; the encoded argument count equals the callee RECV count.",
+      "send_indices": [
+        12,
+        13
+      ],
+      "status": "inferred",
+      "symbol_index": 1
+    },
+    "links_fun(1).php/count_ln_out#3": {
+      "argument_count": 2,
+      "callee": "count_ln",
+      "callee_signature": 2,
+      "checks": {
+        "argc_matches_recv": true,
+        "callee_declared_in_file": true,
+        "send_run_contiguous": true,
+        "symbol_resolved": true
+      },
+      "cross_validated": true,
+      "encoded_key": "3:160",
+      "file": "links_fun(1).php",
+      "group": "count_ln_out",
+      "index": 3,
+      "line": 84,
+      "reason": "Encoder call terminator resolved to a function declared in the same file; the encoded argument count equals the callee RECV count.",
+      "send_indices": [
+        1,
+        2
+      ],
+      "status": "inferred",
+      "symbol_index": 0
+    }
+  },
+  "kind": "ENCODER_CALL_EVIDENCE",
+  "mapping_file": "encoder_call_map.json",
+  "mapping_sha256": "ffef36d39b91efd7bec73c97b89779ce0a8fc3a56a8cb69bb9691157b8df66b2",
+  "native_opcode_note": "The native opcode number of these positions is unresolved (140 in the empirical map, 200 in a pre-handler-assignment capture). No native semantics are claimed here.",
+  "schema_version": 1,
+  "status_policy": "inferred; cross-validated on the supplied corpus only",
+  "summary": {
+    "argc_matches_recv": 18,
+    "call_sites": 18,
+    "files": 2,
+    "rejected": 0,
+    "symbol_resolved": 18
+  }
+}

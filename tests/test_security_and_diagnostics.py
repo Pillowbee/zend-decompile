@@ -17,7 +17,10 @@ class SafetyTests(unittest.TestCase):
         self.assertIsNone(r.code)
 
     def test_fail_closed_on_unknown_and_bad(self):
-        for name in ['fun_all.php','links_fun(1).php']:
+        # fun_all.php still fails closed.  Encoder-call fail-closed cases
+        # (unresolvable symbol, arity mismatch) are covered by
+        # tests/test_encoder_calls.py.
+        for name in ['fun_all.php']:
             with self.subTest(name=name):
                 r=restore_result(S/name,D,M)
                 self.assertEqual(r.status,'unsupported')
@@ -49,13 +52,17 @@ class SafetyTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as folder:
             output=Path(folder)/'output'
             report=batch(S,output,D,M)
-            self.assertEqual((report['total'],report['generated'],report['unsupported'],report['not_encoded']),(11,8,2,1))
-            for f in ('links_fun(1).php','fun_all.php'):
+            self.assertEqual((report['total'],report['generated'],report['unsupported'],report['not_encoded']),(11,9,1,1))
+            for f in ('fun_all.php',):
                 self.assertFalse((output/f).exists())
                 self.assertTrue((output/'_partial_READ_ONLY'/Path(f).with_suffix('.txt')).exists())
                 content=(output/'_partial_READ_ONLY'/Path(f).with_suffix('.txt')).read_text()
                 self.assertIn('/* UNRECOVERED */',content)
                 self.assertNotIn('<?php',content)
+            # A fully recovered file is written with its audit next to it.
+            self.assertTrue((output/'links_fun(1).php').exists())
+            self.assertTrue((output/'_audits'/'links_fun(1).json').exists())
+            self.assertFalse((output/'_partial_READ_ONLY'/'links_fun.txt').exists())
             self.assertFalse((output/'header_admin.php').exists())
 
     def test_parser_fuzz_no_uncaught_exception_at_boundary(self):

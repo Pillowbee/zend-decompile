@@ -16,6 +16,7 @@ from collections import Counter
 from .serial_parser import decompress_encoded, parse_binary
 from .calibrate import choose_opcode
 from .call_protocol import CallProtocolError, DirectCallBuffer
+from . import encoder_calls
 
 IDENT = re.compile(rb'^[A-Za-z_][A-Za-z_0-9]*$')
 
@@ -62,13 +63,19 @@ class Segment:
     covered: list[int]
     last_assignment: tuple[bytes,bytes] | None = None
     fired_rules: dict[str,int] | None = None
+    encoder_calls: list | None = None
 
 
 class Decoder:
-    def __init__(self,ops,cv,mapping):
+    def __init__(self,ops,cv,mapping,symbols=None,callees=None):
         self.ops=ops
         self.cv=cv
         self.map=mapping
+        # Encoder-level call support: the file symbol table and the functions
+        # declared in the same file.  Both stay empty when a file carries no
+        # encoder call sites, which keeps the decoder fail-closed.
+        self.symbols=list(symbols or [])
+        self.callees=dict(callees or {})
         self.defs={}
         self.call_stack=[]
         self.direct_call_args=DirectCallBuffer()
@@ -83,8 +90,13 @@ class Decoder:
         self.silenced_calls=0
         self.fired_rules=Counter()
         self.current_index=None
+        self.encoder_calls=[]
 
     def kind(self,op):
+        # Encoder call terminators are recognised on the Encoder level.  Their
+        # native opcode number is unresolved, so the native name is never used.
+        if encoder_calls.is_call_terminator(op):
+            return 'ENCODER_CALL'
         k=choose_opcode(op,self.map)
         if k is None: raise Unsupported('Unknown opcode #'+str(op['index']))
         # In the saved PHP 5.2-family header, native opcode 4 is ZEND_DIV.
@@ -124,6 +136,19 @@ class Decoder:
             self.pending_calls.pop(k)
         self.consumed_call_slots.discard(k)
         self.defs[k] = text
+
+    def emit_call(self,result_node,expr):
+        """Emit a call expression and keep it available as a side effect."""
+        if self.silence_slot is not None:
+            if self.silenced_calls:
+                raise Unsupported('Multiple calls in @ region')
+            expr=b'@'+expr
+            self.silenced_calls+=1
+        self.put(result_node,expr)
+        # Preserve an unconsumed call as a side-effect statement. When
+        # its return value is consumed, remove this placeholder in-place.
+        self.pending_calls[spot(result_node)]=len(self.lines)
+        self.lines.append(expr+b';')
 
     def run(self,start,end):
         """Inclusive indices, segment must end with no unfinished function calls."""
@@ -241,16 +266,28 @@ class Decoder:
                         raise Unsupported('Function-name mismatch')
                     args=call['args']
                 expr=name+b'('+b', '.join(args)+b')'
-                if self.silence_slot is not None:
-                    if self.silenced_calls:
-                        raise Unsupported('Multiple calls in @ region')
-                    expr=b'@'+expr
-                    self.silenced_calls+=1
-                self.put(r,expr)
-                # Preserve an unconsumed call as a side-effect statement. When
-                # its return value is consumed, remove this placeholder in-place.
-                self.pending_calls[spot(r)]=len(self.lines)
-                self.lines.append(expr+b';')
+                self.emit_call(r,expr)
+            elif kind=='ENCODER_CALL':
+                # Encoder-level call: the callee is named by an index into the
+                # file symbol table, the argument count is the encoded
+                # extended_value.  Resolved fail-closed; nothing is guessed.
+                if self.call_stack:
+                    raise Unsupported('Encoder call inside an initialized call state')
+                try:
+                    site=encoder_calls.resolve(op,self.ops,self.map,self.symbols,self.callees)
+                except encoder_calls.CallSiteError as exc:
+                    raise Unsupported('Encoder call rejected: '+str(exc)) from exc
+                try:
+                    args=self.direct_call_args.finish(site['argc'])
+                except CallProtocolError as exc:
+                    raise Unsupported(str(exc)) from exc
+                expr=site['name']+b'('+b', '.join(args)+b')'
+                self.encoder_calls.append({'index':op['index'],
+                    'callee':site['name'].decode('ascii'),
+                    'argc':site['argc'],
+                    'symbol_index':site['symbol_index'],
+                    'send_indices':site['send_indices']})
+                self.emit_call(r,expr)
             elif kind=='ASSIGN':
                 lhs=self.val(a); rhs=self.val(b)
                 if isinstance(rhs,list):rhs=b' . '.join(rhs) if rhs else b"''"
@@ -312,7 +349,7 @@ class Decoder:
         except CallProtocolError as exc:
             raise Unsupported(str(exc)) from exc
         if self.silence_slot is not None:raise Unsupported('Silence region crosses block boundary')
-        return Segment([line for line in self.lines if line is not None],self.branch,self.covered,self.last_assignment,dict(self.fired_rules))
+        return Segment([line for line in self.lines if line is not None],self.branch,self.covered,self.last_assignment,dict(self.fired_rules),list(self.encoder_calls))
 
 
 def require_branch(seg,kind,dest):

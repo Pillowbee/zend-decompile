@@ -14,7 +14,7 @@ from .structure import build_graph, insist
 from collections import Counter
 
 
-def recover_blocks(group, mapping, name):
+def recover_blocks(group, mapping, name, symbols=None, callees=None):
     ops=group['opcodes']
     for op in ops:
         op['decoded_opcode']=choose_opcode(op,mapping)
@@ -26,8 +26,9 @@ def recover_blocks(group, mapping, name):
     proofs=join_proofs(ops,cvs,mapping)
     blocks=[]
     used_rules=Counter()
+    encoder_calls=[]
     for block in cfg['basic_blocks']:
-        decoder=Decoder(ops,cvs,mapping)
+        decoder=Decoder(ops,cvs,mapping,symbols,callees)
         if block['first'] in proofs:
             p=proofs[block['first']]
             decoder.defs[tuple(p['slot'])]=bytes.fromhex(p['expression_hex'])
@@ -36,6 +37,7 @@ def recover_blocks(group, mapping, name):
         except Unsupported as exc:
             raise Unsupported(f'{name} block {block["id"]} opcode #{decoder.current_index}: {exc}') from exc
         used_rules.update(segment.fired_rules or {})
+        encoder_calls.extend(segment.encoder_calls or [])
         blocks.append({
             'id':block['id'],'first':block['first'],'last':block['last'],
             'statements':[s.decode('cp1251') for s in segment.statements],
@@ -44,7 +46,7 @@ def recover_blocks(group, mapping, name):
                 'condition':segment.branch[1].decode('cp1251'),
                 'target':segment.branch[2]},
             'successors':block['successors']})
-    return blocks,proofs,cvs,used_rules
+    return blocks,proofs,cvs,used_rules,encoder_calls
 
 
 def _branch_side_effect_suppression(block):
@@ -75,8 +77,8 @@ def _unique_state_variable(cvs):
     return '$'+name
 
 
-def state_emit(group,mapping,name):
-    blocks,proofs,cvs,used_rules=recover_blocks(group,mapping,name)
+def state_emit(group,mapping,name,symbols=None,callees=None):
+    blocks,proofs,cvs,used_rules,encoder_calls=recover_blocks(group,mapping,name,symbols,callees)
     kept, graph, folded, removed=build_graph({
         'blocks':blocks,'proven_short_circuit_joins':list(proofs.values())})
     labels=sorted(kept,key=lambda b:kept[b]['first'])
@@ -126,6 +128,7 @@ def state_emit(group,mapping,name):
     audit={'strategy':'explicit_php52_state_machine','name':name,
            'source_instruction_count':len(group['opcodes']),
            'decoder_rule_usage':dict(sorted(used_rules.items())),
+           'encoder_call_sites':encoder_calls,
            'decoded_basic_blocks':len(blocks),'emitted_state_cases':len(labels),
            'folded_short_circuits':len(folded),
            'excluded_verified_unreachable':len(removed)-sum(1 for f in folded for x in f['removed'] if x in removed),

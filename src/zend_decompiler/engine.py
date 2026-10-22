@@ -17,7 +17,7 @@ from .restore_core import restore as restore_candidate
 from .serial_parser import decompress_encoded, parse_binary, FormatError
 from .calibrate import choose_opcode
 
-__version__ = '28.0.0'
+__version__ = '29.0.0'
 Status = Literal['candidate_generated', 'unsupported', 'not_encoded']
 
 @dataclass(frozen=True)
@@ -143,6 +143,15 @@ def restore_result(source: Path, dictionary: Path, mapping: Path, *, isolate_par
             actual.update(group.get('decoder_rule_usage',{}))
         audit['rule_usage']=dict(sorted(actual.items()))
         audit['rule_usage_note']='Decoder branches successfully handled in completed restoration groups; counts are not independently validated semantics.'
+        sites=[]
+        for group in audit['groups']:
+            for site in group.get('encoder_call_sites',[]):
+                sites.append(dict(site,group=group.get('name')))
+        audit['encoder_call_sites']=sites
+        audit['encoder_call_count']=len(sites)
+        audit['encoder_call_note']=('Calls addressed by an index into the file header_symbols table are '
+            'recognised on the Encoder level only. The native opcode number of these positions stays '
+            'unresolved and the native opcode map is not rewritten.')
         audit['supported_unary_bool_not']=actual['BOOL_NOT']>0
         audit['supported_simple_at_function_call']=actual['BEGIN_SILENCE']>0 and actual['END_SILENCE']>0 and actual['DO_FCALL_BY_NAME']>0
         audit['syntax_checked']=False
