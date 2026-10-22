@@ -48,7 +48,7 @@ class Diagnostics23(unittest.TestCase):
     def test_source_confidence_never_promoted_without_evidence(self):
         r=restore_result(ROOT/'sample_inputs/fun_all.php',D,M)
         self.assertEqual(r.audit['confidence_counts']['confirmed'],0)
-        self.assertEqual(r.audit['mapped_instructions'],1629)
+        self.assertEqual(r.audit['mapped_instructions'],1631)
         self.assertEqual(r.audit['serialized_instructions'],1631)
         self.assertEqual(r.audit['mapping_metadata_sha256'],hashlib.sha256(OPCODE_METADATA.read_bytes()).hexdigest())
         self.assertTrue(all(g['confirmed_instruction_count']==0 for g in r.audit['group_diagnostics']))

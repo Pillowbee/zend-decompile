@@ -1,0 +1,118 @@
+{
+  "schema_version": 1,
+  "kind": "ENCODER_OPCODE_POSITION_RULE_EVIDENCE",
+  "status": "inferred",
+  "status_policy": "The rule is an empirical model fitted on the empirical opcode map. It is not an independent native proof; a predicted opcode must still be compatible with the operand shape of its PHP 5.2 handler before it is decoded.",
+  "derivation": {
+    "source": "data/opcodes/opcode_map.json",
+    "source_sha256": "a70dbf7d66e5ee2277bc5411426ae75d66f4c60b72530d70d94c789a31051b0b",
+    "map_keys": 313,
+    "reproduced_keys": 313,
+    "contradictions": 0,
+    "byte_bases": 107,
+    "note": "Every empirical key is reproduced; a byte seen at several positions yields one base."
+  },
+  "independent_cross_check": {
+    "source": "data/research/alignment.json (key_audit, archived handler traces)",
+    "single_candidate_keys_matched": 292,
+    "contradictions": [],
+    "multi_candidate_keys": [
+      {
+        "key": "3:139",
+        "candidates": [
+          65,
+          66
+        ],
+        "predicted": 66,
+        "predicted_in_candidates": true
+      },
+      {
+        "key": "6:236",
+        "candidates": [
+          65,
+          66
+        ],
+        "predicted": 66,
+        "predicted_in_candidates": true
+      }
+    ],
+    "keys_without_archived_candidate": [
+      {
+        "key": "1:199",
+        "predicted": 98,
+        "archive_status": {
+          "unmapped": 2
+        }
+      }
+    ],
+    "note": "The archived trace audit is not an independent proof of the Encoder format. The key 1:199 has no archived candidate at all, because the runtime trace of that file carries an extra instruction at that position; the rule therefore predicts it without contradicting the archive."
+  },
+  "predicted_positions": [
+    {
+      "file": "fun_all.php",
+      "group": "out_price",
+      "index": 65,
+      "encoded_key": "1:199",
+      "predicted_opcode": 98,
+      "byte_base": 99,
+      "operand1_type": 2,
+      "operand2_type": 1,
+      "result_type": 4,
+      "handler_signature": {
+        "opcode": 98,
+        "name": "ZEND_FETCH_DIM_TMP_VAR",
+        "op1_allowed": [
+          "CONST",
+          "TMP"
+        ],
+        "op2_allowed": [
+          "CONST"
+        ]
+      },
+      "operand_shape_check": "compatible"
+    },
+    {
+      "file": "fun_all.php",
+      "group": "uc_rus",
+      "index": 17,
+      "encoded_key": "1:199",
+      "predicted_opcode": 98,
+      "byte_base": 99,
+      "operand1_type": 2,
+      "operand2_type": 1,
+      "result_type": 4,
+      "handler_signature": {
+        "opcode": 98,
+        "name": "ZEND_FETCH_DIM_TMP_VAR",
+        "op1_allowed": [
+          "CONST",
+          "TMP"
+        ],
+        "op2_allowed": [
+          "CONST"
+        ]
+      },
+      "operand_shape_check": "compatible"
+    }
+  ],
+  "disputed_keys": {
+    "keys": [
+      "0:26",
+      "1:7",
+      "2:230",
+      "3:160",
+      "4:250",
+      "5:216",
+      "6:226",
+      "7:125"
+    ],
+    "rule_agrees_with_map": true,
+    "note": "The position rule reproduces 140 for these keys, but the native meaning of 140 stays unresolved; the Encoder level call semantics is handled by encoder_call_map.json."
+  },
+  "limitations": [
+    "The rule is fitted on the empirical map; it adds predictions, not new native observations.",
+    "Only bytes present in the byte base table can be predicted.",
+    "A negative prediction is refused instead of wrapped around.",
+    "The native semantics of a predicted opcode is not established by the rule itself."
+  ]
+}

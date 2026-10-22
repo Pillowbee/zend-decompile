@@ -66,11 +66,15 @@ def inspect(source: Path, dictionary: Path, mapping: Path, *, window: int = 2, i
             raise FormatError('Opcode evidence SHA256 does not match provided mapping')
     groups=[('<main>',parsed['main'])]+[(bytes.fromhex(x['name_hex']).decode('ascii'),x) for x in parsed['functions']]
     totals=Counter(); summaries=[]; encountered=Counter(); issues=[]; mapped_total=0
+    predicted=[]
     for name,g in groups:
         ops=g['opcodes']; decoded=[]
         for op in ops:
             opcode=choose_opcode(op,mp)
             key=f'{op["index"]%8}:{op["encoded_opcode"]}'
+            if key not in mp['opcodes'] and opcode is not None:
+                predicted.append({'group':name,'index':op['index'],'encoded_key':key,
+                                  'predicted_opcode':opcode,'source':'encoder_opcode_position_rule'})
             status='unknown' if opcode is None else 'inferred'
             if evidence is not None:
                 status=evidence.get('entries',{}).get(key,{}).get('status',status)
@@ -102,6 +106,12 @@ def inspect(source: Path, dictionary: Path, mapping: Path, *, window: int = 2, i
 
         'group_diagnostics':summaries,'unknown_windows':issues,
         'opcode_name_counts':dict(sorted(encountered.items())),
+        'opcode_position_rule':{
+            'status':'inferred',
+            'predicted_positions':predicted,
+            'note':('Positions the empirical map does not contain may be predicted by the encoder '
+                    'opcode position rule; a prediction is decoded only when the operand shape fits '
+                    'the PHP 5.2 handler of the predicted opcode.')},
         'opcode_140_caution':'In PHP 5.2 opcode 140 may denote DECLARE_INHERITED_CLASS; meaning in serialized stream is not confirmed; no reassignment is attempted.'}
 
 

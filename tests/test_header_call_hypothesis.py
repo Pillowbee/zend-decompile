@@ -239,10 +239,13 @@ class HeaderIndexedCallEvidenceTests(unittest.TestCase):
                          ('rejected', 'unclosed_prior_send'))
 
     def test_unmodeled_cfg_is_refused_without_guessing(self):
+        # The foreach groups stay unverifiable: their control flow still
+        # contains the unmodelled FE_RESET/FE_FETCH pair.  The refusal is
+        # reported, never silently treated as a valid call site.
         report = self.report('fun_all.php')
         self.assertEqual(Counter(r['reason'] for r in report['observations']
                                  if r['status'] == 'unverifiable_cfg'),
-                         {'other_unknown_opcodes': 3})
+                         {'unmodeled_or_invalid_cfg': 3})
 
 
 if __name__ == '__main__':

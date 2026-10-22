@@ -1,0 +1,20 @@
+{
+  "depends_on": {
+    "opcode_map.json": "The rule is checked against the empirical map on load; any contradiction refuses to work.",
+    "reference_headers_php52_candidate/zend_vm_def.h": "Native handler operand types used to guard a prediction."
+  },
+  "evidence_file": "encoder_opcode_evidence.json",
+  "evidence_sha256": "cc5ea173ff516c3dab76d37d282dc8cf0c1e2b31dad8eb391be34a9f9326c1cc",
+  "format_variant": "SSG Team serialized research v6 / encoder opcode position rule (byte base minus instruction index mod 8)",
+  "limitations": [
+    "The rule adds predictions, not new native observations.",
+    "Only bytes present in the byte base table can be predicted.",
+    "A prediction whose operand shape does not fit the PHP 5.2 handler is refused.",
+    "The native semantics of a predicted opcode is not established by the rule itself."
+  ],
+  "mapping_file": "encoder_opcode_base.json",
+  "mapping_sha256": "bb60e01ec95a536d185495119525ef1daa96afdbc027938cc35395cfe63739de",
+  "own_probe_files": "none; the position rule is derived from the empirical map, not from a native probe",
+  "status": "inferred",
+  "status_policy": "The rule is an empirical model fitted on the empirical opcode map. It predicts positions the map never observed and never overrides a map entry. A predicted opcode is decoded only when the operand shape fits the PHP 5.2 handler of that opcode in reference_headers_php52_candidate/zend_vm_def.h."
+}

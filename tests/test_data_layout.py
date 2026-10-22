@@ -8,15 +8,17 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
 from zend_decompiler.assets import (OPCODE_MAP, OPCODE_METADATA, ALIGNMENT_FIXTURE,
                                     ENCODER_CALL_MAP, ENCODER_CALL_EVIDENCE,
-                                    ENCODER_CALL_METADATA)
+                                    ENCODER_CALL_METADATA, ENCODER_OPCODE_BASE,
+                                    ENCODER_OPCODE_EVIDENCE, ENCODER_OPCODE_METADATA)
 
 class DataLayoutTests(unittest.TestCase):
     def test_no_root_level_json_or_legacy_duplicate_map(self):
         self.assertEqual(list(ROOT.glob('*.json')), [])
         self.assertEqual(sorted(p.name for p in (ROOT/'data/opcodes').glob('*.json')),
                          ['encoder_call_evidence.json', 'encoder_call_map.json',
-                          'encoder_call_map.json.meta.json', 'opcode_evidence.json',
-                          'opcode_map.json', 'opcode_map.json.meta.json'])
+                          'encoder_call_map.json.meta.json', 'encoder_opcode_base.json',
+                          'encoder_opcode_base.json.meta.json', 'encoder_opcode_evidence.json',
+                          'opcode_evidence.json', 'opcode_map.json', 'opcode_map.json.meta.json'])
     def test_encoder_call_map_and_evidence_integrity(self):
         meta=json.loads(ENCODER_CALL_METADATA.read_text(encoding='utf-8'))
         self.assertEqual(meta['mapping_file'], ENCODER_CALL_MAP.name)
@@ -32,6 +34,25 @@ class DataLayoutTests(unittest.TestCase):
         self.assertEqual(document['summary']['argc_matches_recv'], 18)
         self.assertTrue(all(entry['status']=='inferred' for entry in document['entries'].values()))
         self.assertTrue(all(entry['cross_validated'] for entry in document['entries'].values()))
+    def test_encoder_opcode_position_rule_integrity(self):
+        meta=json.loads(ENCODER_OPCODE_METADATA.read_text(encoding='utf-8'))
+        self.assertEqual(meta['mapping_file'], ENCODER_OPCODE_BASE.name)
+        self.assertEqual(meta['evidence_file'], 'encoder_opcode_evidence.json')
+        self.assertEqual(meta['status'], 'inferred')
+        self.assertEqual(meta['mapping_sha256'],
+                         hashlib.sha256(ENCODER_OPCODE_BASE.read_bytes()).hexdigest())
+        evidence=ENCODER_OPCODE_BASE.with_name(meta['evidence_file'])
+        self.assertEqual(meta['evidence_sha256'], hashlib.sha256(evidence.read_bytes()).hexdigest())
+        document=json.loads(ENCODER_OPCODE_BASE.read_text(encoding='utf-8'))
+        self.assertEqual(document['mapping_sha256'],
+                         hashlib.sha256(OPCODE_MAP.read_bytes()).hexdigest())
+        # The rule reproduces every key of the empirical map.
+        self.assertEqual(document['evidence_file'], 'encoder_opcode_evidence.json')
+        summary=json.loads(evidence.read_text(encoding='utf-8'))
+        self.assertEqual(summary['derivation']['contradictions'], 0)
+        self.assertEqual(summary['derivation']['reproduced_keys'],
+                         summary['derivation']['map_keys'])
+        self.assertEqual(summary['independent_cross_check']['contradictions'], [])
     def test_native_opcode_map_is_not_rewritten_by_encoder_calls(self):
         # The Encoder-level call table lives beside the native map and must not
         # change it: the native number of these positions stays unresolved.
